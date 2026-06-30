@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Caveau — Pierres tombales sur mesure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --sky-top:#05070a;
+    --sky-bot:#10151b;
+    --stone:#7a7e74;
+    --stone-dark:#54564d;
+    --stone-light:#9a9d8f;
+    --bone:#e9e2c8;
+    --moss:#5c7a5c;
+    --ember:#d98a4a;
+    --ember-soft:#f0b27a;
+    --ink:#1b1c17;
+    --fog:rgba(220,225,220,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(ellipse at 50% -10%, var(--sky-bot), var(--sky-top) 70%);
+    color:var(--bone);
+    font-family:'EB Garamond', serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ---------- ambient stars ---------- */
+  .stars{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, #fff8 50%, transparent),
+      radial-gradient(1px 1px at 80% 10%, #fff6 50%, transparent),
+      radial-gradient(1.5px 1.5px at 60% 35%, #fff9 50%, transparent),
+      radial-gradient(1px 1px at 30% 50%, #fff5 50%, transparent),
+      radial-gradient(1px 1px at 90% 60%, #fff7 50%, transparent),
+      radial-gradient(1px 1px at 45% 15%, #fff6 50%, transparent),
+      radial-gradient(1px 1px at 15% 75%, #fff5 50%, transparent);
+    background-repeat:repeat;
+    background-size:600px 600px;
+    opacity:.8;
+    animation:twinkle 6s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{ from{opacity:.5;} to{opacity:1;} }
+
+  .fog{
+    position:fixed; left:-20%; width:140%; height:220px; bottom:-40px; z-index:1; pointer-events:none;
+    background:radial-gradient(ellipse at center, var(--fog), transparent 70%);
+    filter:blur(8px);
+    animation:drift 38s linear infinite;
+  }
+  .fog.two{ bottom:10px; animation-duration:54s; animation-direction:reverse; opacity:.6; }
+  @keyframes drift{ from{transform:translateX(-5%);} to{transform:translateX(5%);} }
+
+  /* ---------- layout ---------- */
+  .wrap{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:48px 24px 80px; }
+
+  header{ text-align:center; margin-bottom:8px; }
+  .crest{ font-size:30px; letter-spacing:.4em; opacity:.7; }
+  h1{
+    font-family:'Special Elite', cursive;
+    font-size:clamp(28px,5vw,48px);
+    letter-spacing:.06em;
+    margin:6px 0 4px;
+    color:var(--bone);
+    text-shadow:0 1px 0 #000, 0 0 28px rgba(217,138,74,.18);
+  }
+  .tagline{ color:var(--stone-light); font-style:italic; font-size:17px; max-width:560px; margin:0 auto; }
+
+  main.grid{
+    display:grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap:40px;
+    margin-top:46px;
+    align-items:start;
+  }
+  @media (max-width: 880px){
+    main.grid{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- form panel ---------- */
+  .panel{
+    background:linear-gradient(180deg, #14181228, #0b0d0a55);
+    border:1px solid #ffffff14;
+    border-radius:10px;
+    padding:26px 26px 30px;
+    backdrop-filter:blur(2px);
+  }
+  .panel h2{
+    font-family:'Special Elite', cursive;
+    font-size:18px; letter-spacing:.08em;
+    color:var(--ember-soft);
+    margin:0 0 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .panel h2::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg, #ffffff30, transparent); }
+
+  fieldset{ border:none; padding:0; margin:0 0 22px; }
+  legend{
+    font-size:13px; text-transform:uppercase; letter-spacing:.12em;
+    color:var(--stone-light); margin-bottom:9px; padding:0;
+  }
+  .field{ margin-bottom:14px; }
+  label{ display:block; font-size:14.5px; color:var(--bone); margin-bottom:5px; }
+  input[type=text], input[type=date], select, textarea{
+    width:100%;
+    background:#0e110dcc;
+    border:1px solid #ffffff26;
+    color:var(--bone);
+    border-radius:6px;
+    padding:9px 11px;
+    font-family:'EB Garamond', serif;
+    font-size:16px;
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  input::placeholder, textarea::placeholder{ color:#bcb9a877; }
+  input:focus, select:focus, textarea:focus{
+    border-color:var(--ember);
+    box-shadow:0 0 0 3px rgba(217,138,74,.18);
+  }
+  textarea{ resize:vertical; min-height:54px; }
+  select{ cursor:pointer; }
+
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:520px){ .row2{ grid-template-columns:1fr; } }
+
+  .pills{ display:flex; gap:8px; flex-wrap:wrap; }
+  .pill{
+    border:1px solid #ffffff2a; background:#0e110dcc; color:var(--bone);
+    padding:7px 13px; border-radius:999px; font-size:14px; cursor:pointer;
+    font-family:'EB Garamond', serif; transition:all .15s;
+  }
+  .pill:hover{ border-color:#ffffff55; }
+  .pill.active{ background:var(--ember); border-color:var(--ember); color:#1b1206; font-weight:600; }
+
+  .charpalette{ display:flex; gap:7px; flex-wrap:wrap; margin-top:8px; }
+  .charbtn{
+    width:34px; height:34px; border-radius:6px; border:1px solid #ffffff26;
+    background:#0e110dcc; color:var(--ember-soft); font-size:16px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:transform .1s, border-color .15s;
+  }
+  .charbtn:hover{ border-color:var(--ember); transform:translateY(-1px); }
+  .hint{ font-size:12.5px; color:var(--stone-light); margin-top:6px; font-style:italic; }
+
+  .custom-toggle{ margin-top:8px; }
+  .custom-toggle input{ margin-top:6px; }
+  [hidden]{ display:none !important; }
+
+  .actions-form{ display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; }
+  button.btn{
+    border:1px solid #ffffff2a;
+    background:#0e110dcc; color:var(--bone);
+    padding:10px 16px; border-radius:7px; cursor:pointer;
+    font-family:'EB Garamond', serif; font-size:15px;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .12s, border-color .15s, background .15s;
+  }
+  button.btn:hover{ border-color:var(--ember); transform:translateY(-1px); }
+  button.btn.primary{ background:linear-gradient(180deg, var(--ember-soft), var(--ember)); color:#241405; border-color:var(--ember); font-weight:600; }
+
+  /* ---------- preview / graveyard plot ---------- */
+  .plot{
+    position:sticky; top:24px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .scene{
+    width:100%; min-height:520px;
+    position:relative;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+    padding:30px 14px 0;
+  }
+  .scene .ground{
+    position:absolute; bottom:0; left:-6%; width:112%; height:120px;
+    background:
+      radial-gradient(ellipse 60% 100% at 50% 0%, #2c3a26, transparent 70%),
+      linear-gradient(180deg, #1c2418, #0e120b);
+    border-radius:50% 50% 0 0 / 100% 100% 0 0;
+    z-index:1;
+  }
+  .scene .ground::before{
+    content:"";
+    position:absolute; top:6px; left:0; right:0; height:10px;
+    background-image: repeating-linear-gradient(100deg, #4c633f 0 2px, transparent 2px 9px);
+    opacity:.6;
+  }
+  .candle{
+    position:absolute; bottom:108px; right:18%; z-index:3; font-size:22px;
+    filter:drop-shadow(0 0 10px var(--ember)) drop-shadow(0 0 22px rgba(217,138,74,.5));
+    animation:flicker 2.6s ease-in-out infinite;
+  }
+  @keyframes flicker{
+    0%,100%{ transform:translateY(0) scale(1); opacity:1; }
+    20%{ transform:translateY(-1px) scale(.97); opacity:.85; }
+    45%{ transform:translateY(0.5px) scale(1.03); opacity:1; }
+    70%{ transform:translateY(-0.5px) scale(.99); opacity:.9; }
+  }
+
+  #stone-card{
+    position:relative; z-index:2;
+    background:
+      repeating-linear-gradient(125deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 5px),
+      linear-gradient(155deg, var(--stone-light), var(--stone) 45%, var(--stone-dark) 100%);
+    border-radius:14px 14px 8px 8px;
+    padding:26px 22px 22px;
+    box-shadow:
+      0 18px 40px -12px rgba(0,0,0,.65),
+      inset 0 0 0 1px rgba(0,0,0,.25),
+      inset 0 2px 6px rgba(255,255,255,.18);
+    max-width:560px;
+  }
+  #stone-card .moss{
+    position:absolute; width:46px; height:30px; border-radius:60% 40% 70% 30%/50% 60% 40% 50%;
+    background:radial-gradient(circle at 30% 30%, #6f8f5e, #3f5a35 80%);
+    opacity:.55; filter:blur(.3px);
+  }
+  #stone-card .moss.a{ top:-6px; left:14px; transform:rotate(-12deg); }
+  #stone-card .moss.b{ bottom:-4px; right:10px; width:34px; height:22px; transform:rotate(16deg); }
+
+  #epitaph{
+    font-family:'Courier Prime', monospace;
+    font-size:13.5px;
+    line-height:1.42;
+    white-space:pre;
+    color:var(--ink);
+    text-align:left;
+    text-shadow: 0 1px 0 rgba(255,255,255,.35), 0 -1px 0 rgba(0,0,0,.35);
+    margin:0;
+    overflow-x:auto;
+  }
+
+  .actions-preview{ display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; justify-content:center; z-index:2;}
+
+  .signoff{
+    text-align:center; margin-top:18px; font-style:italic; font-size:13px; color:var(--stone-light);
+  }
+
+  footer{
+    text-align:center; margin-top:60px; color:var(--stone-light); font-size:13px; font-style:italic;
+    opacity:.8;
+  }
+  footer a{ color:var(--ember-soft); }
+
+  ::selection{ background:var(--ember); color:#1b1206; }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="fog"></div>
+<div class="fog two"></div>
+
+<div class="wrap">
+  <header>
+    <div class="crest">✝ ⚰ ✝</div>
+    <h1>Le Caveau</h1>
+    <p class="tagline">Atelier de pierres tombales sur mesure — pour rendre hommage (ou pas) à qui vous voulez, avec tout le mauvais goût nécessaire.</p>
+  </header>
+
+  <main class="grid">
+    <!-- ============ FORM ============ -->
+    <section class="panel" aria-label="Personnalisation">
+      <h2>✎ L'Atelier du Tailleur de Pierre</h2>
+
+      <div class="field">
+        <label for="name">Nom du défunt / de la défunte</label>
+        <input type="text" id="name" maxlength="40" value="Luc Duval" placeholder="Ex. Luc Duval">
+      </div>
+
+      <fieldset>
+        <legend>Circonstances du décès</legend>
+        <div class="field">
+          <select id="cause"></select>
+        </div>
+        <div class="field custom-toggle" id="cause-custom-wrap" hidden>
+          <input type="text" id="cause-custom" maxlength="60" placeholder="Précisez les circonstances…">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Quand</legend>
+        <div class="row2">
+          <div class="field">
+            <label for="date">Date du décès</label>
+            <input type="date" id="date">
+          </div>
+          <div class="field">
+            <label for="moment">Moment de la journée</label>
+            <select id="moment">
+              <option value="En plein jour">En plein jour</option>
+              <option value="Pendant la nuit" selected>Pendant la nuit</option>
+              <option value="À l'aube">À l'aube</option>
+              <option value="Au crépuscule">Au crépuscule</option>
+              <option value="Personne ne sait trop">Personne ne sait trop</option>
+            </select>
+          </div>
+        </div>
+        <p class="hint">La pierre affichera une date facétieuse : « le 181ᵉ jour de l'année », par exemple.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Épitaphe</legend>
+        <div class="field">
+          <label for="message">Message complémentaire (optionnel)</label>
+          <textarea id="message" maxlength="80" placeholder="Ex. Il/Elle nous manquera… un peu."></textarea>
+          <div class="charpalette" id="charpalette" aria-label="Caractères spéciaux"></div>
+          <p class="hint">Cliquez un symbole pour l'insérer dans le message.</p>
+        </div>
+        <div class="field">
+          <select id="latin"></select>
+        </div>
+        <div class="field custom-toggle" id="latin-custom-wrap" hidden>
+          <input type="text" id="latin-custom" maxlength="40" placeholder="Votre formule finale…">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Ornement gravé</legend>
+        <div class="pills" id="icon-pills"></div>
+      </fieldset>
+
+      <div class="actions-form">
+        <button class="btn primary" id="btn-random">🎲 Tout randomiser</button>
+      </div>
+    </section>
+
+    <!-- ============ PREVIEW ============ -->
+    <section class="plot" aria-label="Aperçu de la pierre tombale">
+      <div class="scene">
+        <div class="candle">🕯️</div>
+        <div id="stone-card">
+          <div class="moss a"></div>
+          <div class="moss b"></div>
+          <pre id="epitaph"></pre>
+        </div>
+        <div class="ground"></div>
+      </div>
+      <p class="signoff">Repose en... relative paix.</p>
+      <div class="actions-preview">
+        <button class="btn" id="btn-copy">📋 Copier le texte</button>
+        <button class="btn" id="btn-png">🖼️ Télécharger en image</button>
+        <button class="btn" id="btn-txt">⬇️ Télécharger en .txt</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Aucun cimetière n'a été dérangé pour la réalisation de ce site. ✝
+  </footer>
+</div>
+
+<script>
+/* ---------------------------------------------------------------- *
+ * Data
+ * ---------------------------------------------------------------- */
+const CAUSES = [
+  "en glissant sur une peau de banane",
+  "en essayant de battre le record du monde de sieste",
+  "frappé(e) par une noix de coco tombée d'un cocotier",
+  "en cherchant désespérément la télécommande",
+  "d'un fou rire incontrôlable",
+  "en lisant les conditions générales d'utilisation jusqu'au bout",
+  "en testant si le wifi captait au sommet de l'Everest",
+  "étouffé(e) par ses propres mensonges",
+  "en faisant la sieste sur les rails du tramway",
+  "de honte, après un \"répondre à tous\" malheureux",
+  "en dansant la macarena un peu trop fort",
+  "asphyxié(e) par l'odeur de son propre parfum",
+  "en tentant un dernier selfie de trop",
+  "de froid, faute d'avoir trouvé la télécommande de la couette",
+  "Autre (à préciser)"
+];
+
+const LATIN = [
+  "Requiescat in pace",
+  "Hic jacet, et ce n'est pas plus mal",
+  "Memento Mori",
+  "Sic transit gloria mundi",
+  "Au moins, c'est fait",
+  "Et maintenant, le wifi céleste",
+  "Autre (à préciser)"
+];
+
+const SPECIAL_CHARS = ["☠","✝","🕊","🥀","⚰","❀","☾","✦","†","⚱","☺","𓂀"];
+
+const ICONS = {
+  skull: {
+    label: "💀 Crâne",
+    art: [
+      "    .-\"\"\"\"\"-.    ",
+      "   /  o   o  \\   ",
+      "  |      ^     |  ",
+      "  |    \\___/   |  ",
+      "   \\   ‾‾‾‾‾  /   ",
+      "    '-.....-'    ",
+      "     | | | |     "
+    ]
+  },
+  cross: {
+    label: "✝ Croix",
+    art: [
+      "        ┃        ",
+      "        ┃        ",
+      "   ┏━━━━╋━━━━┓   ",
+      "        ┃        ",
+      "        ┃        ",
+      "        ┃        ",
+      "        ┃        "
+    ]
+  },
+  ghost: {
+    label: "👻 Fantôme",
+    art: [
+      "    .-\"\"\"-.    ",
+      "   /  o o  \\   ",
+      "  |    ◡    |  ",
+      "  |         |  ",
+      "   \\/\\/\\/\\/\\/   "
+    ]
+  },
+  none: { label: "— Aucun", art: [] }
+};
+
+const RANDOM_NAMES = [
+  "Luc Duval","Berthe Lacroix","Gontran Pichon","Odette Fournier",
+  "Roger Delamain","Yvonne Pétard","Marcel Lhuissier","Ginette Bouchard",
+  "Fernand Trouille","Huguette Crampon","Aristide Lebon","Solange Maugrin"
+];
+
+/* ---------------------------------------------------------------- *
+ * State
+ * ---------------------------------------------------------------- */
+let state = {
+  icon: "skull"
+};
+
+/* ---------------------------------------------------------------- *
+ * Helpers
+ * ---------------------------------------------------------------- */
+function ordinalFr(n){
+  return n === 1 ? "1ᵉʳ" : n + "ᵉ";
+}
+
+function dayOfYear(dateObj){
+  const start = new Date(dateObj.getFullYear(), 0, 0);
+  const diff = dateObj - start;
+  return Math.floor(diff / 86400000);
+}
+
+function center(str, w){
+  const len = Array.from(str).length;
+  const total = w - len;
+  if (total <= 0) return str;
+  const left = Math.floor(total / 2);
+  const right = total - left;
+  return " ".repeat(left) + str + " ".repeat(right);
+}
+
+function buildBox(lines){
+  const cleanLines = lines.length ? lines : [""];
+  const w = Math.max(...cleanLines.map(l => Array.from(l).length)) + 4;
+  const out = [];
+  out.push(" " + "_".repeat(w));
+  out.push("/" + " ".repeat(w) + "\\");
+  for (const l of cleanLines){
+    out.push("|" + center(l, w) + "|");
+  }
+  out.push("\\" + "_".repeat(w) + "/");
+  return out.join("\n");
+}
+
+function fillSelect(el, options){
+  el.innerHTML = options.map(o => `<option value="${o.replace(/"/g,'&quot;')}">${o}</option>`).join("");
+}
+
+/* ---------------------------------------------------------------- *
+ * Build select lists & special-char palette
+ * ---------------------------------------------------------------- */
+const causeSelect = document.getElementById("cause");
+const latinSelect = document.getElementById("latin");
+fillSelect(causeSelect, CAUSES);
+fillSelect(latinSelect, LATIN);
+
+const palette = document.getElementById("charpalette");
+SPECIAL_CHARS.forEach(ch => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "charbtn";
+  b.textContent = ch;
+  b.addEventListener("click", () => insertAtCursor(document.getElementById("message"), ch));
+  palette.appendChild(b);
+});
+
+function insertAtCursor(field, text){
+  const start = field.selectionStart ?? field.value.length;
+  const end = field.selectionEnd ?? field.value.length;
+  field.value = field.value.slice(0, start) + text + field.value.slice(end);
+  field.focus();
+  field.selectionStart = field.selectionEnd = start + text.length;
+  render();
+}
+
+const iconPillsWrap = document.getElementById("icon-pills");
+Object.keys(ICONS).forEach(key => {
+  const p = document.createElement("button");
+  p.type = "button";
+  p.className = "pill" + (key === state.icon ? " active" : "");
+  p.textContent = ICONS[key].label;
+  p.dataset.icon = key;
+  p.addEventListener("click", () => {
+    state.icon = key;
+    document.querySelectorAll(".pill").forEach(el => el.classList.remove("active"));
+    p.classList.add("active");
+    render();
+  });
+  iconPillsWrap.appendChild(p);
+});
+
+/* ---------------------------------------------------------------- *
+ * Custom-input toggles
+ * ---------------------------------------------------------------- */
+function wireCustomToggle(selectEl, wrapEl, inputEl){
+  selectEl.addEventListener("change", () => {
+    wrapEl.hidden = selectEl.value !== "Autre (à préciser)";
+    render();
+  });
+  inputEl.addEventListener("input", render);
+}
+wireCustomToggle(causeSelect, document.getElementById("cause-custom-wrap"), document.getElementById("cause-custom"));
+wireCustomToggle(latinSelect, document.getElementById("latin-custom-wrap"), document.getElementById("latin-custom"));
+
+/* ---------------------------------------------------------------- *
+ * Render
+ * ---------------------------------------------------------------- */
+function getValue(selectEl, customInputEl){
+  if (selectEl.value === "Autre (à préciser)"){
+    return customInputEl.value.trim() || "…";
+  }
+  return selectEl.value;
+}
+
+function render(){
+  const name = document.getElementById("name").value.trim() || "Anonyme";
+  const cause = getValue(causeSelect, document.getElementById("cause-custom"));
+  const moment = document.getElementById("moment").value;
+  const message = document.getElementById("message").value.trim();
+  const latin = getValue(latinSelect, document.getElementById("latin-custom"));
+
+  const dateVal = document.getElementById("date").value;
+  let datePhrase;
+  if (dateVal){
+    const d = new Date(dateVal + "T00:00:00");
+    datePhrase = `Le ${ordinalFr(dayOfYear(d))} jour de l'année ${d.getFullYear()}`;
+  } else {
+    datePhrase = "Un jour comme un autre";
+  }
+
+  const lines = [];
+  const icon = ICONS[state.icon];
+  if (icon.art.length){
+    lines.push(...icon.art);
+    lines.push("");
+  }
+  lines.push("Ci-gît");
+  lines.push(name);
+  lines.push(`décédé(e) ${cause}`);
+  lines.push(datePhrase);
+  lines.push(moment);
+  if (message) lines.push(message);
+  lines.push(latin);
+
+  document.getElementById("epitaph").textContent = buildBox(lines);
+}
+
+/* ---------------------------------------------------------------- *
+ * Wire live inputs
+ * ---------------------------------------------------------------- */
+["name","date","moment","message"].forEach(id => {
+  document.getElementById(id).addEventListener("input", render);
+});
+causeSelect.addEventListener("change", render);
+latinSelect.addEventListener("change", render);
+
+/* ---------------------------------------------------------------- *
+ * Randomize
+ * ---------------------------------------------------------------- */
+document.getElementById("btn-random").addEventListener("click", () => {
+  document.getElementById("name").value = RANDOM_NAMES[Math.floor(Math.random()*RANDOM_NAMES.length)];
+
+  const causeOptions = CAUSES.slice(0, -1);
+  causeSelect.value = causeOptions[Math.floor(Math.random()*causeOptions.length)];
+  document.getElementById("cause-custom-wrap").hidden = true;
+
+  const latinOptions = LATIN.slice(0, -1);
+  latinSelect.value = latinOptions[Math.floor(Math.random()*latinOptions.length)];
+  document.getElementById("latin-custom-wrap").hidden = true;
+
+  const moments = ["En plein jour","Pendant la nuit","À l'aube","Au crépuscule","Personne ne sait trop"];
+  document.getElementById("moment").value = moments[Math.floor(Math.random()*moments.length)];
+
+  const start = new Date(2026,0,1).getTime();
+  const end = new Date(2026,11,31).getTime();
+  const randomDate = new Date(start + Math.random()*(end-start));
+  document.getElementById("date").value = randomDate.toISOString().slice(0,10);
+
+  const iconKeys = Object.keys(ICONS);
+  state.icon = iconKeys[Math.floor(Math.random()*iconKeys.length)];
+  document.querySelectorAll(".pill").forEach(el => el.classList.toggle("active", el.dataset.icon === state.icon));
+
+  render();
+});
+
+/* ---------------------------------------------------------------- *
+ * Actions: copy / download txt / download png
+ * ---------------------------------------------------------------- */
+document.getElementById("btn-copy").addEventListener("click", async () => {
+  const text = document.getElementById("epitaph").textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    flashButton("btn-copy", "✅ Copié !");
+  } catch (e) {
+    flashButton("btn-copy", "❌ Échec");
+  }
+});
+
+document.getElementById("btn-txt").addEventListener("click", () => {
+  const text = document.getElementById("epitaph").textContent;
+  const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "pierre-tombale.txt";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById("btn-png").addEventListener("click", async () => {
+  const node = document.getElementById("stone-card");
+  flashButton("btn-png", "⏳ Gravure…");
+  try {
+    const canvas = await html2canvas(node, {backgroundColor: null, scale: 2});
+    const link = document.createElement("a");
+    link.download = "pierre-tombale.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+    flashButton("btn-png", "✅ Téléchargé");
+  } catch (e) {
+    flashButton("btn-png", "❌ Échec");
+  }
+});
+
+function flashButton(id, text){
+  const btn = document.getElementById(id);
+  const original = btn.textContent;
+  btn.textContent = text;
+  setTimeout(() => { btn.textContent = original; }, 1600);
+}
+
+/* ---------------------------------------------------------------- *
+ * Init
+ * ---------------------------------------------------------------- */
+(function init(){
+  document.getElementById("date").value = "2026-06-30";
+  causeSelect.value = CAUSES[6]; // wifi sur l'Everest
+  latinSelect.value = LATIN[0];
+  render();
+})();
+</script>
+</body>
+</html>
