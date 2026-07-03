@@ -32,8 +32,6 @@
     overflow-x:hidden;
     position:relative;
   }
-
-  /* ---------- ambient stars ---------- */
   .stars{
     position:fixed; inset:0; z-index:0; pointer-events:none;
     background-image:
@@ -50,7 +48,6 @@
     animation:twinkle 6s ease-in-out infinite alternate;
   }
   @keyframes twinkle{ from{opacity:.5;} to{opacity:1;} }
-
   .fog{
     position:fixed; left:-20%; width:140%; height:220px; bottom:-40px; z-index:1; pointer-events:none;
     background:radial-gradient(ellipse at center, var(--fog), transparent 70%);
@@ -60,9 +57,7 @@
   .fog.two{ bottom:10px; animation-duration:54s; animation-direction:reverse; opacity:.6; }
   @keyframes drift{ from{transform:translateX(-5%);} to{transform:translateX(5%);} }
 
-  /* ---------- layout ---------- */
   .wrap{ position:relative; z-index:2; max-width:1180px; margin:0 auto; padding:48px 24px 80px; }
-
   header{ text-align:center; margin-bottom:8px; }
   .crest{ font-size:30px; letter-spacing:.4em; opacity:.7; }
   h1{
@@ -77,16 +72,13 @@
 
   main.grid{
     display:grid;
-    grid-template-columns: 1fr 1.05fr;
+    grid-template-columns:1fr 1.05fr;
     gap:40px;
     margin-top:46px;
     align-items:start;
   }
-  @media (max-width: 880px){
-    main.grid{ grid-template-columns:1fr; }
-  }
+  @media(max-width:880px){ main.grid{ grid-template-columns:1fr; } }
 
-  /* ---------- form panel ---------- */
   .panel{
     background:linear-gradient(180deg, #14181228, #0b0d0a55);
     border:1px solid #ffffff14;
@@ -104,10 +96,7 @@
   .panel h2::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg, #ffffff30, transparent); }
 
   fieldset{ border:none; padding:0; margin:0 0 22px; }
-  legend{
-    font-size:13px; text-transform:uppercase; letter-spacing:.12em;
-    color:var(--stone-light); margin-bottom:9px; padding:0;
-  }
+  legend{ font-size:13px; text-transform:uppercase; letter-spacing:.12em; color:var(--stone-light); margin-bottom:9px; padding:0; }
   .field{ margin-bottom:14px; }
   label{ display:block; font-size:14.5px; color:var(--bone); margin-bottom:5px; }
   input[type=text], input[type=date], select, textarea{
@@ -129,14 +118,13 @@
   }
   textarea{ resize:vertical; min-height:54px; }
   select{ cursor:pointer; }
-
   .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  @media (max-width:520px){ .row2{ grid-template-columns:1fr; } }
+  @media(max-width:520px){ .row2{ grid-template-columns:1fr; } }
 
   .pills{ display:flex; gap:8px; flex-wrap:wrap; }
   .pill{
     border:1px solid #ffffff2a; background:#0e110dcc; color:var(--bone);
-    padding:7px 13px; border-radius:999px; font-size:14px; cursor:pointer;
+    padding:6px 13px; border-radius:999px; font-size:13.5px; cursor:pointer;
     font-family:'EB Garamond', serif; transition:all .15s;
   }
   .pill:hover{ border-color:#ffffff55; }
@@ -150,11 +138,8 @@
   }
   .charbtn:hover{ border-color:var(--ember); transform:translateY(-1px); }
   .hint{ font-size:12.5px; color:var(--stone-light); margin-top:6px; font-style:italic; }
-
   .custom-toggle{ margin-top:8px; }
-  .custom-toggle input{ margin-top:6px; }
   [hidden]{ display:none !important; }
-
   .actions-form{ display:flex; gap:10px; flex-wrap:wrap; margin-top:4px; }
   button.btn{
     border:1px solid #ffffff2a;
@@ -167,7 +152,7 @@
   button.btn:hover{ border-color:var(--ember); transform:translateY(-1px); }
   button.btn.primary{ background:linear-gradient(180deg, var(--ember-soft), var(--ember)); color:#241405; border-color:var(--ember); font-weight:600; }
 
-  /* ---------- preview / graveyard plot ---------- */
+  /* ---------- preview ---------- */
   .plot{
     position:sticky; top:24px;
     display:flex; flex-direction:column; align-items:center;
@@ -189,7 +174,7 @@
   .scene .ground::before{
     content:"";
     position:absolute; top:6px; left:0; right:0; height:10px;
-    background-image: repeating-linear-gradient(100deg, #4c633f 0 2px, transparent 2px 9px);
+    background-image:repeating-linear-gradient(100deg, #4c633f 0 2px, transparent 2px 9px);
     opacity:.6;
   }
   .candle{
@@ -215,8 +200,35 @@
       0 18px 40px -12px rgba(0,0,0,.65),
       inset 0 0 0 1px rgba(0,0,0,.25),
       inset 0 2px 6px rgba(255,255,255,.18);
-    max-width:560px;
+    transition: background .4s;
   }
+  #stone-card.style-roman{
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px),
+      linear-gradient(170deg, #c8b89a, #a08060 45%, #705840 100%);
+  }
+  #stone-card.style-rustic{
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.06) 0 1px, transparent 1px 8px),
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.04) 0 1px, transparent 1px 8px),
+      linear-gradient(180deg, #8a7060, #604830);
+  }
+  #stone-card.style-gothic{
+    background:linear-gradient(160deg, #2a2a2a, #111 50%, #1a1a1a);
+    box-shadow: 0 18px 40px -12px rgba(0,0,0,.9), inset 0 0 0 1px #333, 0 0 30px rgba(100,0,150,.15);
+  }
+  #stone-card.style-gothic #epitaph{ color:#c8c0d8; text-shadow:0 0 6px rgba(180,100,220,.3); }
+  #stone-card.style-starred{
+    background:linear-gradient(150deg, #1a2035, #0d1020 60%, #151828);
+    box-shadow: 0 18px 40px -12px rgba(0,0,0,.8), inset 0 0 0 1px #2a3055, 0 0 40px rgba(50,80,180,.1);
+  }
+  #stone-card.style-starred #epitaph{ color:#d0d8f0; text-shadow:0 0 4px rgba(150,180,255,.3); }
+  #stone-card.style-dotted{
+    background:linear-gradient(160deg, #5a4a3a, #3a2a1a 60%, #2a1a0a);
+    box-shadow: 0 18px 40px -12px rgba(0,0,0,.7), inset 0 0 0 1px #6a5a4a;
+  }
+  #stone-card.style-dotted #epitaph{ color:#e8d8b8; }
+
   #stone-card .moss{
     position:absolute; width:46px; height:30px; border-radius:60% 40% 70% 30%/50% 60% 40% 50%;
     background:radial-gradient(circle at 30% 30%, #6f8f5e, #3f5a35 80%);
@@ -232,28 +244,17 @@
     white-space:pre;
     color:var(--ink);
     text-align:left;
-    text-shadow: 0 1px 0 rgba(255,255,255,.35), 0 -1px 0 rgba(0,0,0,.35);
+    text-shadow:0 1px 0 rgba(255,255,255,.35), 0 -1px 0 rgba(0,0,0,.35);
     margin:0;
-    overflow-x:auto;
   }
 
-  .actions-preview{ display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; justify-content:center; z-index:2;}
-
-  .signoff{
-    text-align:center; margin-top:18px; font-style:italic; font-size:13px; color:var(--stone-light);
-  }
-
-  footer{
-    text-align:center; margin-top:60px; color:var(--stone-light); font-size:13px; font-style:italic;
-    opacity:.8;
-  }
-  footer a{ color:var(--ember-soft); }
-
+  .actions-preview{ display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; justify-content:center; z-index:2; }
+  .signoff{ text-align:center; margin-top:18px; font-style:italic; font-size:13px; color:var(--stone-light); }
+  footer{ text-align:center; margin-top:60px; color:var(--stone-light); font-size:13px; font-style:italic; opacity:.8; }
   ::selection{ background:var(--ember); color:#1b1206; }
 </style>
 </head>
 <body>
-
 <div class="stars"></div>
 <div class="fog"></div>
 <div class="fog two"></div>
@@ -266,13 +267,13 @@
   </header>
 
   <main class="grid">
-    <!-- ============ FORM ============ -->
+    <!-- ============ FORMULAIRE ============ -->
     <section class="panel" aria-label="Personnalisation">
       <h2>✎ L'Atelier du Tailleur de Pierre</h2>
 
       <div class="field">
         <label for="name">Nom du défunt / de la défunte</label>
-        <input type="text" id="name" maxlength="40" value="Luc Duval" placeholder="Ex. Luc Duval">
+        <input type="text" id="name" maxlength="60" value="Luc Duval" placeholder="Ex. Luc Duval">
       </div>
 
       <fieldset>
@@ -281,7 +282,7 @@
           <select id="cause"></select>
         </div>
         <div class="field custom-toggle" id="cause-custom-wrap" hidden>
-          <input type="text" id="cause-custom" maxlength="60" placeholder="Précisez les circonstances…">
+          <input type="text" id="cause-custom" maxlength="80" placeholder="Précisez les circonstances…">
         </div>
       </fieldset>
 
@@ -303,22 +304,22 @@
             </select>
           </div>
         </div>
-        <p class="hint">La pierre affichera une date facétieuse : « le 181ᵉ jour de l'année », par exemple.</p>
+        <p class="hint">La date s'affiche façon « le 181ᵉ jour de l'année ».</p>
       </fieldset>
 
       <fieldset>
         <legend>Épitaphe</legend>
         <div class="field">
           <label for="message">Message complémentaire (optionnel)</label>
-          <textarea id="message" maxlength="80" placeholder="Ex. Il/Elle nous manquera… un peu."></textarea>
-          <div class="charpalette" id="charpalette" aria-label="Caractères spéciaux"></div>
+          <textarea id="message" maxlength="100" placeholder="Ex. Il/Elle nous manquera… un peu."></textarea>
+          <div class="charpalette" id="charpalette"></div>
           <p class="hint">Cliquez un symbole pour l'insérer dans le message.</p>
         </div>
         <div class="field">
           <select id="latin"></select>
         </div>
         <div class="field custom-toggle" id="latin-custom-wrap" hidden>
-          <input type="text" id="latin-custom" maxlength="40" placeholder="Votre formule finale…">
+          <input type="text" id="latin-custom" maxlength="50" placeholder="Votre formule finale…">
         </div>
       </fieldset>
 
@@ -327,12 +328,17 @@
         <div class="pills" id="icon-pills"></div>
       </fieldset>
 
+      <fieldset>
+        <legend>Style de la pierre</legend>
+        <div class="pills" id="style-pills"></div>
+      </fieldset>
+
       <div class="actions-form">
         <button class="btn primary" id="btn-random">🎲 Tout randomiser</button>
       </div>
     </section>
 
-    <!-- ============ PREVIEW ============ -->
+    <!-- ============ APERÇU ============ -->
     <section class="plot" aria-label="Aperçu de la pierre tombale">
       <div class="scene">
         <div class="candle">🕯️</div>
@@ -352,15 +358,13 @@
     </section>
   </main>
 
-  <footer>
-    Aucun cimetière n'a été dérangé pour la réalisation de ce site. ✝
-  </footer>
+  <footer>Aucun cimetière n'a été dérangé pour la réalisation de ce site. ✝</footer>
 </div>
 
 <script>
-/* ---------------------------------------------------------------- *
- * Data
- * ---------------------------------------------------------------- */
+/* ================================================================
+ * DATA
+ * ================================================================ */
 const CAUSES = [
   "en glissant sur une peau de banane",
   "en essayant de battre le record du monde de sieste",
@@ -371,11 +375,12 @@ const CAUSES = [
   "en testant si le wifi captait au sommet de l'Everest",
   "étouffé(e) par ses propres mensonges",
   "en faisant la sieste sur les rails du tramway",
-  "de honte, après un \"répondre à tous\" malheureux",
+  "de honte, après un « répondre à tous » malheureux",
   "en dansant la macarena un peu trop fort",
   "asphyxié(e) par l'odeur de son propre parfum",
   "en tentant un dernier selfie de trop",
   "de froid, faute d'avoir trouvé la télécommande de la couette",
+  "en débattant avec une IA jusqu'à l'épuisement",
   "Autre (à préciser)"
 ];
 
@@ -386,290 +391,406 @@ const LATIN = [
   "Sic transit gloria mundi",
   "Au moins, c'est fait",
   "Et maintenant, le wifi céleste",
+  "Ci-gît et ci-reste",
   "Autre (à préciser)"
 ];
 
-const SPECIAL_CHARS = ["☠","✝","🕊","🥀","⚰","❀","☾","✦","†","⚱","☺","𓂀"];
+const SPECIAL_CHARS = ["☠","✝","🕊","🥀","⚰","❀","☾","✦","†","⚱","☺","𓂀","🌑","⛧","🕸"];
 
 const ICONS = {
   skull: {
     label: "💀 Crâne",
     art: [
-      "    .-\"\"\"\"\"-.    ",
-      "   /  o   o  \\   ",
-      "  |      ^     |  ",
-      "  |    \\___/   |  ",
-      "   \\   ‾‾‾‾‾  /   ",
-      "    '-.....-'    ",
-      "     | | | |     "
+      "  .-\"\"\"-.  ",
+      " / o   o \\ ",
+      "|    ^    |",
+      " \\  ---  / ",
+      "  '-...-'  ",
+      "   | | |   "
     ]
   },
   cross: {
     label: "✝ Croix",
     art: [
-      "        ┃        ",
-      "        ┃        ",
-      "   ┏━━━━╋━━━━┓   ",
-      "        ┃        ",
-      "        ┃        ",
-      "        ┃        ",
-      "        ┃        "
+      "     ┃     ",
+      "     ┃     ",
+      "┏━━━━╋━━━━┓",
+      "     ┃     ",
+      "     ┃     ",
+      "     ┃     "
     ]
   },
   ghost: {
     label: "👻 Fantôme",
     art: [
-      "    .-\"\"\"-.    ",
-      "   /  o o  \\   ",
-      "  |    ◡    |  ",
-      "  |         |  ",
-      "   \\/\\/\\/\\/\\/   "
+      "  .-\"\"\"-.  ",
+      " /  o o  \\ ",
+      "|    ◡    |",
+      "|         |",
+      " \\/\\/\\/\\/ "
+    ]
+  },
+  cat: {
+    label: "🐱 Chat noir",
+    art: [
+      " /\\_____/\\ ",
+      "(  o   o  )",
+      " \\  ===  / ",
+      "  ) ___ ( ",
+      " (_)   (_)"
+    ]
+  },
+  rip: {
+    label: "✍ RIP",
+    art: [
+      " ___  ___ ",
+      "|  __| | |_ ",
+      "| |  | |  _|",
+      "|_|  |_|_|  "
     ]
   },
   none: { label: "— Aucun", art: [] }
 };
 
+const STYLES = {
+  classic: {
+    label: "⬛ Classique",
+    cssClass: "",
+    top:   w => " " + "_".repeat(w),
+    open:  w => "/" + " ".repeat(w) + "\\",
+    row:   c  => "|" + c + "|",
+    close: w => "\\" + "_".repeat(w) + "/"
+  },
+  roman: {
+    label: "🏛 Romain",
+    cssClass: "style-roman",
+    top:   w => "╔" + "═".repeat(w) + "╗",
+    open:  null,
+    row:   c  => "║" + c + "║",
+    close: w => "╚" + "═".repeat(w) + "╝"
+  },
+  rustic: {
+    label: "🪵 Rustique",
+    cssClass: "style-rustic",
+    top:   w => "+" + "-".repeat(w) + "+",
+    open:  null,
+    row:   c  => "|" + c + "|",
+    close: w => "+" + "-".repeat(w) + "+"
+  },
+  gothic: {
+    label: "🖤 Gothique",
+    cssClass: "style-gothic",
+    top:   w => "█" + "▀".repeat(w) + "█",
+    open:  null,
+    row:   c  => "█" + c + "█",
+    close: w => "█" + "▄".repeat(w) + "█"
+  },
+  starred: {
+    label: "✨ Étoilé",
+    cssClass: "style-starred",
+    top:   w => "*".repeat(w + 2),
+    open:  null,
+    row:   c  => "*" + c + "*",
+    close: w => "*".repeat(w + 2)
+  },
+  dotted: {
+    label: "· Pointillé",
+    cssClass: "style-dotted",
+    top:   w => "·".repeat(w + 2),
+    open:  null,
+    row:   c  => ":" + c + ":",
+    close: w => "·".repeat(w + 2)
+  }
+};
+
 const RANDOM_NAMES = [
   "Luc Duval","Berthe Lacroix","Gontran Pichon","Odette Fournier",
   "Roger Delamain","Yvonne Pétard","Marcel Lhuissier","Ginette Bouchard",
-  "Fernand Trouille","Huguette Crampon","Aristide Lebon","Solange Maugrin"
+  "Fernand Trouille","Huguette Crampon","Aristide Lebon","Solange Maugrin",
+  "Marie-Antoinette De La Fontaine","Jean-Baptiste Extraordinaire"
 ];
 
-/* ---------------------------------------------------------------- *
- * State
- * ---------------------------------------------------------------- */
-let state = {
-  icon: "skull"
-};
+/* ================================================================
+ * STATE
+ * ================================================================ */
+let state = { icon: "skull", style: "classic" };
 
-/* ---------------------------------------------------------------- *
- * Helpers
- * ---------------------------------------------------------------- */
-function ordinalFr(n){
-  return n === 1 ? "1ᵉʳ" : n + "ᵉ";
+/* ================================================================
+ * HELPERS — width & wrapping
+ * ================================================================ */
+const NAME_MARGIN = 10; // 5 chars each side around name
+const MIN_INNER   = 16;
+const MAX_INNER   = 32;
+
+function strLen(s){ return Array.from(s).length; }
+
+function wrapLine(line, maxW){
+  if(!line) return [''];
+  if(strLen(line) <= maxW) return [line];
+  const words = line.split(' ');
+  const result = [];
+  let current = '';
+  for(const word of words){
+    const test = current ? current + ' ' + word : word;
+    if(strLen(test) <= maxW){
+      current = test;
+    } else {
+      if(current) result.push(current);
+      if(strLen(word) > maxW){
+        const chars = Array.from(word);
+        while(chars.length > maxW) result.push(chars.splice(0, maxW).join(''));
+        current = chars.join('');
+      } else {
+        current = word;
+      }
+    }
+  }
+  if(current) result.push(current);
+  return result.length ? result : [line];
 }
 
-function dayOfYear(dateObj){
-  const start = new Date(dateObj.getFullYear(), 0, 0);
-  const diff = dateObj - start;
-  return Math.floor(diff / 86400000);
+function computeInnerW(name, iconArt){
+  const maxIconW = iconArt.length ? Math.max(...iconArt.map(l => strLen(l))) : 0;
+  // Wrap the name within MAX_INNER - NAME_MARGIN, find its real width
+  const nameLines = wrapLine(name, MAX_INNER - NAME_MARGIN);
+  const nameW = Math.max(...nameLines.map(l => strLen(l)));
+  return Math.max(nameW + NAME_MARGIN, maxIconW + 2, MIN_INNER);
 }
 
 function center(str, w){
-  const len = Array.from(str).length;
+  const len = strLen(str);
   const total = w - len;
-  if (total <= 0) return str;
+  if(total <= 0) return str;
   const left = Math.floor(total / 2);
-  const right = total - left;
-  return " ".repeat(left) + str + " ".repeat(right);
+  return ' '.repeat(left) + str + ' '.repeat(total - left);
 }
 
-function buildBox(lines){
-  const cleanLines = lines.length ? lines : [""];
-  const w = Math.max(...cleanLines.map(l => Array.from(l).length)) + 4;
+function buildBox(contentLines, innerW, styleName){
+  const sty = STYLES[styleName] || STYLES.classic;
   const out = [];
-  out.push(" " + "_".repeat(w));
-  out.push("/" + " ".repeat(w) + "\\");
-  for (const l of cleanLines){
-    out.push("|" + center(l, w) + "|");
-  }
-  out.push("\\" + "_".repeat(w) + "/");
-  return out.join("\n");
+  out.push(sty.top(innerW));
+  if(sty.open) out.push(sty.open(innerW));
+  for(const l of contentLines) out.push(sty.row(center(l, innerW)));
+  out.push(sty.close(innerW));
+  return out.join('\n');
 }
 
+/* ================================================================
+ * FILL SELECT LISTS
+ * ================================================================ */
 function fillSelect(el, options){
-  el.innerHTML = options.map(o => `<option value="${o.replace(/"/g,'&quot;')}">${o}</option>`).join("");
+  el.innerHTML = options.map(o => `<option value="${o.replace(/"/g,'&quot;')}">${o}</option>`).join('');
 }
-
-/* ---------------------------------------------------------------- *
- * Build select lists & special-char palette
- * ---------------------------------------------------------------- */
-const causeSelect = document.getElementById("cause");
-const latinSelect = document.getElementById("latin");
+const causeSelect = document.getElementById('cause');
+const latinSelect = document.getElementById('latin');
 fillSelect(causeSelect, CAUSES);
 fillSelect(latinSelect, LATIN);
 
-const palette = document.getElementById("charpalette");
+/* ================================================================
+ * SPECIAL CHAR PALETTE
+ * ================================================================ */
+const palette = document.getElementById('charpalette');
 SPECIAL_CHARS.forEach(ch => {
-  const b = document.createElement("button");
-  b.type = "button";
-  b.className = "charbtn";
-  b.textContent = ch;
-  b.addEventListener("click", () => insertAtCursor(document.getElementById("message"), ch));
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'charbtn'; b.textContent = ch;
+  b.addEventListener('click', () => insertAtCursor(document.getElementById('message'), ch));
   palette.appendChild(b);
 });
-
 function insertAtCursor(field, text){
-  const start = field.selectionStart ?? field.value.length;
-  const end = field.selectionEnd ?? field.value.length;
-  field.value = field.value.slice(0, start) + text + field.value.slice(end);
-  field.focus();
-  field.selectionStart = field.selectionEnd = start + text.length;
+  const s = field.selectionStart ?? field.value.length;
+  const e = field.selectionEnd ?? field.value.length;
+  field.value = field.value.slice(0, s) + text + field.value.slice(e);
+  field.focus(); field.selectionStart = field.selectionEnd = s + text.length;
   render();
 }
 
-const iconPillsWrap = document.getElementById("icon-pills");
+/* ================================================================
+ * ICON PILLS
+ * ================================================================ */
+const iconPillsWrap = document.getElementById('icon-pills');
 Object.keys(ICONS).forEach(key => {
-  const p = document.createElement("button");
-  p.type = "button";
-  p.className = "pill" + (key === state.icon ? " active" : "");
+  const p = document.createElement('button');
+  p.type = 'button';
+  p.className = 'pill' + (key === state.icon ? ' active' : '');
   p.textContent = ICONS[key].label;
-  p.dataset.icon = key;
-  p.addEventListener("click", () => {
+  p.dataset.group = 'icon';
+  p.addEventListener('click', () => {
     state.icon = key;
-    document.querySelectorAll(".pill").forEach(el => el.classList.remove("active"));
-    p.classList.add("active");
+    iconPillsWrap.querySelectorAll('.pill').forEach(el => el.classList.remove('active'));
+    p.classList.add('active');
     render();
   });
   iconPillsWrap.appendChild(p);
 });
 
-/* ---------------------------------------------------------------- *
- * Custom-input toggles
- * ---------------------------------------------------------------- */
-function wireCustomToggle(selectEl, wrapEl, inputEl){
-  selectEl.addEventListener("change", () => {
-    wrapEl.hidden = selectEl.value !== "Autre (à préciser)";
+/* ================================================================
+ * STYLE PILLS
+ * ================================================================ */
+const stylePillsWrap = document.getElementById('style-pills');
+Object.keys(STYLES).forEach(key => {
+  const p = document.createElement('button');
+  p.type = 'button';
+  p.className = 'pill' + (key === state.style ? ' active' : '');
+  p.textContent = STYLES[key].label;
+  p.dataset.group = 'style';
+  p.addEventListener('click', () => {
+    state.style = key;
+    stylePillsWrap.querySelectorAll('.pill').forEach(el => el.classList.remove('active'));
+    p.classList.add('active');
     render();
   });
-  inputEl.addEventListener("input", render);
-}
-wireCustomToggle(causeSelect, document.getElementById("cause-custom-wrap"), document.getElementById("cause-custom"));
-wireCustomToggle(latinSelect, document.getElementById("latin-custom-wrap"), document.getElementById("latin-custom"));
+  stylePillsWrap.appendChild(p);
+});
 
-/* ---------------------------------------------------------------- *
- * Render
- * ---------------------------------------------------------------- */
-function getValue(selectEl, customInputEl){
-  if (selectEl.value === "Autre (à préciser)"){
-    return customInputEl.value.trim() || "…";
-  }
-  return selectEl.value;
+/* ================================================================
+ * CUSTOM-INPUT TOGGLES
+ * ================================================================ */
+function wireCustomToggle(selectEl, wrapEl, inputEl){
+  selectEl.addEventListener('change', () => {
+    wrapEl.hidden = selectEl.value !== 'Autre (à préciser)';
+    render();
+  });
+  inputEl.addEventListener('input', render);
+}
+wireCustomToggle(causeSelect, document.getElementById('cause-custom-wrap'), document.getElementById('cause-custom'));
+wireCustomToggle(latinSelect, document.getElementById('latin-custom-wrap'), document.getElementById('latin-custom'));
+
+/* ================================================================
+ * RENDER
+ * ================================================================ */
+function ordinalFr(n){ return n === 1 ? '1ᵉʳ' : n + 'ᵉ'; }
+function dayOfYear(d){
+  const start = new Date(d.getFullYear(), 0, 0);
+  return Math.floor((d - start) / 86400000);
+}
+function getValue(sel, inp){
+  return sel.value === 'Autre (à préciser)' ? (inp.value.trim() || '…') : sel.value;
 }
 
 function render(){
-  const name = document.getElementById("name").value.trim() || "Anonyme";
-  const cause = getValue(causeSelect, document.getElementById("cause-custom"));
-  const moment = document.getElementById("moment").value;
-  const message = document.getElementById("message").value.trim();
-  const latin = getValue(latinSelect, document.getElementById("latin-custom"));
+  const name    = document.getElementById('name').value.trim() || 'Anonyme';
+  const cause   = getValue(causeSelect, document.getElementById('cause-custom'));
+  const moment  = document.getElementById('moment').value;
+  const message = document.getElementById('message').value.trim();
+  const latin   = getValue(latinSelect, document.getElementById('latin-custom'));
 
-  const dateVal = document.getElementById("date").value;
+  const dateVal = document.getElementById('date').value;
   let datePhrase;
-  if (dateVal){
-    const d = new Date(dateVal + "T00:00:00");
+  if(dateVal){
+    const d = new Date(dateVal + 'T00:00:00');
     datePhrase = `Le ${ordinalFr(dayOfYear(d))} jour de l'année ${d.getFullYear()}`;
   } else {
-    datePhrase = "Un jour comme un autre";
+    datePhrase = 'Un jour comme un autre';
   }
 
+  const icon     = ICONS[state.icon];
+  const innerW   = computeInnerW(name, icon.art);
+
+  // Build content lines — icon art passes as-is, text lines get wrapped
   const lines = [];
-  const icon = ICONS[state.icon];
-  if (icon.art.length){
-    lines.push(...icon.art);
-    lines.push("");
-  }
-  lines.push("Ci-gît");
-  lines.push(name);
-  lines.push(`décédé(e) ${cause}`);
-  lines.push(datePhrase);
-  lines.push(moment);
-  if (message) lines.push(message);
-  lines.push(latin);
+  if(icon.art.length){ lines.push(...icon.art, ''); }
+  lines.push('Ci-gît');
+  // Wrap name within (innerW - NAME_MARGIN) so it always has 5-char margin
+  lines.push(...wrapLine(name, innerW - NAME_MARGIN));
+  lines.push(...wrapLine(`décédé(e) ${cause}`, innerW));
+  lines.push(...wrapLine(datePhrase, innerW));
+  lines.push(...wrapLine(moment, innerW));
+  if(message) lines.push(...wrapLine(message, innerW));
+  lines.push(...wrapLine(latin, innerW));
 
-  document.getElementById("epitaph").textContent = buildBox(lines);
+  document.getElementById('epitaph').textContent = buildBox(lines, innerW, state.style);
+
+  // Update stone card CSS class for visual style
+  const card = document.getElementById('stone-card');
+  card.className = STYLES[state.style].cssClass || '';
+  // Re-append moss divs if needed (they get cleared by className)
+  if(!card.querySelector('.moss.a')){
+    ['a','b'].forEach(cls => {
+      const m = document.createElement('div'); m.className = 'moss '+cls; card.prepend(m);
+    });
+  }
 }
 
-/* ---------------------------------------------------------------- *
- * Wire live inputs
- * ---------------------------------------------------------------- */
-["name","date","moment","message"].forEach(id => {
-  document.getElementById(id).addEventListener("input", render);
+/* ================================================================
+ * LIVE INPUTS
+ * ================================================================ */
+['name','date','moment','message'].forEach(id => {
+  document.getElementById(id).addEventListener('input', render);
 });
-causeSelect.addEventListener("change", render);
-latinSelect.addEventListener("change", render);
+causeSelect.addEventListener('change', render);
+latinSelect.addEventListener('change', render);
 
-/* ---------------------------------------------------------------- *
- * Randomize
- * ---------------------------------------------------------------- */
-document.getElementById("btn-random").addEventListener("click", () => {
-  document.getElementById("name").value = RANDOM_NAMES[Math.floor(Math.random()*RANDOM_NAMES.length)];
+/* ================================================================
+ * RANDOMIZE
+ * ================================================================ */
+document.getElementById('btn-random').addEventListener('click', () => {
+  document.getElementById('name').value = RANDOM_NAMES[Math.floor(Math.random()*RANDOM_NAMES.length)];
 
-  const causeOptions = CAUSES.slice(0, -1);
-  causeSelect.value = causeOptions[Math.floor(Math.random()*causeOptions.length)];
-  document.getElementById("cause-custom-wrap").hidden = true;
+  causeSelect.value = CAUSES[Math.floor(Math.random()*(CAUSES.length-1))];
+  document.getElementById('cause-custom-wrap').hidden = true;
 
-  const latinOptions = LATIN.slice(0, -1);
-  latinSelect.value = latinOptions[Math.floor(Math.random()*latinOptions.length)];
-  document.getElementById("latin-custom-wrap").hidden = true;
+  latinSelect.value = LATIN[Math.floor(Math.random()*(LATIN.length-1))];
+  document.getElementById('latin-custom-wrap').hidden = true;
 
-  const moments = ["En plein jour","Pendant la nuit","À l'aube","Au crépuscule","Personne ne sait trop"];
-  document.getElementById("moment").value = moments[Math.floor(Math.random()*moments.length)];
+  const moments = ['En plein jour','Pendant la nuit','À l\'aube','Au crépuscule','Personne ne sait trop'];
+  document.getElementById('moment').value = moments[Math.floor(Math.random()*moments.length)];
 
   const start = new Date(2026,0,1).getTime();
-  const end = new Date(2026,11,31).getTime();
-  const randomDate = new Date(start + Math.random()*(end-start));
-  document.getElementById("date").value = randomDate.toISOString().slice(0,10);
+  const end   = new Date(2026,11,31).getTime();
+  document.getElementById('date').value = new Date(start + Math.random()*(end-start)).toISOString().slice(0,10);
 
+  // Random icon
   const iconKeys = Object.keys(ICONS);
   state.icon = iconKeys[Math.floor(Math.random()*iconKeys.length)];
-  document.querySelectorAll(".pill").forEach(el => el.classList.toggle("active", el.dataset.icon === state.icon));
+  iconPillsWrap.querySelectorAll('.pill').forEach(el => el.classList.toggle('active', el.textContent === ICONS[state.icon].label));
+
+  // Random style
+  const styleKeys = Object.keys(STYLES);
+  state.style = styleKeys[Math.floor(Math.random()*styleKeys.length)];
+  stylePillsWrap.querySelectorAll('.pill').forEach(el => el.classList.toggle('active', el.textContent === STYLES[state.style].label));
 
   render();
 });
 
-/* ---------------------------------------------------------------- *
- * Actions: copy / download txt / download png
- * ---------------------------------------------------------------- */
-document.getElementById("btn-copy").addEventListener("click", async () => {
-  const text = document.getElementById("epitaph").textContent;
+/* ================================================================
+ * EXPORT ACTIONS
+ * ================================================================ */
+document.getElementById('btn-copy').addEventListener('click', async () => {
   try {
-    await navigator.clipboard.writeText(text);
-    flashButton("btn-copy", "✅ Copié !");
-  } catch (e) {
-    flashButton("btn-copy", "❌ Échec");
-  }
+    await navigator.clipboard.writeText(document.getElementById('epitaph').textContent);
+    flashButton('btn-copy', '✅ Copié !');
+  } catch { flashButton('btn-copy', '❌ Échec'); }
 });
 
-document.getElementById("btn-txt").addEventListener("click", () => {
-  const text = document.getElementById("epitaph").textContent;
-  const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "pierre-tombale.txt";
-  a.click();
-  URL.revokeObjectURL(url);
+document.getElementById('btn-txt').addEventListener('click', () => {
+  const blob = new Blob([document.getElementById('epitaph').textContent], {type:'text/plain;charset=utf-8'});
+  const a = Object.assign(document.createElement('a'), {href:URL.createObjectURL(blob), download:'pierre-tombale.txt'});
+  a.click(); URL.revokeObjectURL(a.href);
 });
 
-document.getElementById("btn-png").addEventListener("click", async () => {
-  const node = document.getElementById("stone-card");
-  flashButton("btn-png", "⏳ Gravure…");
+document.getElementById('btn-png').addEventListener('click', async () => {
+  flashButton('btn-png', '⏳ Gravure…');
   try {
-    const canvas = await html2canvas(node, {backgroundColor: null, scale: 2});
-    const link = document.createElement("a");
-    link.download = "pierre-tombale.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-    flashButton("btn-png", "✅ Téléchargé");
-  } catch (e) {
-    flashButton("btn-png", "❌ Échec");
-  }
+    const canvas = await html2canvas(document.getElementById('stone-card'), {backgroundColor:null, scale:2});
+    const a = Object.assign(document.createElement('a'), {href:canvas.toDataURL('image/png'), download:'pierre-tombale.png'});
+    a.click();
+    flashButton('btn-png', '✅ Téléchargé');
+  } catch { flashButton('btn-png', '❌ Échec'); }
 });
 
 function flashButton(id, text){
   const btn = document.getElementById(id);
-  const original = btn.textContent;
+  const orig = btn.textContent;
   btn.textContent = text;
-  setTimeout(() => { btn.textContent = original; }, 1600);
+  setTimeout(() => btn.textContent = orig, 1800);
 }
 
-/* ---------------------------------------------------------------- *
- * Init
- * ---------------------------------------------------------------- */
-(function init(){
-  document.getElementById("date").value = "2026-06-30";
-  causeSelect.value = CAUSES[6]; // wifi sur l'Everest
+/* ================================================================
+ * INIT
+ * ================================================================ */
+(function(){
+  document.getElementById('date').value = '2026-06-30';
+  causeSelect.value = CAUSES[5];
   latinSelect.value = LATIN[0];
   render();
 })();
