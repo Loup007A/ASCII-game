@@ -452,10 +452,16 @@ const ICONS = {
   none: { label: "— Aucun", art: [] }
 };
 
+// NOTE: all border chars are strict ASCII (width=1 guaranteed in any monospace font).
+// ╔═║ and █▀▄ have *ambiguous* Unicode width and break alignment in many browsers.
 const STYLES = {
   classic: {
     label: "⬛ Classique",
     cssClass: "",
+    //  ___________
+    // /           \
+    // |  content  |
+    // \___________/
     top:   w => " " + "_".repeat(w),
     open:  w => "/" + " ".repeat(w) + "\\",
     row:   c  => "|" + c + "|",
@@ -464,14 +470,20 @@ const STYLES = {
   roman: {
     label: "🏛 Romain",
     cssClass: "style-roman",
-    top:   w => "╔" + "═".repeat(w) + "╗",
+    // +===========+
+    // |  content  |
+    // +===========+
+    top:   w => "+" + "=".repeat(w) + "+",
     open:  null,
-    row:   c  => "║" + c + "║",
-    close: w => "╚" + "═".repeat(w) + "╝"
+    row:   c  => "|" + c + "|",
+    close: w => "+" + "=".repeat(w) + "+"
   },
   rustic: {
     label: "🪵 Rustique",
     cssClass: "style-rustic",
+    // +-----------+
+    // |  content  |
+    // +-----------+
     top:   w => "+" + "-".repeat(w) + "+",
     open:  null,
     row:   c  => "|" + c + "|",
@@ -480,26 +492,35 @@ const STYLES = {
   gothic: {
     label: "🖤 Gothique",
     cssClass: "style-gothic",
-    top:   w => "█" + "▀".repeat(w) + "█",
+    // #############
+    // #  content  #
+    // #############
+    top:   w => "#".repeat(w + 2),
     open:  null,
-    row:   c  => "█" + c + "█",
-    close: w => "█" + "▄".repeat(w) + "█"
+    row:   c  => "#" + c + "#",
+    close: w => "#".repeat(w + 2)
   },
   starred: {
-    label: "✨ Étoilé",
+    label: "* Etoile",
     cssClass: "style-starred",
+    // *************
+    // *  content  *
+    // *************
     top:   w => "*".repeat(w + 2),
     open:  null,
     row:   c  => "*" + c + "*",
     close: w => "*".repeat(w + 2)
   },
   dotted: {
-    label: "· Pointillé",
+    label: ". Pointille",
     cssClass: "style-dotted",
-    top:   w => "·".repeat(w + 2),
+    // .............
+    // :  content  :
+    // .............
+    top:   w => ".".repeat(w + 2),
     open:  null,
     row:   c  => ":" + c + ":",
-    close: w => "·".repeat(w + 2)
+    close: w => ".".repeat(w + 2)
   }
 };
 
@@ -522,7 +543,25 @@ const NAME_MARGIN = 10; // 5 chars each side around name
 const MIN_INNER   = 16;
 const MAX_INNER   = 32;
 
-function strLen(s){ return Array.from(s).length; }
+function strLen(s){
+  // Count visual columns, not code points.
+  // Supplementary-plane chars (most emoji) render 2 cells wide.
+  let w = 0;
+  for(const ch of s){
+    const cp = ch.codePointAt(0);
+    if(cp > 0xFFFF){ w += 2; continue; }          // emoji / suppl. plane
+    if((cp >= 0x1100 && cp <= 0x115F) ||           // Hangul Jamo
+       (cp >= 0x2E80 && cp <= 0x303E) ||           // CJK misc
+       (cp >= 0x3041 && cp <= 0x33BE) ||           // Japanese/Korean
+       (cp >= 0xAC00 && cp <= 0xD7A3) ||           // Hangul syllables
+       (cp >= 0xFF01 && cp <= 0xFF60) ||           // Fullwidth Latin
+       (cp >= 0xFFE0 && cp <= 0xFFE6)){            // Fullwidth signs
+      w += 2; continue;
+    }
+    w += 1;
+  }
+  return w;
+}
 
 function wrapLine(line, maxW){
   if(!line) return [''];
