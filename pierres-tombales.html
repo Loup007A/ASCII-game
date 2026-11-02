@@ -9,7 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚰</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=VT323&family=Courier+Prime:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --sky-top:#04060a;
@@ -24,19 +24,16 @@
     --radius:12px;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#000;}
   body{
-    background:radial-gradient(ellipse 120% 80% at 50% -10%, var(--sky-bot), var(--sky-top) 70%) fixed;
     color:var(--bone);
     font-family:'EB Garamond', Georgia, serif;
-    min-height:100vh;
-    overflow-x:hidden;
   }
   ::selection{ background:var(--ember); color:#1b1206; }
   a{ color:var(--ember-soft); }
 
   /* ---------- ambiance ---------- */
-  .sky{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .sky{ position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
   .stars{
     position:absolute; inset:0;
     background-image:
@@ -330,9 +327,144 @@
     transition:opacity .25s, transform .25s; box-shadow:0 10px 30px -10px #000;
   }
   #toast.show{ opacity:1; transform:translate(-50%,0); }
+
+  /* ================================================================
+   * CYLINDRE : les pages sont les faces d'un tambour qui tourne d'un cran
+   * ================================================================ */
+  .stage{ position:fixed; inset:0; overflow:hidden; background:radial-gradient(ellipse at center, #111418, #000 75%); }
+  .drum{ position:absolute; inset:0; transform-style:preserve-3d; }
+  .face{ position:absolute; inset:0; overflow:hidden; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+  .scroller{ position:absolute; inset:0; z-index:1; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; outline:none; }
+  .stage.flat .drum, .stage.flat .face{ transform:none !important; }
+  .stage.flat .face:not(.active), .stage:not(.flat) .face:not(.vis){ visibility:hidden; }
+  .stage:not(.flat) .face{ pointer-events:none; }
+  .face.sleep, .face.sleep *{ animation-play-state:paused !important; }
+  .shade{ position:absolute; inset:0; z-index:40; pointer-events:none; opacity:0;
+    background:linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,.35) 50%, rgba(0,0,0,.9)); }
+  .rail{ position:absolute; top:0; bottom:0; width:18px; z-index:50; pointer-events:none; opacity:0; transition:opacity .25s;
+    background-image:repeating-linear-gradient(180deg, #4a4e55 0 5px, #24272b 5px 7px, #0c0d0f 7px 12px); }
+  .rail::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, #000 0%, transparent 28%, transparent 72%, #000 100%); }
+  .rail.l{ left:0; box-shadow:4px 0 10px #000a; } .rail.r{ right:0; box-shadow:-4px 0 10px #000a; }
+  .stage.turning .rail{ opacity:1; }
+
+  .face-caveau{ background:radial-gradient(ellipse 120% 80% at 50% -10%, var(--sky-bot), var(--sky-top) 70%); }
+
+  .turn-hint{ position:relative; z-index:2; text-align:center; padding:10px 20px 70px; color:var(--bone-dim); font-style:italic; font-size:16px; }
+  .turn-hint p{ margin:6px 0 0; }
+  .th-arrow{ font-size:26px; color:var(--ember-soft); font-style:normal; animation:bob 1.6s ease-in-out infinite; }
+  @keyframes bob{ 50%{ transform:translateY(7px); } }
+  .th-bar{ width:240px; max-width:70%; height:4px; margin:12px auto 16px; border-radius:4px; background:#ffffff1a; overflow:hidden; }
+  .th-bar span{ display:block; height:100%; width:0; background:linear-gradient(90deg, var(--ember), var(--ember-soft)); box-shadow:0 0 10px var(--ember); }
+
+  #drum-nav{ position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:60; display:flex; flex-direction:column; gap:12px; }
+  #drum-nav::before{ content:""; position:absolute; left:50%; top:8px; bottom:8px; width:1px; background:#ffffff30; z-index:-1; }
+  #drum-nav button{ width:32px; height:32px; border-radius:50%; border:1px solid #ffffff45; background:#0b0e0bdd; color:#ece5cb;
+    font-family:'Special Elite', serif; font-size:12px; cursor:pointer; transition:all .2s; }
+  #drum-nav button:hover{ border-color:#fff; transform:scale(1.1); }
+  #drum-nav button.on{ background:#d98a4a; color:#1b1206; border-color:#d98a4a; box-shadow:0 0 14px -2px #d98a4a; }
+  body.on-pendu #drum-nav button.on{ background:var(--ph); border-color:var(--ph); color:#000; box-shadow:0 0 14px -2px var(--ph-glow); }
+  @media(max-width:760px){ #drum-nav{ display:none; } }
+
+  /* ================================================================
+   * PAGE 2 : LE PENDU — terminal cathodique
+   * ================================================================ */
+  body{ --ph:#3dff74; --ph-dim:#1f9a45; --ph-faint:#0f4521; --ph-glow:rgba(61,255,116,.55); --ph-bg:#04170b; }
+  body.ph-amber{ --ph:#ffb43c; --ph-dim:#a86d16; --ph-faint:#4a2f08; --ph-glow:rgba(255,180,60,.5); --ph-bg:#180f02; }
+  body.ph-blue{ --ph:#72dbff; --ph-dim:#2c84a6; --ph-faint:#0e3546; --ph-glow:rgba(114,219,255,.5); --ph-bg:#03121b; }
+  body.ph-white{ --ph:#eaf3f0; --ph-dim:#86918e; --ph-faint:#30363a; --ph-glow:rgba(234,243,240,.4); --ph-bg:#0d1010; }
+
+  .face-pendu{ background:linear-gradient(180deg, #23231f, #121210); font-family:'VT323', 'Courier New', monospace; color:var(--ph); }
+  .crt-screen{ position:absolute; inset:18px 18px 44px; border-radius:30px / 38px; overflow:hidden;
+    background:radial-gradient(ellipse at 50% 45%, var(--ph-bg), #000 88%);
+    box-shadow:0 0 0 3px #0a0a09, 0 0 0 6px #34342e, inset 0 0 90px rgba(0,0,0,.9); }
+  .crt-screen .scroller{ scrollbar-color:var(--ph-dim) transparent; scrollbar-width:thin; }
+  .crt-fx{ position:absolute; inset:0; z-index:20; pointer-events:none; border-radius:inherit; overflow:hidden;
+    background:repeating-linear-gradient(180deg, rgba(0,0,0,.3) 0 1px, transparent 1px 3px);
+    box-shadow:inset 0 0 150px rgba(0,0,0,.8); }
+  .crt-fx::after{ content:""; position:absolute; left:0; right:0; top:-140px; height:140px; opacity:.07;
+    background:linear-gradient(180deg, transparent, var(--ph), transparent); animation:band 8s linear infinite; }
+  @keyframes band{ to{ transform:translateY(calc(100vh + 280px)); } }
+  .bezel-label{ position:absolute; left:0; right:0; bottom:13px; text-align:center; font-family:'Special Elite', serif;
+    font-size:12px; letter-spacing:.35em; color:#6a695f; text-shadow:0 1px 0 #000, 0 -1px 0 #3a3a34; pointer-events:none; }
+  .led{ position:absolute; right:40px; bottom:17px; width:8px; height:8px; border-radius:50%; background:var(--ph); box-shadow:0 0 10px var(--ph); }
+  @media(max-width:600px){ .crt-screen{ inset:8px 8px 32px; border-radius:16px / 20px; } .bezel-label{ bottom:8px; font-size:10px; } .led{ bottom:12px; right:18px; } }
+
+  .term{ max-width:1080px; margin:0 auto; padding:22px 26px 44px; font-size:22px; line-height:1.25;
+    text-shadow:0 0 2px var(--ph-glow), 0 0 12px var(--ph-glow); animation:crtflick 5s steps(1) infinite; }
+  @keyframes crtflick{ 0%,91%,94%,100%{ opacity:1; } 92%{ opacity:.9; } 97%{ opacity:.95; } }
+  .term ::selection{ background:var(--ph); color:#000; text-shadow:none; }
+  body.calm .term, body.calm .crt-fx::after, body.calm .cursor{ animation:none !important; }
+  @media (prefers-reduced-motion: reduce){ .term, .crt-fx::after, .cursor, .th-arrow{ animation:none !important; } }
+  .up-hint{ text-align:center; color:var(--ph-dim); font-size:19px; }
+  .up-hint .ascii-bar{ white-space:pre-wrap; margin-top:2px; }
+  .banner{ margin:10px auto 0; width:max-content; max-width:100%; overflow:hidden; font-size:clamp(9px, 2.7vw, 23px); line-height:1.02; white-space:pre; }
+  .term-sub{ text-align:center; color:var(--ph-dim); margin:12px 0 4px; }
+  .term-sub b{ color:var(--ph); font-weight:normal; }
+  .cursor{ display:inline-block; width:.55em; height:1em; margin-left:2px; background:var(--ph); vertical-align:-.15em; animation:blink 1s steps(1) infinite; box-shadow:0 0 8px var(--ph-glow); }
+  @keyframes blink{ 50%{ opacity:0; } }
+  .tgrid{ display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:0 24px; }
+  @media(max-width:880px){ .tgrid{ grid-template-columns:minmax(0,1fr); } }
+  .tbox{ position:relative; margin-top:26px; padding:20px 18px 18px; border:2px solid var(--ph-dim);
+    box-shadow:0 0 12px -4px var(--ph-glow), inset 0 0 22px -10px var(--ph-glow); }
+  .tt{ position:absolute; top:-.72em; left:14px; max-width:calc(100% - 28px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 8px; background:var(--ph); color:#000; text-shadow:none; font-size:20px; letter-spacing:.06em; }
+  .tt span{ opacity:.75; }
+  #gallows{ margin:6px auto 0; width:max-content; font-family:inherit; font-size:clamp(20px, 4.6vw, 34px); line-height:1.05; white-space:pre; }
+  .lives{ text-align:center; margin-top:12px; white-space:pre; }
+  .lives.low{ animation:blink .8s steps(1) infinite; }
+  .word{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px 26px; margin:10px 0 14px; font-size:clamp(30px, 5.4vw, 52px); }
+  .wgroup{ display:inline-flex; gap:.16em; white-space:nowrap; }
+  .word.multiline .wgroup{ display:flex; flex:1 1 100%; flex-wrap:wrap; justify-content:center; row-gap:12px; white-space:normal; }
+  .slot{ min-width:.7em; text-align:center; line-height:1; padding-bottom:3px; border-bottom:3px solid var(--ph); }
+  .slot.sep{ border-bottom-color:transparent; min-width:.35em; }
+  .slot.new{ animation:pop .4s ease-out; }
+  .slot.missed{ color:var(--ph-dim); border-bottom-color:var(--ph-dim); }
+  @keyframes pop{ 0%{ transform:translateY(-10px) scale(1.35); filter:brightness(2.2); } 100%{ transform:none; } }
+  .wrongs{ color:var(--ph-dim); min-height:1.3em; text-align:center; }
+  .wrongs s{ color:var(--ph); margin:0 .2em; }
+  .status{ margin:10px 0 16px; min-height:2.6em; text-align:center; }
+  .status.win{ color:var(--ph); font-size:28px; }
+  .kbd{ display:flex; flex-direction:column; align-items:center; gap:7px; }
+  .kbd .r{ display:flex; gap:7px; }
+  .key{ font-family:inherit; font-size:25px; width:1.9em; height:1.7em; padding:0; background:transparent; color:var(--ph); border:2px solid var(--ph-dim);
+    cursor:pointer; text-shadow:inherit; transition:background .1s, color .1s, transform .08s; }
+  .key:hover:not(:disabled), .key:focus-visible{ background:var(--ph-faint); border-color:var(--ph); outline:none; }
+  .key:active:not(:disabled){ transform:translateY(2px); }
+  .key.ok{ background:var(--ph); color:#000; border-color:var(--ph); text-shadow:none; }
+  .key.ko{ color:var(--ph-faint); border-color:var(--ph-faint); text-decoration:line-through; text-shadow:none; }
+  .key:disabled{ cursor:default; }
+  @media(max-width:560px){ .key{ font-size:20px; width:1.55em; } .kbd .r{ gap:4px; } .term{ padding:16px 12px 36px; font-size:20px; } .tbox{ padding:20px 10px 14px; } .tt{ font-size:17px; } }
+  @media(max-width:340px){ .crt-screen .key{ font-size:16px; width:1.3em; } }
+  @media(max-width:430px){ .key{ font-size:17px; width:1.45em; height:1.75em; border-width:1px; } .kbd .r{ gap:3px; } .tbtn{ font-size:19px; } .tsel,.tinput{ font-size:19px; } }
+  .tbtn{ font-family:inherit; font-size:21px; background:transparent; color:var(--ph); border:none; cursor:pointer; padding:3px 6px; text-shadow:inherit; }
+  .tbtn::before{ content:"[ "; } .tbtn::after{ content:" ]"; }
+  .tbtn:hover:not(:disabled), .tbtn:focus-visible{ background:var(--ph); color:#000; text-shadow:none; outline:none; }
+  .tbtn:disabled{ color:var(--ph-faint); cursor:default; text-shadow:none; }
+  .tbtn.hot{ animation:blink 1.1s steps(1) infinite; }
+  .tactions{ display:flex; flex-wrap:wrap; justify-content:center; gap:6px 12px; margin-top:16px; }
+  .topts{ display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px 20px; }
+  .topts label, .duo label{ display:block; color:var(--ph-dim); font-size:19px; margin-bottom:4px; }
+  .tsel, .tinput{ width:100%; font-family:inherit; font-size:21px; background:#000; color:var(--ph); border:2px solid var(--ph-dim);
+    border-radius:0; padding:3px 8px; outline:none; text-shadow:inherit; }
+  .tsel:focus, .tinput:focus{ border-color:var(--ph); box-shadow:0 0 10px -2px var(--ph-glow); }
+  .tsel option{ background:#000; color:var(--ph); }
+  .tinput::placeholder{ color:var(--ph-faint); }
+  .duo{ margin-top:16px; }
+  .duo-row{ display:flex; gap:10px; align-items:center; }
+  .tstats{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px; text-align:center; }
+  .tstats .n{ display:block; font-size:42px; line-height:1; }
+  .tstats .l{ color:var(--ph-dim); font-size:18px; }
+  .tfoot{ text-align:center; color:var(--ph-dim); margin-top:26px; font-size:19px; }
+  .boot{ position:absolute; inset:0; z-index:15; padding:clamp(16px,4vw,34px) clamp(14px,4vw,36px); background:#000; color:var(--ph); font-size:clamp(14px, 3.9vw, 23px); line-height:1.3;
+    white-space:pre-wrap; text-shadow:0 0 3px var(--ph-glow), 0 0 12px var(--ph-glow); cursor:pointer; transition:opacity .45s; }
+  .boot.done{ opacity:0; pointer-events:none; }
+  body.on-pendu #toast{ font-family:'VT323', monospace; font-size:21px; background:#000e; border-color:var(--ph); color:var(--ph); border-radius:0; text-shadow:0 0 8px var(--ph-glow); }
 </style>
 </head>
 <body>
+<div class="stage flat" id="stage">
+  <div class="drum" id="drum">
+    <!-- ================= FACE 1 : LE CAVEAU ================= -->
+    <section class="face face-caveau active" id="face-0" data-title="Le Caveau — Pierres tombales ASCII sur mesure" aria-label="Le Caveau">
 <div class="sky" aria-hidden="true">
   <div class="stars"></div>
   <div class="moon"></div>
@@ -340,6 +472,7 @@
   <div class="fog two"></div>
 </div>
 
+<div class="scroller" id="scroll-0" tabindex="-1">
 <div class="wrap">
   <header>
     <div class="crest" aria-hidden="true">✝ ⚰ ✝</div>
@@ -519,6 +652,115 @@
     Raccourcis : <kbd>R</kbd> randomiser · <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>C</kbd> copier
   </footer>
 </div>
+<div class="turn-hint">
+  <div class="th-arrow" aria-hidden="true">▼</div>
+  <p>Continuez à descendre : le cylindre va tourner d'un cran…</p>
+  <div class="th-bar" aria-hidden="true"><span id="bar-down"></span></div>
+  <button class="btn" type="button" data-goto="1">⟳ Tourner vers « Le Pendu »</button>
+</div>
+</div><!-- /scroller -->
+<div class="shade"></div>
+    </section>
+
+    <!-- ================= FACE 2 : LE PENDU ================= -->
+    <section class="face face-pendu" id="face-1" data-title="Le Pendu — Le Caveau" aria-label="Le Pendu">
+      <div class="crt-screen">
+        <div class="scroller" id="scroll-1" tabindex="-1">
+          <div class="term">
+            <div class="up-hint">
+              <button class="tbtn" type="button" data-goto="0">▲ Retour au Caveau</button>
+              <div class="ascii-bar" id="bar-up">remontez encore pour faire tourner le cylindre</div>
+            </div>
+            <pre class="banner" aria-label="Le Pendu">    __    ______   ____  _______   ______  __  __
+   / /   / ____/  / __ \/ ____/ | / / __ \/ / / /
+  / /   / __/    / /_/ / __/ /  |/ / / / / / / /
+ / /___/ /___   / ____/ /___/ /|  / /_/ / /_/ /
+/_____/_____/  /_/   /_____/_/ |_/_____/\____/</pre>
+            <p class="term-sub">C:\CAVEAU&gt; PENDU.EXE — sauvez <b id="p-condemned">LUC DUVAL</b> de la corde, une lettre à la fois<span class="cursor" aria-hidden="true"></span></p>
+
+            <div class="tgrid">
+              <div class="tbox">
+                <div class="tt">POTENCE</div>
+                <pre id="gallows" aria-hidden="true"></pre>
+                <div class="lives" id="p-lives"></div>
+              </div>
+              <div class="tbox">
+                <div class="tt">MOT SECRET <span id="p-cat"></span></div>
+                <div class="word" id="p-word" aria-live="polite"></div>
+                <div class="wrongs">RATÉES&gt; <span id="p-wrong"></span></div>
+                <div class="status" id="p-status" role="status"></div>
+                <div class="kbd" id="p-kbd"></div>
+                <div class="tactions">
+                  <button class="tbtn" type="button" id="p-new">Nouvelle partie</button>
+                  <button class="tbtn" type="button" id="p-hint">Indice (-1 vie)</button>
+                  <button class="tbtn" type="button" id="p-copy">Copier la potence</button>
+                  <button class="tbtn hot" type="button" id="p-grave" hidden>⚰ Graver sa pierre tombale</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tbox">
+              <div class="tt">OPTIONS</div>
+              <div class="topts">
+                <div><label for="p-category">Catégorie</label><select class="tsel" id="p-category"></select></div>
+                <div><label for="p-level">Difficulté</label>
+                  <select class="tsel" id="p-level">
+                    <option value="easy">Facile — 10 erreurs</option>
+                    <option value="normal">Normal — 6 erreurs</option>
+                    <option value="hard">Difficile — 4 erreurs</option>
+                  </select></div>
+                <div><label for="p-phosphor">Phosphore</label>
+                  <select class="tsel" id="p-phosphor">
+                    <option value="green">Vert</option>
+                    <option value="amber">Ambre</option>
+                    <option value="blue">Bleu</option>
+                    <option value="white">Blanc</option>
+                  </select></div>
+                <div><label for="p-sound">Son</label>
+                  <select class="tsel" id="p-sound">
+                    <option value="on">Bips activés</option>
+                    <option value="off">Silence</option>
+                  </select></div>
+              </div>
+              <div class="duo">
+                <label for="p-secret">Mode 2 joueurs — le joueur 1 tape un mot secret, le joueur 2 devine :</label>
+                <div class="duo-row">
+                  <input class="tinput" type="password" id="p-secret" maxlength="24" autocomplete="off" spellcheck="false" placeholder="mot secret…">
+                  <button class="tbtn" type="button" id="p-duo">Lancer</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tbox">
+              <div class="tt">STATISTIQUES</div>
+              <div class="tstats">
+                <div><span class="n" id="s-wins">0</span><span class="l">sauvetages</span></div>
+                <div><span class="n" id="s-losses">0</span><span class="l">pendaisons</span></div>
+                <div><span class="n" id="s-streak">0</span><span class="l">série en cours</span></div>
+                <div><span class="n" id="s-best">0</span><span class="l">meilleure série</span></div>
+              </div>
+              <div class="tactions"><button class="tbtn" type="button" id="p-reset">Remettre à zéro</button></div>
+            </div>
+
+            <p class="tfoot">Clavier : lettres pour jouer · Entrée = nouvelle partie · ? = indice · ↑ en haut de page = retour au Caveau</p>
+          </div>
+        </div>
+        <div class="crt-fx" aria-hidden="true"></div>
+        <div class="boot done" id="boot" aria-hidden="true"></div>
+      </div>
+      <div class="bezel-label" aria-hidden="true">CAVEAU-TRON 3000</div>
+      <div class="led" aria-hidden="true"></div>
+      <div class="shade"></div>
+    </section>
+  </div><!-- /drum -->
+  <div class="rail l" aria-hidden="true"></div>
+  <div class="rail r" aria-hidden="true"></div>
+</div><!-- /stage -->
+
+<nav id="drum-nav" aria-label="Pages du cylindre">
+  <button type="button" data-goto="0" title="Le Caveau" aria-label="Page 1 : Le Caveau">I</button>
+  <button type="button" data-goto="1" title="Le Pendu" aria-label="Page 2 : Le Pendu">II</button>
+</nav>
 
 <div id="toast" role="status"></div>
 
@@ -1266,6 +1508,7 @@ function applyMaterial(el, key){
   el.style.setProperty("--ink", m.ink);
 }
 function fitPreview(){
+  if(!scene.clientWidth) return;
   const cols = currentLines.length ? Math.max(...currentLines.map(strLen)) : 30;
   const avail = scene.clientWidth - 70;
   const fs = Math.max(6, Math.min(15, avail / (cols * 0.6)));
@@ -1529,7 +1772,7 @@ function renderGraves(){
 }
 function restore(gr){
   writeForm(gr.s); render();
-  window.scrollTo({ top:0, behavior:"smooth" });
+  $("scroll-0").scrollTo({ top:0, behavior:"smooth" });
   toast(`🧟 ${gr.s.name || "Anonyme"} est de retour !`);
 }
 $("btn-save").addEventListener("click", () => {
@@ -1573,9 +1816,620 @@ $("copymode").addEventListener("change", e => store.set("caveau.copymode", e.tar
 /* Raccourcis clavier */
 document.addEventListener("keydown", e => {
   const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName);
-  if((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "c"){ e.preventDefault(); doCopy(); return; }
+  if((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "c"){
+    e.preventDefault();
+    if(Drum.index === 1) Pendu.copy().then(ok => toast(ok ? "> Potence copiée" : "> Impossible de copier"));
+    else doCopy();
+    return;
+  }
+  if(Drum.index !== 0 || Drum.busy) return;
   if(!typing && !e.ctrlKey && !e.metaKey && !e.altKey && e.key.toLowerCase() === "r"){ e.preventDefault(); randomize(); }
 });
+
+
+/* ================================================================
+ * SON (bips façon terminal, Web Audio — aucun fichier externe)
+ * ================================================================ */
+const Sound = (() => {
+  let ctx = null, enabled = true;
+  function ensure(create){
+    if(!ctx && create){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(AC) try { ctx = new AC(); } catch {}
+    }
+    if(ctx && ctx.state === "suspended") ctx.resume().catch(() => {});
+    return ctx;
+  }
+  // Le navigateur n'autorise le son qu'après un clic ou une touche
+  ["pointerdown","keydown"].forEach(ev => addEventListener(ev, () => ensure(true), { passive:true }));
+  function tone(freq, dur = .07, type = "square", vol = .035, delay = 0){
+    if(!enabled) return;
+    const c = ensure(false); if(!c || c.state !== "running") return;
+    const o = c.createOscillator(), g = c.createGain();
+    const t = c.currentTime + delay;
+    o.type = type; o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o.connect(g).connect(c.destination);
+    o.start(t); o.stop(t + dur + .03);
+  }
+  return {
+    tone,
+    set enabled(v){ enabled = v; }, get enabled(){ return enabled; },
+    key(){ tone(1200, .025, "square", .02); },
+    ok(){ tone(880, .06); tone(1320, .08, "square", .03, .06); },
+    ko(){ tone(140, .18, "sawtooth", .04); },
+    win(){ [523, 659, 784, 1047].forEach((f, i) => tone(f, .12, "square", .035, i * .1)); },
+    lose(){ [392, 330, 262, 196].forEach((f, i) => tone(f, .22, "triangle", .05, i * .18)); },
+    clack(){ tone(95, .05, "square", .05); tone(60, .09, "triangle", .07, .035); }
+  };
+})();
+
+/* ================================================================
+ * CYLINDRE : tambour hexagonal, une page par face, rotation d'un cran
+ * ================================================================ */
+const Drum = (() => {
+  const stage = $("stage"), drum = $("drum");
+  const faces = [...drum.querySelectorAll(".face")];
+  const scrollers = faces.map(f => f.querySelector(".scroller"));
+  const shades = faces.map(f => f.querySelector(".shade"));
+  const rails = [...stage.querySelectorAll(".rail")];
+  const SIDES = 6, STEP = 360 / SIDES;     // un cran = 60°
+  const MAX_PEEK = 13;                     // inclinaison max avant le déclic (degrés)
+  const WHEEL_THRESHOLD = 380, TOUCH_THRESHOLD = 150;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const changeHandlers = [], peekHandlers = [];
+  let index = 0, angle = 0, busy = false, peeking = false, peekTarget = -1, raf = 0;
+
+  const apothem = () => innerHeight / (2 * Math.tan(Math.PI / SIDES));
+  const has = i => i >= 0 && i < faces.length;
+  const atBottom = sc => sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 2;
+  const atTop = sc => sc.scrollTop <= 1;
+  const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+  const easeRatchet = t => { const c1 = 1.25, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+
+  function apply(a){
+    angle = a;
+    const ap = apothem();
+    drum.style.transform = `translateZ(${-ap}px) rotateX(${a}deg)`;
+    faces.forEach((f, k) => {
+      if(f.classList.contains("vis")) shades[k].style.opacity = (Math.min(1, Math.abs(a - k * STEP) / STEP) * .85).toFixed(3);
+    });
+    const off = -a * Math.PI / 180 * ap;   // les crans des rails défilent à la vitesse de la surface
+    rails.forEach(r => r.style.backgroundPositionY = off.toFixed(1) + "px");
+    const p = (a - index * STEP) / MAX_PEEK;
+    peekHandlers.forEach(fn => fn(Math.max(-1, Math.min(1, p))));
+  }
+  function show(list){
+    const ap = apothem();
+    stage.style.perspective = Math.round(innerHeight * 2.4) + "px";
+    faces.forEach((f, k) => {
+      const on = list.includes(k);
+      f.classList.toggle("vis", on);
+      f.classList.toggle("sleep", !on);
+      f.style.transform = `rotateX(${-k * STEP}deg) translateZ(${ap}px)`;
+    });
+    stage.classList.remove("flat");
+    stage.classList.add("turning");
+  }
+  function settle(i){
+    cancelAnimationFrame(raf);
+    index = i; busy = false; peeking = false; peekTarget = -1;
+    stage.classList.add("flat"); stage.classList.remove("turning");
+    drum.style.transform = "";
+    faces.forEach((f, k) => {
+      const on = k === i;
+      f.classList.toggle("active", on);
+      f.classList.remove("vis");
+      f.classList.toggle("sleep", !on);
+      f.style.transform = "";
+      f.inert = !on;
+      f.setAttribute("aria-hidden", on ? "false" : "true");
+      shades[k].style.opacity = "0";
+    });
+    peekHandlers.forEach(fn => fn(0));
+    scrollers[i].focus({ preventScroll:true });
+    changeHandlers.forEach(fn => fn(i));
+  }
+  function tween(from, to, ms, ease, done){
+    cancelAnimationFrame(raf);
+    const t0 = performance.now();
+    const frame = now => {
+      const t = Math.min(1, (now - t0) / ms);
+      apply(from + (to - from) * ease(t));
+      if(t < 1) raf = requestAnimationFrame(frame);
+      else done && done();
+    };
+    raf = requestAnimationFrame(frame);
+  }
+  function prepareArrival(j, land){
+    const sc = scrollers[j];
+    const dir = j > index ? 1 : -1;
+    if(land === "top" || (!land && dir > 0)) sc.scrollTop = 0;
+    else if(land === "bottom" || (!land && dir < 0)) sc.scrollTop = sc.scrollHeight;
+  }
+  function goTo(j, opts = {}){
+    if(!has(j) || busy) return;
+    if(j === index){ release(); return; }
+    busy = true;
+    if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    if(!peeking || peekTarget !== j) prepareArrival(j, opts.land);
+    else if(opts.land) prepareArrival(j, opts.land);
+    if(reduced){ settle(j); return; }
+    const lo = Math.min(index, j), hi = Math.max(index, j);
+    const list = []; for(let k = lo; k <= hi; k++) list.push(k);
+    show(list);
+    if(!peeking) apply(index * STEP);
+    const dist = Math.abs(j * STEP - angle) / STEP;
+    tween(angle, j * STEP, 650 + 350 * Math.min(dist, 3), easeRatchet, () => { Sound.clack(); settle(j); });
+  }
+  function peek(p){
+    if(busy || !p) return;
+    const j = index + Math.sign(p);
+    if(!has(j)) return;
+    if(!peeking || peekTarget !== j){
+      cancelAnimationFrame(raf);
+      peeking = true; peekTarget = j;
+      prepareArrival(j);
+      show([index, j]);
+    }
+    apply(index * STEP + p * MAX_PEEK);
+  }
+  function release(){
+    if(!peeking || busy) return;
+    busy = true;
+    tween(angle, index * STEP, 280, easeOutCubic, () => settle(index));
+  }
+
+  /* --- Molette : il faut déjà être en bas (ou en haut) au début du geste --- */
+  let acc = 0, lastWheel = 0, gestureEdge = 0, releaseTimer = 0;
+  stage.addEventListener("wheel", e => {
+    if(busy){ e.preventDefault(); return; }
+    if(e.ctrlKey) return;                                   // zoom
+    const sc = scrollers[index];
+    const now = performance.now();
+    const fresh = now - lastWheel > 180;
+    lastWheel = now;
+    const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
+    if(!dy) return;
+    const edge = dy > 0 && atBottom(sc) ? 1 : dy < 0 && atTop(sc) ? -1 : 0;
+    if(fresh) gestureEdge = edge;
+    if(peeking){ e.preventDefault(); acc += dy; }
+    else if(edge && edge === gestureEdge && has(index + edge)){ e.preventDefault(); acc = dy; }
+    else return;
+    if(Math.sign(acc) !== Math.sign(peekTarget - index) && peeking){ acc = 0; release(); return; }
+    if(Math.abs(acc) >= WHEEL_THRESHOLD){ const d = Math.sign(acc); acc = 0; goTo(index + d); return; }
+    peek(Math.max(-1, Math.min(1, acc / WHEEL_THRESHOLD)));
+    clearTimeout(releaseTimer);
+    releaseTimer = setTimeout(() => { acc = 0; release(); }, 650);
+  }, { passive:false });
+
+  /* --- Tactile --- */
+  let ty0 = null, tBottom = false, tTop = false;
+  stage.addEventListener("touchstart", e => {
+    if(busy || e.touches.length > 1){ ty0 = null; return; }
+    const sc = scrollers[index];
+    ty0 = e.touches[0].clientY; tBottom = atBottom(sc); tTop = atTop(sc);
+  }, { passive:true });
+  stage.addEventListener("touchmove", e => {
+    if(ty0 === null || busy) return;
+    const dy = ty0 - e.touches[0].clientY;
+    const dir = dy > 0 && tBottom && has(index + 1) ? 1 : dy < 0 && tTop && has(index - 1) ? -1 : 0;
+    if(!dir){ if(peeking){ apply(index * STEP); } return; }
+    e.preventDefault();
+    if(Math.abs(dy) >= TOUCH_THRESHOLD){ ty0 = null; goTo(index + dir); return; }
+    peek(dy / TOUCH_THRESHOLD);
+  }, { passive:false });
+  const touchEnd = () => { ty0 = null; if(peeking && !busy) release(); };
+  stage.addEventListener("touchend", touchEnd);
+  stage.addEventListener("touchcancel", touchEnd);
+
+  /* --- Clavier : ↓ / Page suiv. en bas de page, ↑ / Page préc. en haut --- */
+  document.addEventListener("keydown", e => {
+    if(busy || e.altKey || e.ctrlKey || e.metaKey) return;
+    if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    const sc = scrollers[index];
+    if(e.key === " " && e.target.tagName === "BUTTON") return;
+    const down = e.key === "PageDown" || e.key === "ArrowDown" || (e.key === " " && !e.shiftKey && index === 0);
+    const up = e.key === "PageUp" || e.key === "ArrowUp";
+    if(down && atBottom(sc) && has(index + 1)){ e.preventDefault(); goTo(index + 1); }
+    else if(up && atTop(sc) && has(index - 1)){ e.preventDefault(); goTo(index - 1); }
+  });
+
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-goto]");
+    if(b) goTo(+b.dataset.goto, { land:b.dataset.land });
+  });
+  addEventListener("resize", () => { if(!stage.classList.contains("flat")) apply(angle); });
+
+  return {
+    get index(){ return index; },
+    get busy(){ return busy; },
+    goTo, settle,
+    onChange(fn){ changeHandlers.push(fn); },
+    onPeek(fn){ peekHandlers.push(fn); },
+    scroller(i){ return scrollers[i ?? index]; }
+  };
+})();
+
+/* ================================================================
+ * PAGE 2 : LE PENDU
+ * ================================================================ */
+const Pendu = (() => {
+  const CATS = {
+    frissons: { label:"Cimetière & frissons", words:[
+      "CERCUEIL","FANTÔME","SQUELETTE","CIMETIÈRE","CHRYSANTHÈME","CRÉPUSCULE","VAMPIRE","LOUP-GAROU","SORCIÈRE",
+      "CITROUILLE","CHAUVE-SOURIS","ÉPITAPHE","FOSSOYEUR","SARCOPHAGE","MOMIE","ZOMBIE","CORBEAU","CRYPTE",
+      "CATACOMBES","SPECTRE","TOMBEAU","LINCEUL","NÉCROMANCIEN","MAUSOLÉE","OSSUAIRE","GARGOUILLE","ARAIGNÉE",
+      "CHANDELIER","MALÉDICTION","ENVOÛTEMENT","POLTERGEIST","EXORCISTE","CORBILLARD","FEU FOLLET","BROUILLARD",
+      "CHAUDRON","GRIMOIRE","SORTILÈGE","PLEINE LUNE","CAUCHEMAR","REVENANT","TOILE D'ARAIGNÉE","HANTISE","SÉANCE DE SPIRITISME"
+    ]},
+    animaux: { label:"Animaux", words:[
+      "ORNITHORYNQUE","HIPPOPOTAME","CAMÉLÉON","PANGOLIN","ESCARGOT","KANGOUROU","PINGOUIN","CROCODILE","RHINOCÉROS",
+      "HÉRISSON","PAPILLON","LIBELLULE","SCARABÉE","MÉDUSE","PIEUVRE","HIPPOCAMPE","GIRAFE","ÉCUREUIL","BLAIREAU",
+      "MARMOTTE","CHINCHILLA","TOUCAN","FLAMANT ROSE","WAPITI","ZÈBRE","OKAPI","TATOU","PARESSEUX","SALAMANDRE",
+      "AXOLOTL","CACHALOT","MORSE","LAMA","SURICATE","TAMANOIR","OUISTITI","GUÉPARD","CORMORAN","MANCHOT EMPEREUR","LOUTRE"
+    ]},
+    cuisine: { label:"Cuisine", words:[
+      "RACLETTE","CASSOULET","TARTIFLETTE","CROISSANT","BOUILLABAISSE","RATATOUILLE","CHOUCROUTE","MACARON",
+      "CROQUE-MONSIEUR","PROFITEROLE","MADELEINE","CAMEMBERT","BAGUETTE","CRÈME BRÛLÉE","FONDUE","QUICHE",
+      "CLAFOUTIS","BLANQUETTE","PÂTISSERIE","VINAIGRETTE","CORNICHON","BRIOCHE","GALETTE","CRÊPE","POT-AU-FEU",
+      "GRATIN DAUPHINOIS","ÉCLAIR","MILLEFEUILLE","SAUCISSON","ROQUEFORT","CHOUQUETTE","MOUSSE AU CHOCOLAT",
+      "CROQUETTE","PISSALADIÈRE","NOUGAT","FLAMMEKUECHE","ANDOUILLETTE","TAPENADE","KOUIGN-AMANN"
+    ]},
+    geek: { label:"Informatique & jeux", words:[
+      "ALGORITHME","CLAVIER","PIXEL","PROCESSEUR","JAVASCRIPT","NAVIGATEUR","SAUVEGARDE","MANETTE","CONSOLE",
+      "TÉLÉCHARGEMENT","MOT DE PASSE","PARE-FEU","ORDINATEUR","LOGICIEL","BOGUE","SERVEUR","ROUTEUR","CURSEUR",
+      "TERMINAL","COMPILATEUR","VARIABLE","FONCTION","BOUCLE INFINIE","POINTEUR","OCTET","ÉCRAN","SOURIS",
+      "IMPRIMANTE","ÉMULATEUR","SPEEDRUN","BOSS FINAL","JOYSTICK","ARCADE","ENCODAGE","UNICODE","DISQUETTE",
+      "CARTE GRAPHIQUE","INTELLIGENCE ARTIFICIELLE","CAPTCHA","MISE À JOUR"
+    ]},
+    tordus: { label:"Mots tordus", words:[
+      "WHISKY","ZYGOMATIQUE","KAYAK","JAZZ","PHARYNX","LABYRINTHE","ANTICONSTITUTIONNELLEMENT","XYLOPHONE",
+      "OXYGÈNE","ACQUÉREUR","PSYCHOLOGIE","CHRYSALIDE","ICHTYOLOGIE","BYZANTIN","SPHINX","ZEUGMA","KLAXON",
+      "QUIZ","BIVOUAC","YAOURT","EMBRYON","GYMNASE","HYPOTÉNUSE","MNÉMOTECHNIQUE","PNEUMATIQUE","RHUBARBE",
+      "SYZYGIE","CORNEMUSE","ONOMATOPÉE","CAPHARNAÜM","FJORD","JUKEBOX","KIWI","ABRACADABRANTESQUE","WAGON"
+    ]}
+  };
+  const LEVELS = {
+    easy:   { max:10, stages:[0,1,2,3,4,5,6,7,8,9,10] },
+    normal: { max:6,  stages:[4,5,6,7,8,9,10] },
+    hard:   { max:4,  stages:[4,5,6,8,10] }
+  };
+  const KB = ["AZERTYUIOP", "QSDFGHJKLM", "WXCVBN"];
+  const OK_LINES = [
+    "Bien vu.", "Le condamné respire un peu mieux.", "Le bourreau fronce les sourcils.", "Joli coup !",
+    "Le public retient son souffle.", "Ça sent la grâce présidentielle…", "Continuez comme ça.", "Pas mal du tout."
+  ];
+  const KO_LINES = [
+    "Aïe. La corde se resserre.", "Le bourreau se frotte les mains.", "Mauvaise pioche.",
+    "Le public applaudit (pas pour vous).", "Raté. Quelqu'un a apporté du pop-corn.", "Le condamné transpire.",
+    "Même le corbeau a soupiré.", "Ouille."
+  ];
+  const W = 22, H = 9;
+  // Pièces de la potence, dans l'ordre d'apparition : [ligne, colonne, texte]
+  const PARTS = [
+    null,
+    [[7,1,"__"],[7,4,"__________"],[8,0,"|_____________|"]],        // 1 socle
+    [[1,3,"|"],[2,3,"|"],[3,3,"|"],[4,3,"|"],[5,3,"|"],[6,3,"|"],[7,3,"|"]], // 2 poteau
+    [[0,4,"________"],[1,4,"/"]],                                    // 3 potence
+    [[1,11,"|"]],                                                    // 4 corde
+    null,                                                            // 5 tête (expression variable)
+    [[3,11,"|"],[4,11,"|"]],                                         // 6 corps
+    [[3,10,"/"]], [[3,12,"\\"]],                                     // 7-8 bras
+    [[5,10,"/"]], [[5,12,"\\"]]                                      // 9-10 jambes
+  ];
+  const DANCE = [
+    [[3,15,"\\(^o^)/"],[4,18,"|"],[5,17,"/ \\"]],
+    [[3,16,"(^_^)"],[4,17,"/|\\"],[5,17,"| |"]]
+  ];
+  const SWING = [0, 1, 0, -1];
+
+  const el = id => $(id);
+  const ui = {
+    gallows:el("gallows"), lives:el("p-lives"), word:el("p-word"), wrong:el("p-wrong"), status:el("p-status"),
+    kbd:el("p-kbd"), cat:el("p-cat"), condemned:el("p-condemned"), hint:el("p-hint"), grave:el("p-grave"),
+    category:el("p-category"), level:el("p-level"), phosphor:el("p-phosphor"), sound:el("p-sound"), secret:el("p-secret"),
+    boot:el("boot")
+  };
+  const OPTS_KEY = "pendu.opts", STATS_KEY = "pendu.stats";
+  let opts = { category:"tout", level:"normal", phosphor:"green", sound:"on", ...store.get(OPTS_KEY, {}) };
+  let stats = { wins:0, losses:0, streak:0, best:0, ...store.get(STATS_KEY, {}) };
+  let g = null, anim = 0, animFrame = 0, recent = [], booted = false;
+  const keys = {};
+
+  const baseLetter = ch => ch.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+  const isLetter = ch => /^[A-Z]$/.test(baseLetter(ch));
+  const lettersOf = word => new Set(Array.from(word).filter(isLetter).map(baseLetter));
+  const lvl = () => LEVELS[opts.level] || LEVELS.normal;
+  const left = () => lvl().max - g.errors;
+  const gender = () => GENDERS[state.gender] || GENDERS.m;
+  const condemned = () => (state.name.replace(/\s+/g, " ").trim() || "Anonyme");
+  const say = (txt, cls = "") => { ui.status.textContent = accord(txt, gender()); ui.status.className = "status " + cls; };
+
+  function draw(){
+    const grid = Array.from({ length:H }, () => Array(W).fill(" "));
+    const put = (r, c, s) => { for(let i = 0; i < s.length; i++) if(c + i >= 0 && c + i < W) grid[r][c + i] = s[i]; };
+    const L = lvl();
+    const stage = L.stages[Math.min(g.errors, L.max)];
+    for(let k = 1; k <= Math.min(stage, 4); k++) PARTS[k].forEach(([r, c, s]) => put(r, c, s));
+    if(g.won){
+      DANCE[animFrame % 2].forEach(([r, c, s]) => put(r, c, s));
+    } else {
+      const dx = g.over ? SWING[animFrame % 4] : 0;
+      const l = left();
+      const face = g.over ? "(x_x)" : l <= 1 ? "(;_;)" : l === 2 ? "(O_O)" : "(o_o)";
+      for(let k = 5; k <= stage; k++){
+        if(k === 5) put(2, 9 + dx, face);
+        else PARTS[k].forEach(([r, c, s]) => put(r, c + dx, s));
+      }
+    }
+    return grid.map(r => r.join(""));
+  }
+
+  function renderWord(fresh){
+    ui.word.innerHTML = "";
+    for(const part of g.word.split(" ")){
+      const grp = document.createElement("span"); grp.className = "wgroup";
+      for(const ch of Array.from(part)){
+        const s = document.createElement("span"); s.className = "slot";
+        if(!isLetter(ch)){ s.classList.add("sep"); s.textContent = ch; }
+        else if(g.guessed.has(baseLetter(ch))){ s.textContent = ch; if(fresh && fresh.has(baseLetter(ch))) s.classList.add("new"); }
+        else if(g.over){ s.textContent = ch; s.classList.add("missed"); }
+        else s.textContent = "\u00a0";
+        grp.appendChild(s);
+      }
+      ui.word.appendChild(grp);
+    }
+    fitWord();
+  }
+  // Rétrécit le mot si un groupe de lettres dépasse la largeur (ANTICONSTITUTIONNELLEMENT…)
+  function fitWord(){
+    ui.word.style.fontSize = "";
+    ui.word.classList.remove("multiline");
+    if(!ui.word.clientWidth) return;
+    let fs = parseFloat(getComputedStyle(ui.word).fontSize), guard = 0;
+    while(ui.word.scrollWidth > ui.word.clientWidth + 1 && fs > 20 && guard++ < 40){
+      fs -= 2; ui.word.style.fontSize = fs + "px";
+    }
+    if(ui.word.scrollWidth > ui.word.clientWidth + 1) ui.word.classList.add("multiline");   // dernier recours : le mot passe à la ligne
+  }
+  // La potence doit tenir dans son cadre, quelle que soit la police chargée
+  function fitGallows(){
+    const pre = ui.gallows, box = pre.parentElement;
+    pre.style.fontSize = "";
+    const avail = box.clientWidth - 24;
+    if(avail <= 0) return;
+    let fs = parseFloat(getComputedStyle(pre).fontSize), guard = 0;
+    while(pre.scrollWidth > avail && fs > 10 && guard++ < 40){ fs -= 1; pre.style.fontSize = fs + "px"; }
+  }
+  addEventListener("resize", () => { if(g){ fitWord(); fitGallows(); } });
+  function renderAll(fresh){
+    const L = lvl(), l = left();
+    ui.gallows.textContent = draw().join("\n");
+    fitGallows();
+    ui.lives.textContent = `VIES> [${"#".repeat(Math.max(0, l))}${".".repeat(Math.min(L.max, g.errors))}] ${Math.max(0, l)}/${L.max}`;
+    ui.lives.classList.toggle("low", !g.over && l === 1);
+    renderWord(fresh);
+    ui.wrong.innerHTML = g.wrong.length ? g.wrong.map(x => `<s>${x}</s>`).join("") : "—";
+    const set = lettersOf(g.word);
+    for(const [L2, b] of Object.entries(keys)){
+      const played = g.guessed.has(L2);
+      b.classList.toggle("ok", played && set.has(L2));
+      b.classList.toggle("ko", played && !set.has(L2));
+      b.disabled = played || g.over;
+    }
+    ui.hint.disabled = g.over || l <= 1;
+    ui.grave.hidden = !(g.over && !g.won);
+    ui.cat.textContent = "— " + g.cat.toUpperCase();
+    renderStats();
+  }
+  function renderStats(){
+    $("s-wins").textContent = stats.wins; $("s-losses").textContent = stats.losses;
+    $("s-streak").textContent = stats.streak; $("s-best").textContent = stats.best;
+  }
+
+  function stopAnim(){ clearInterval(anim); anim = 0; animFrame = 0; }
+  function startAnim(ms){
+    stopAnim();
+    anim = setInterval(() => { animFrame++; ui.gallows.textContent = draw().join("\n"); }, ms);
+  }
+
+  function pickWord(){
+    const catKeys = opts.category === "tout" || !CATS[opts.category] ? Object.keys(CATS) : [opts.category];
+    const k = pick(catKeys);
+    const pool = CATS[k].words.filter(w => !recent.includes(w));
+    const w = pick(pool.length ? pool : CATS[k].words);
+    recent.push(w); if(recent.length > 25) recent.shift();
+    return { word:w, cat:CATS[k].label };
+  }
+  function newGame(secret){
+    stopAnim();
+    const { word, cat } = secret ? { word:secret, cat:"Mot du joueur 1" } : pickWord();
+    g = { word:word.toLocaleUpperCase("fr-FR"), cat, guessed:new Set(), wrong:[], errors:0, over:false, won:false };
+    renderAll();
+    const n = lettersOf(g.word).size;
+    say(`> Nouveau mot : ${Array.from(g.word).filter(isLetter).length} lettres (${n} différentes). Sauvez ${condemned()} !`);
+  }
+  function solved(){ for(const L of lettersOf(g.word)) if(!g.guessed.has(L)) return false; return true; }
+  function guess(L){
+    if(!g || g.over) return;
+    if(g.guessed.has(L)){ say("> Lettre déjà jouée, distrait(e) !"); Sound.key(); return; }
+    g.guessed.add(L);
+    if(lettersOf(g.word).has(L)){
+      if(opts.sound === "on") Sound.ok();
+      if(solved()) return win(new Set([L]));
+      say("> " + pick(OK_LINES));
+    } else {
+      g.wrong.push(L); g.errors++;
+      if(opts.sound === "on") Sound.ko();
+      if(g.errors >= lvl().max) return lose();
+      const l = left();
+      say(`> ${pick(KO_LINES)} ${l} erreur${l > 1 ? "s" : ""} restante${l > 1 ? "s" : ""}.`);
+    }
+    renderAll(new Set([L]));
+  }
+  function hint(){
+    if(!g || g.over || left() <= 1) return;
+    const hidden = [...lettersOf(g.word)].filter(L => !g.guessed.has(L));
+    if(!hidden.length) return;
+    const L = pick(hidden);
+    g.guessed.add(L); g.errors++;
+    if(opts.sound === "on") Sound.tone(660, .1, "triangle", .04);
+    if(solved()) return win(new Set([L]));
+    say(`> Indice : la lettre ${L}. Ça vous coûte une vie.`);
+    renderAll(new Set([L]));
+  }
+  function win(fresh){
+    g.over = true; g.won = true;
+    stats.wins++; stats.streak++; stats.best = Math.max(stats.best, stats.streak);
+    store.set(STATS_KEY, stats);
+    if(opts.sound === "on") Sound.win();
+    renderAll(fresh);
+    say(`SAUVÉ${gender().e.toUpperCase()} ! ${condemned()} vous doit une fière chandelle. [Entrée] pour rejouer`, "win");
+    startAnim(420);
+  }
+  function lose(){
+    g.over = true; g.won = false;
+    stats.losses++; stats.streak = 0;
+    store.set(STATS_KEY, stats);
+    if(opts.sound === "on") Sound.lose();
+    renderAll();
+    say(`TROP TARD. ${condemned()} se balance doucement… Le mot était « ${g.word} ».`);
+    startAnim(380);
+  }
+
+  function shareText(){
+    const L = lvl();
+    const wordLine = g.word.split(" ").map(part => Array.from(part).map(ch =>
+      !isLetter(ch) ? ch : (g.guessed.has(baseLetter(ch)) || g.over) ? ch : "_").join(" ")).join("   ");
+    const errs = `${g.errors} erreur${g.errors > 1 ? "s" : ""} sur ${L.max}`;
+    const result = !g.over ? `en cours, ${errs}` : g.won ? `sauvé${gender().e} avec ${errs} !` : "pendu" + gender().e + "…";
+    return toBraille([...draw(), "", wordLine, "", `LE PENDU — ${condemned()} : ${result}`].join("\n"));
+  }
+
+  function engrave(){
+    const now = new Date(), h = now.getHours();
+    const moment = h >= 5 && h < 8 ? "À l'aube" : h >= 8 && h < 16 ? "En plein jour" : h >= 16 && h < 17 ? "À l'heure du goûter"
+                 : h >= 17 && h < 21 ? "Au crépuscule" : "Pendant la nuit";
+    writeForm({
+      ...state,
+      cause:OTHER, causeCustom:`au bout d'une corde, faute d'avoir trouvé « ${g.word} »`,
+      date:isoDate(now.getFullYear(), now.getMonth() + 1, now.getDate()), moment,
+      message:g.wrong.length ? `Lettres tentées : ${g.wrong.join(" ")}` : "",
+      latin:"Game over", icon:"skull"
+    });
+    render();
+    Drum.goTo(0, { land:"top" });
+    setTimeout(() => toast(`⚰ Pierre gravée pour ${condemned()}`), 900);
+  }
+
+  function boot(){
+    if(booted) return;
+    booted = true;
+    if(matchMedia("(prefers-reduced-motion: reduce)").matches || document.body.classList.contains("calm")) return;
+    const lines = [
+      "CAVEAU-TRON 3000 — BIOS v6.66",
+      "Mémoire : 640 Ko (largement suffisant)",
+      "Recherche de fantômes ..... 3 trouvés",
+      "Tension de la corde ....... OK",
+      "Chargement PENDU.EXE ...... OK",
+      "",
+      "Bonne chance."
+    ];
+    const b = ui.boot;
+    b.textContent = ""; b.classList.remove("done");
+    let i = 0, timer = 0;
+    const finish = () => { clearTimeout(timer); b.classList.add("done"); };
+    b.onclick = finish;
+    const next = () => {
+      if(i >= lines.length){ timer = setTimeout(finish, 450); return; }
+      b.textContent += lines[i++] + "\n";
+      if(opts.sound === "on") Sound.key();
+      timer = setTimeout(next, 150);
+    };
+    next();
+  }
+
+  function applyOpts(){
+    document.body.classList.remove("ph-amber", "ph-blue", "ph-white");
+    if(opts.phosphor !== "green") document.body.classList.add("ph-" + opts.phosphor);
+    Sound.enabled = opts.sound === "on";
+    store.set(OPTS_KEY, opts);
+  }
+
+  function init(){
+    // menus
+    ui.category.innerHTML = "";
+    [["tout", "Tout mélanger"], ...Object.entries(CATS).map(([k, v]) => [k, v.label])].forEach(([v, t]) => {
+      const o = document.createElement("option"); o.value = v; o.textContent = t; ui.category.appendChild(o);
+    });
+    ui.category.value = CATS[opts.category] ? opts.category : "tout";
+    ui.level.value = LEVELS[opts.level] ? opts.level : "normal";
+    ui.phosphor.value = opts.phosphor; ui.sound.value = opts.sound;
+    if(!ui.phosphor.value) ui.phosphor.value = "green";
+    if(!ui.sound.value) ui.sound.value = "on";
+    opts = { ...opts, category:ui.category.value, level:ui.level.value, phosphor:ui.phosphor.value, sound:ui.sound.value };
+    applyOpts();
+    ui.category.addEventListener("change", () => { opts.category = ui.category.value; applyOpts(); newGame(); });
+    ui.level.addEventListener("change", () => { opts.level = ui.level.value; applyOpts(); newGame(); });
+    ui.phosphor.addEventListener("change", () => { opts.phosphor = ui.phosphor.value; applyOpts(); });
+    ui.sound.addEventListener("change", () => { opts.sound = ui.sound.value; applyOpts(); });
+
+    // clavier à l'écran (AZERTY)
+    KB.forEach(row => {
+      const r = document.createElement("div"); r.className = "r";
+      for(const L of row){
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "key"; b.textContent = L; b.setAttribute("aria-label", "Lettre " + L);
+        b.addEventListener("click", () => guess(L));
+        keys[L] = b; r.appendChild(b);
+      }
+      ui.kbd.appendChild(r);
+    });
+
+    $("p-new").addEventListener("click", () => newGame());
+    ui.hint.addEventListener("click", hint);
+    ui.grave.addEventListener("click", engrave);
+    $("p-copy").addEventListener("click", async () => {
+      toast(await copyText(shareText()) ? "> Potence copiée (avec des « ⠀ »)" : "> Impossible de copier");
+    });
+    $("p-reset").addEventListener("click", () => {
+      stats = { wins:0, losses:0, streak:0, best:0 }; store.set(STATS_KEY, stats); renderStats(); toast("> Statistiques effacées");
+    });
+    const launchDuo = () => {
+      const raw = ui.secret.value.replace(/\s+/g, " ").trim();
+      const letters = Array.from(raw).filter(isLetter).length;
+      if(letters < 2 || !/^[\p{L}' -]+$/u.test(raw)){ toast("> Mot secret invalide (lettres, espaces, - et ' uniquement)"); ui.secret.focus(); return; }
+      ui.secret.value = "";
+      ui.secret.blur();
+      newGame(raw);
+      Drum.scroller(1).scrollTo({ top:0, behavior:"smooth" });
+    };
+    $("p-duo").addEventListener("click", launchDuo);
+    ui.secret.addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); launchDuo(); } });
+
+    // clavier physique
+    document.addEventListener("keydown", e => {
+      if(Drum.index !== 1 || Drum.busy || e.ctrlKey || e.metaKey || e.altKey) return;
+      if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+      if(e.key === "Enter" && g && g.over && !e.target.closest("button")){ e.preventDefault(); newGame(); return; }
+      if(e.key === "?"){ e.preventDefault(); hint(); return; }
+      if(e.key.length === 1){
+        const L = baseLetter(e.key);
+        if(/^[A-Z]$/.test(L)){ e.preventDefault(); guess(L); }
+      }
+    });
+
+    newGame();
+  }
+
+  return {
+    init, boot, newGame,
+    refreshName(){ ui.condemned.textContent = condemned().toLocaleUpperCase("fr-FR"); },
+    copy(){ return copyText(shareText()); }
+  };
+})();
 
 /* ================================================================
  * INIT
@@ -1593,6 +2447,30 @@ document.addEventListener("keydown", e => {
   render();
   renderGraves();
   spawnFireflies();
+
+  // Cylindre : barres de progression, titre, navigation
+  const barDown = $("bar-down"), barUp = $("bar-up");
+  const BAR_UP_IDLE = barUp.textContent;
+  Drum.onPeek(p => {
+    barDown.style.width = (Math.max(0, p) * 100) + "%";
+    if(p < 0){ const n = Math.round(-p * 20); barUp.textContent = "[" + "#".repeat(n) + ".".repeat(20 - n) + "]"; }
+    else barUp.textContent = BAR_UP_IDLE;
+  });
+  Drum.onChange(i => {
+    const face = $("face-" + i);
+    document.title = face.dataset.title;
+    document.body.classList.toggle("on-pendu", i === 1);
+    document.querySelectorAll("#drum-nav button").forEach(b => b.classList.toggle("on", +b.dataset.goto === i));
+    try {
+      if(i === 1) history.replaceState(null, "", location.pathname + location.search + "#pendu");
+      else if(location.hash === "#pendu") history.replaceState(null, "", location.pathname + location.search);
+    } catch {}
+    if(i === 0) fitPreview();
+    if(i === 1){ Pendu.refreshName(); Pendu.boot(); }
+  });
+  Pendu.init();
+  Drum.settle(location.hash === "#pendu" ? 1 : 0);
+
   // re-cale l'aperçu une fois les polices chargées
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitPreview);
 })();
