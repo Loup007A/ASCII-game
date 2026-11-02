@@ -9,7 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚰</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Special+Elite&family=VT323&family=Courier+Prime:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Courier+Prime:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js" } }</script>
 <style>
   :root{
@@ -360,109 +360,11 @@
   #drum-nav{ position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:60; display:flex; flex-direction:column; gap:12px; }
   #drum-nav::before{ content:""; position:absolute; left:50%; top:8px; bottom:8px; width:1px; background:#ffffff30; z-index:-1; }
   #drum-nav button{ width:32px; height:32px; border-radius:50%; border:1px solid #ffffff45; background:#0b0e0bdd; color:#ece5cb;
-    font-family:'Special Elite', serif; font-size:12px; cursor:pointer; transition:all .2s; }
+    font-family:var(--mono); font-size:10px; cursor:pointer; transition:all .2s; }
   #drum-nav button:hover{ border-color:#fff; transform:scale(1.1); }
   #drum-nav button.on{ background:#d98a4a; color:#1b1206; border-color:#d98a4a; box-shadow:0 0 14px -2px #d98a4a; }
-  body.on-pendu #drum-nav button.on{ background:var(--ph); border-color:var(--ph); color:#000; box-shadow:0 0 14px -2px var(--ph-glow); }
   @media(max-width:760px){ #drum-nav{ display:none; } }
 
-  /* ================================================================
-   * PAGE 2 : LE PENDU — terminal cathodique
-   * ================================================================ */
-  body{ --ph:#3dff74; --ph-dim:#1f9a45; --ph-faint:#0f4521; --ph-glow:rgba(61,255,116,.55); --ph-bg:#04170b; }
-  body.ph-amber{ --ph:#ffb43c; --ph-dim:#a86d16; --ph-faint:#4a2f08; --ph-glow:rgba(255,180,60,.5); --ph-bg:#180f02; }
-  body.ph-blue{ --ph:#72dbff; --ph-dim:#2c84a6; --ph-faint:#0e3546; --ph-glow:rgba(114,219,255,.5); --ph-bg:#03121b; }
-  body.ph-white{ --ph:#eaf3f0; --ph-dim:#86918e; --ph-faint:#30363a; --ph-glow:rgba(234,243,240,.4); --ph-bg:#0d1010; }
-
-  .face-pendu{ background:linear-gradient(180deg, #23231f, #121210); font-family:'VT323', 'Courier New', monospace; color:var(--ph); }
-  .crt-screen{ position:absolute; inset:18px 18px 44px; border-radius:30px / 38px; overflow:hidden;
-    background:radial-gradient(ellipse at 50% 45%, var(--ph-bg), #000 88%);
-    box-shadow:0 0 0 3px #0a0a09, 0 0 0 6px #34342e, inset 0 0 90px rgba(0,0,0,.9); }
-  .crt-screen .scroller{ scrollbar-color:var(--ph-dim) transparent; scrollbar-width:thin; }
-  .crt-fx{ position:absolute; inset:0; z-index:20; pointer-events:none; border-radius:inherit; overflow:hidden;
-    background:repeating-linear-gradient(180deg, rgba(0,0,0,.3) 0 1px, transparent 1px 3px);
-    box-shadow:inset 0 0 150px rgba(0,0,0,.8); }
-  .crt-fx::after{ content:""; position:absolute; left:0; right:0; top:-140px; height:140px; opacity:.07;
-    background:linear-gradient(180deg, transparent, var(--ph), transparent); animation:band 8s linear infinite; }
-  @keyframes band{ to{ transform:translateY(calc(100vh + 280px)); } }
-  .bezel-label{ position:absolute; left:0; right:0; bottom:13px; text-align:center; font-family:'Special Elite', serif;
-    font-size:12px; letter-spacing:.35em; color:#6a695f; text-shadow:0 1px 0 #000, 0 -1px 0 #3a3a34; pointer-events:none; }
-  .led{ position:absolute; right:40px; bottom:17px; width:8px; height:8px; border-radius:50%; background:var(--ph); box-shadow:0 0 10px var(--ph); }
-  @media(max-width:600px){ .crt-screen{ inset:8px 8px 32px; border-radius:16px / 20px; } .bezel-label{ bottom:8px; font-size:10px; } .led{ bottom:12px; right:18px; } }
-
-  .term{ max-width:1080px; margin:0 auto; padding:22px 26px 44px; font-size:22px; line-height:1.25;
-    text-shadow:0 0 2px var(--ph-glow), 0 0 12px var(--ph-glow); animation:crtflick 5s steps(1) infinite; }
-  @keyframes crtflick{ 0%,91%,94%,100%{ opacity:1; } 92%{ opacity:.9; } 97%{ opacity:.95; } }
-  .term ::selection{ background:var(--ph); color:#000; text-shadow:none; }
-  body.calm .term, body.calm .crt-fx::after, body.calm .cursor{ animation:none !important; }
-  @media (prefers-reduced-motion: reduce){ .term, .crt-fx::after, .cursor, .th-arrow{ animation:none !important; } }
-  .up-hint{ text-align:center; color:var(--ph-dim); font-size:19px; }
-  .up-hint .ascii-bar{ white-space:pre-wrap; margin-top:2px; }
-  .banner{ margin:10px auto 0; width:max-content; max-width:100%; overflow:hidden; font-size:clamp(9px, 2.7vw, 23px); line-height:1.02; white-space:pre; }
-  .term-sub{ text-align:center; color:var(--ph-dim); margin:12px 0 4px; }
-  .term-sub b{ color:var(--ph); font-weight:normal; }
-  .cursor{ display:inline-block; width:.55em; height:1em; margin-left:2px; background:var(--ph); vertical-align:-.15em; animation:blink 1s steps(1) infinite; box-shadow:0 0 8px var(--ph-glow); }
-  @keyframes blink{ 50%{ opacity:0; } }
-  .tgrid{ display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:0 24px; }
-  @media(max-width:880px){ .tgrid{ grid-template-columns:minmax(0,1fr); } }
-  .tbox{ position:relative; margin-top:26px; padding:20px 18px 18px; border:2px solid var(--ph-dim);
-    box-shadow:0 0 12px -4px var(--ph-glow), inset 0 0 22px -10px var(--ph-glow); }
-  .tt{ position:absolute; top:-.72em; left:14px; max-width:calc(100% - 28px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 8px; background:var(--ph); color:#000; text-shadow:none; font-size:20px; letter-spacing:.06em; }
-  .tt span{ opacity:.75; }
-  #gallows{ margin:6px auto 0; width:max-content; font-family:inherit; font-size:clamp(20px, 4.6vw, 34px); line-height:1.05; white-space:pre; }
-  .lives{ text-align:center; margin-top:12px; white-space:pre; }
-  .lives.low{ animation:blink .8s steps(1) infinite; }
-  .word{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px 26px; margin:10px 0 14px; font-size:clamp(30px, 5.4vw, 52px); }
-  .wgroup{ display:inline-flex; gap:.16em; white-space:nowrap; }
-  .word.multiline .wgroup{ display:flex; flex:1 1 100%; flex-wrap:wrap; justify-content:center; row-gap:12px; white-space:normal; }
-  .slot{ min-width:.7em; text-align:center; line-height:1; padding-bottom:3px; border-bottom:3px solid var(--ph); }
-  .slot.sep{ border-bottom-color:transparent; min-width:.35em; }
-  .slot.new{ animation:pop .4s ease-out; }
-  .slot.missed{ color:var(--ph-dim); border-bottom-color:var(--ph-dim); }
-  @keyframes pop{ 0%{ transform:translateY(-10px) scale(1.35); filter:brightness(2.2); } 100%{ transform:none; } }
-  .wrongs{ color:var(--ph-dim); min-height:1.3em; text-align:center; }
-  .wrongs s{ color:var(--ph); margin:0 .2em; }
-  .status{ margin:10px 0 16px; min-height:2.6em; text-align:center; }
-  .status.win{ color:var(--ph); font-size:28px; }
-  .kbd{ display:flex; flex-direction:column; align-items:center; gap:7px; }
-  .kbd .r{ display:flex; gap:7px; }
-  .key{ font-family:inherit; font-size:25px; width:1.9em; height:1.7em; padding:0; background:transparent; color:var(--ph); border:2px solid var(--ph-dim);
-    cursor:pointer; text-shadow:inherit; transition:background .1s, color .1s, transform .08s; }
-  .key:hover:not(:disabled), .key:focus-visible{ background:var(--ph-faint); border-color:var(--ph); outline:none; }
-  .key:active:not(:disabled){ transform:translateY(2px); }
-  .key.ok{ background:var(--ph); color:#000; border-color:var(--ph); text-shadow:none; }
-  .key.ko{ color:var(--ph-faint); border-color:var(--ph-faint); text-decoration:line-through; text-shadow:none; }
-  .key:disabled{ cursor:default; }
-  @media(max-width:560px){ .key{ font-size:20px; width:1.55em; } .kbd .r{ gap:4px; } .term{ padding:16px 12px 36px; font-size:20px; } .tbox{ padding:20px 10px 14px; } .tt{ font-size:17px; } }
-  @media(max-width:340px){ .crt-screen .key{ font-size:16px; width:1.3em; } }
-  @media(max-width:430px){ .key{ font-size:17px; width:1.45em; height:1.75em; border-width:1px; } .kbd .r{ gap:3px; } .tbtn{ font-size:19px; } .tsel,.tinput{ font-size:19px; } }
-  .tbtn{ font-family:inherit; font-size:21px; background:transparent; color:var(--ph); border:none; cursor:pointer; padding:3px 6px; text-shadow:inherit; }
-  .tbtn::before{ content:"[ "; } .tbtn::after{ content:" ]"; }
-  .tbtn:hover:not(:disabled), .tbtn:focus-visible{ background:var(--ph); color:#000; text-shadow:none; outline:none; }
-  .tbtn:disabled{ color:var(--ph-faint); cursor:default; text-shadow:none; }
-  .tbtn.hot{ animation:blink 1.1s steps(1) infinite; }
-  .tactions{ display:flex; flex-wrap:wrap; justify-content:center; gap:6px 12px; margin-top:16px; }
-  .topts{ display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px 20px; }
-  .topts label, .duo label{ display:block; color:var(--ph-dim); font-size:19px; margin-bottom:4px; }
-  .tsel, .tinput{ width:100%; font-family:inherit; font-size:21px; background:#000; color:var(--ph); border:2px solid var(--ph-dim);
-    border-radius:0; padding:3px 8px; outline:none; text-shadow:inherit; }
-  .tsel:focus, .tinput:focus{ border-color:var(--ph); box-shadow:0 0 10px -2px var(--ph-glow); }
-  .tsel option{ background:#000; color:var(--ph); }
-  .tinput::placeholder{ color:var(--ph-faint); }
-  .duo{ margin-top:16px; }
-  .duo-row{ display:flex; gap:10px; align-items:center; }
-  .tstats{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px; text-align:center; }
-  .tstats .n{ display:block; font-size:42px; line-height:1; }
-  .tstats .l{ color:var(--ph-dim); font-size:18px; }
-  .tfoot{ text-align:center; color:var(--ph-dim); margin-top:26px; font-size:19px; }
-  .boot{ position:absolute; inset:0; z-index:15; padding:clamp(16px,4vw,34px) clamp(14px,4vw,36px); background:#000; color:var(--ph); font-size:clamp(14px, 3.9vw, 23px); line-height:1.3;
-    white-space:pre-wrap; text-shadow:0 0 3px var(--ph-glow), 0 0 12px var(--ph-glow); cursor:pointer; transition:opacity .45s; }
-  .boot.done{ opacity:0; pointer-events:none; }
-  body.on-pendu #cursor{ mix-blend-mode:normal; }
-  body.on-pendu .c-dot{ background:var(--ph); box-shadow:0 0 8px var(--ph-glow); }
-  body.on-pendu .c-ring{ border-color:var(--ph); }
-  body.on-pendu #cursor.hover .c-ring, body.on-pendu #cursor.label .c-ring{ background:var(--ph); }
-  body.on-pendu #toast{ font-family:'VT323', monospace; font-size:21px; background:#000e; border-color:var(--ph); color:var(--ph); border-radius:0; text-shadow:0 0 8px var(--ph-glow); }
 
   /* ================================================================
    * DIRECTION ARTISTIQUE « STUDIO 3D » (inspiration Lusion / Bruno Simon)
@@ -631,17 +533,176 @@
   #loader .l-top, #loader .l-bot{ display:flex; justify-content:space-between; gap:20px; align-items:flex-end; }
   #loader pre{ align-self:center; margin:0; font-family:'Courier Prime', monospace; font-size:clamp(11px, 1.6vw, 15px); line-height:1.25; color:var(--bone-dim); white-space:pre; min-height:13em; }
   #loader .l-count{ font-family:var(--serif); font-size:clamp(90px, 20vw, 280px); line-height:.8; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
+  @media(max-width:480px){ #loader .l-bot .mono{ display:none; } }
   #loader .l-bar{ position:absolute; left:0; bottom:0; height:2px; width:100%; background:var(--ember); transform-origin:0 50%; transform:scaleX(0); }
 
-  /* ---- Le Pendu : touches de studio ---- */
-  .crt-screen::before{ content:""; position:absolute; inset:0; z-index:19; pointer-events:none; border-radius:inherit;
-    background:radial-gradient(420px circle at var(--mx, 50%) var(--my, 40%), var(--ph-glow), transparent 60%); opacity:.13; mix-blend-mode:screen; transition:opacity .4s; }
-  .crt-screen.jolt{ animation:jolt .32s steps(2) 1; }
-  @keyframes jolt{ 0%{ transform:translate(0,0); } 25%{ transform:translate(-6px,2px); } 50%{ transform:translate(5px,-3px); } 75%{ transform:translate(-3px,1px); } 100%{ transform:none; } }
-  .crt-screen.jolt .term{ text-shadow:-3px 0 rgba(255,40,60,.75), 3px 0 rgba(40,140,255,.75), 0 0 12px var(--ph-glow); }
-  .crt-screen.flash .term{ filter:brightness(1.6); transition:filter .05s; }
-  .term{ transition:filter .5s; }
-  .tbox.reveal{ transform:translateY(26px); }
+
+  /* ================================================================
+   * FACE 2 : LE PENDU — théâtre, potence en glyphes ASCII 3D
+   * ================================================================ */
+  body{ --pd:#e5534b; --pd-soft:#f19a8f; --pd-glow:rgba(229,83,75,.45); }
+  body.pl-amber{ --pd:#f0a24a; --pd-soft:#f8c98e; --pd-glow:rgba(240,162,74,.45); }
+  body.pl-ice{ --pd:#8fd3ff; --pd-soft:#c4e8ff; --pd-glow:rgba(143,211,255,.45); }
+  body.pl-absinthe{ --pd:#a6e36b; --pd-soft:#d0f3a8; --pd-glow:rgba(166,227,107,.45); }
+  .gl-face{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0; }
+  .face-potence{ background:radial-gradient(ellipse 90% 70% at 40% 30%, #2a0d10, #0a0506 70%); color:var(--bone); }
+  .face-potence:not(.gl-ready) .gl-face{ display:none; }
+  .up-hint{ position:relative; z-index:3; display:flex; flex-direction:column; align-items:center; gap:6px; padding-top:14px; height:0; overflow:visible; }
+  .linkbtn{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--bone); background:none; border:none; cursor:pointer; padding:6px 10px; opacity:.75; transition:opacity .3s; }
+  .linkbtn:hover{ opacity:1; }
+  .up-bar{ display:block; width:120px; height:2px; background:#ffffff1c; overflow:hidden; border-radius:2px; }
+  .up-bar span{ display:block; height:100%; width:0; background:var(--bone); }
+
+  .ph{ position:relative; z-index:2; min-height:100vh; min-height:100svh; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+    grid-template-rows:auto auto 1fr; padding:0 clamp(18px,4vw,48px) 30px; column-gap:30px; }
+  .ph-bar{ grid-column:1 / -1; display:flex; justify-content:space-between; gap:20px; padding:26px 0 0; opacity:.85; }
+  .ph-bar sup{ font-size:.7em; }
+  .ph-head{ grid-column:2; grid-row:2; padding-top:clamp(18px,4vh,40px); }
+  .ph-title{ margin:0; font-family:var(--serif); font-weight:400; font-size:clamp(54px, 6.4vw, 104px); line-height:.9; letter-spacing:-.035em; color:var(--bone); }
+  .ph-title em{ font-style:italic; color:var(--pd-soft); }
+  .ph-title .line{ display:inline-block; overflow:hidden; padding-bottom:.06em; vertical-align:bottom; }
+  .ph-title .line > span{ display:inline-block; transform:translateY(105%); transition:transform 1.2s var(--ease-out); }
+  .ph-title .line:nth-child(2) > span{ transition-delay:.08s; margin-left:.22em; }
+  body.pendu-in .ph-title .line > span{ transform:none; }
+  .ph-sub{ margin:10px 0 0; max-width:460px; color:var(--bone-dim); font-size:17px; line-height:1.45; }
+  .ph-sub b{ color:var(--bone); font-weight:400; font-family:var(--mono); font-size:.8em; letter-spacing:.08em; }
+  .ph-stage{ grid-column:1; grid-row:2 / 4; position:relative; min-height:340px; padding-bottom:96px; display:flex; align-items:center; justify-content:center; touch-action:pan-y; }
+  #gallows{ margin:0; font-family:'Courier Prime', monospace; font-weight:700; font-size:clamp(16px, 2.4vw, 30px); line-height:1.08; white-space:pre; color:var(--bone);
+    text-shadow:0 0 14px var(--pd-glow); }
+  .face-potence.gl-ready #gallows{ visibility:hidden; }
+  .ph-lives{ position:absolute; left:0; bottom:8px; display:flex; align-items:baseline; gap:10px; color:var(--bone-dim); pointer-events:none; }
+  .ph-lives-n{ font-family:var(--serif); font-size:clamp(70px, 8vw, 120px); line-height:.8; color:var(--bone); letter-spacing:-.03em; font-variant-numeric:tabular-nums; transition:color .3s; }
+  .ph-lives.low .ph-lives-n{ color:var(--pd); animation:blink 1s steps(1) infinite; }
+  .ph-panel{ grid-column:2; grid-row:3; align-self:start; margin:20px 0 10px; padding:28px clamp(18px,2.4vw,32px) 24px; border-radius:24px;
+    background:rgba(14,9,10,.5); border:1px solid #ffffff14; backdrop-filter:blur(16px) saturate(1.2); -webkit-backdrop-filter:blur(16px) saturate(1.2);
+    box-shadow:0 30px 80px -40px #000, inset 0 1px 0 #ffffff12; }
+  .ph-cat{ color:var(--pd-soft); display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .ph-panel .word{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px 26px; margin:22px 0 12px; font-family:var(--serif); font-size:clamp(38px, 4.6vw, 70px); min-height:1.2em; }
+  .ph-panel .wgroup{ display:inline-flex; gap:.14em; white-space:nowrap; }
+  .ph-panel .slot{ min-width:.62em; text-align:center; line-height:1; padding-bottom:.08em; border-bottom:2px solid #ffffff55; }
+  .ph-panel .slot.sep{ border-bottom-color:transparent; min-width:.3em; }
+  .ph-panel .slot.new{ animation:slotIn .7s var(--ease-out); color:var(--pd-soft); }
+  .ph-panel .slot.missed{ color:var(--pd); border-bottom-color:var(--pd); font-style:italic; }
+  @keyframes slotIn{ 0%{ transform:translateY(-.6em) scale(1.3); opacity:0; filter:blur(6px); } 100%{ transform:none; opacity:1; filter:none; } }
+  .ph-panel .word.multiline .wgroup{ display:flex; flex:1 1 100%; flex-wrap:wrap; justify-content:center; row-gap:12px; white-space:normal; }
+  .ph-panel .wrongs{ text-align:center; color:var(--bone-dim); min-height:1.4em; }
+  .ph-panel .wrongs s{ color:var(--pd); margin:0 .25em; text-decoration-thickness:2px; }
+  .ph-panel .status{ min-height:2.8em; margin:14px auto 18px; max-width:460px; text-align:center; font-family:var(--serif); font-size:21px; line-height:1.3; color:var(--bone); }
+  .ph-panel .status.win{ color:var(--pd-soft); font-size:26px; }
+  .ph-panel .status.fresh{ animation:statusIn .6s var(--ease-out); }
+  @keyframes statusIn{ from{ opacity:0; transform:translateY(10px); filter:blur(4px); } to{ opacity:1; transform:none; filter:none; } }
+  .ph-panel .kbd{ display:flex; flex-direction:column; align-items:center; gap:7px; }
+  .ph-panel .kbd .r{ display:flex; gap:6px; }
+  .ph-panel .key{ font-family:var(--mono); font-size:15px; width:2.55em; height:2.75em; padding:0; border-radius:12px; background:rgba(255,255,255,.04); color:var(--bone);
+    border:1px solid #ffffff1f; cursor:pointer; text-shadow:none; transition:background .25s, border-color .25s, color .25s, transform .25s var(--ease-out); }
+  .ph-panel .key:hover:not(:disabled){ background:rgba(255,255,255,.1); border-color:#ffffff55; transform:translateY(-2px); }
+  .ph-panel .key:active:not(:disabled){ transform:translateY(1px); }
+  .ph-panel .key.ok{ background:var(--bone); color:#111; border-color:var(--bone); }
+  .ph-panel .key.ko{ color:var(--pd); border-color:transparent; background:transparent; text-decoration:line-through; opacity:.6; }
+  .ph-panel .key:disabled{ cursor:default; }
+  .p-actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:20px; }
+  .p-actions .btn.hot{ border-color:var(--pd); color:var(--pd-soft); animation:hotPulse 1.6s ease-in-out infinite; }
+  @keyframes hotPulse{ 50%{ box-shadow:0 0 0 6px var(--pd-glow); } }
+  .lives-bar{ font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--bone-dim); text-align:center; margin-top:16px; white-space:pre; }
+  .face-potence .panel h2 em, .face-potence .sec-head h2 em, .face-potence .foot-title em{ color:var(--pd-soft); }
+  .face-potence .sec-head .idx, .face-potence .big-foot .mono:first-child{ color:var(--pd-soft) !important; }
+  .pd-grid{ display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr); gap:24px; }
+  .pd-opts{ display:grid; grid-template-columns:repeat(auto-fit, minmax(min(190px, 100%),1fr)); gap:14px 18px; }
+  .pd-opts select{ min-width:0; }
+  .duo{ margin-top:20px; }
+  .duo-row{ display:flex; gap:10px; align-items:center; }
+  .duo-row input{ flex:1; }
+  .pd-stats{ display:grid; grid-template-columns:1fr 1fr; gap:18px 10px; }
+  .pd-stats .n{ display:block; font-family:var(--serif); font-size:clamp(46px,5vw,72px); line-height:.9; color:var(--bone); font-variant-numeric:tabular-nums; }
+  .pd-stats .l{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--bone-dim); }
+  .face-potence.shake .ph{ animation:pdShake .38s steps(3) 1; }
+  @keyframes pdShake{ 0%{ transform:translate(0,0); } 33%{ transform:translate(-5px,2px); } 66%{ transform:translate(4px,-2px); } 100%{ transform:none; } }
+  body.on-pendu #drum-nav button.on{ background:var(--pd); border-color:var(--pd); color:#111; box-shadow:0 0 14px -2px var(--pd-glow); }
+  @media(max-width:980px){
+    .ph{ grid-template-columns:minmax(0,1fr); grid-template-rows:auto auto auto auto; }
+    .ph-head, .ph-stage, .ph-panel{ grid-column:1; grid-row:auto; }
+    .ph-title .line{ display:block; }
+    .ph-stage{ min-height:min(62vh, 520px); }
+    .pd-grid{ grid-template-columns:minmax(0,1fr); }
+  }
+  @media(max-width:560px){
+    .ph-bar .hide-sm{ display:none; }
+    .ph-panel .key{ width:2.15em; height:2.6em; font-size:14px; border-radius:9px; }
+    .ph-panel .kbd .r{ gap:4px; }
+    .ph-panel{ padding:22px 12px 20px; }
+  }
+  @media(max-width:400px){ .ph-panel .key{ width:1.95em; height:2.5em; font-size:13px; } .ph-panel .kbd .r{ gap:3px; } .ph{ padding-left:12px; padding-right:12px; } }
+  @media(max-width:340px){ .ph-panel .key{ width:1.9em; font-size:12px; } .ph-panel{ padding:20px 8px 18px; } }
+
+  /* ================================================================
+   * FACE 3 : IGLOO — rendu ASCII, interface glacée
+   * ================================================================ */
+  .face-igloo{ background:#04070d; color:#dff2ff; font-family:var(--mono); --ice:#bfe6ff; --ice-dim:#6f8ea3; --ice-faint:#2a3b49; }
+  .face-igloo:not(.gl-ready) .gl-face, .face-igloo:not(.gl-ready) #ig-mode, .face-igloo:not(.gl-ready) #ig-ramp{ display:none; }
+  .ig-text{ position:absolute; inset:0; z-index:0; margin:0; display:none; align-items:center; justify-content:center; white-space:pre; color:var(--ice);
+    font-family:'JetBrains Mono', 'Courier New', monospace; font-size:clamp(9px, 1.45vw, 15px); line-height:1.15; text-shadow:0 0 10px rgba(150,210,255,.35); }
+  .face-igloo:not(.gl-ready) .ig-text, body.ig-textmode .ig-text{ display:flex; }
+  body.ig-textmode .face-igloo .gl-face{ visibility:hidden; }
+  .ig-scroller{ overflow:hidden !important; }
+  .ig-hud{ position:absolute; inset:0; user-select:none; -webkit-user-select:none; touch-action:pan-y; }
+  .ig-hud, .ig-hud *{ text-transform:uppercase; letter-spacing:.14em; }
+  .ig-dim{ color:var(--ice-dim); font-size:10px; }
+  .ig-corner{ position:absolute; width:22px; height:22px; border-color:var(--ice-dim); border-style:solid; border-width:0; pointer-events:none; opacity:.8; }
+  .ig-corner.tl{ top:18px; left:18px; border-top-width:1px; border-left-width:1px; }
+  .ig-corner.tr{ top:18px; right:18px; border-top-width:1px; border-right-width:1px; }
+  .ig-corner.bl{ bottom:18px; left:18px; border-bottom-width:1px; border-left-width:1px; }
+  .ig-corner.br{ bottom:18px; right:18px; border-bottom-width:1px; border-right-width:1px; }
+  .ig-top{ position:absolute; top:30px; left:44px; right:44px; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
+  .ig-brand{ display:flex; flex-direction:column; gap:6px; }
+  .ig-logo{ font-size:13px; color:#fff; letter-spacing:.32em; }
+  .ig-up{ background:none; border:none; color:var(--ice-dim); font-family:var(--mono); font-size:10px; letter-spacing:.2em; cursor:pointer; padding:6px; display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .ig-up:hover{ color:#fff; }
+  .ig-up .up-bar{ width:90px; background:var(--ice-faint); }
+  .ig-up .up-bar span{ background:var(--ice); }
+  .ig-stats{ display:flex; gap:26px; text-align:right; }
+  .ig-stats div{ display:flex; flex-direction:column; gap:5px; }
+  .ig-stats b{ font-weight:400; font-size:15px; color:#fff; font-variant-numeric:tabular-nums; }
+  .ig-side{ position:absolute; left:30px; top:50%; transform:rotate(-90deg) translateX(-50%); transform-origin:0 0; white-space:nowrap; pointer-events:none; }
+  .ig-side.r{ left:auto; right:74px; transform:rotate(90deg) translateX(50%); transform-origin:100% 0; }
+  .ig-msg{ position:absolute; left:0; right:0; top:22%; text-align:center; pointer-events:none; font-size:clamp(18px, 3vw, 34px); color:#fff; letter-spacing:.35em;
+    text-shadow:0 0 22px rgba(170,220,255,.55); opacity:0; transition:opacity .35s; }
+  .ig-msg.show{ opacity:1; }
+  .ig-msg small{ display:block; margin-top:10px; font-size:11px; color:var(--ice); letter-spacing:.3em; }
+  .ig-bottom{ position:absolute; left:44px; right:44px; bottom:30px; display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; }
+  .ig-prompt{ font-size:11px; color:var(--ice); }
+  .ig-prompt::before{ content:"▶ "; animation:blink 1.2s steps(1) infinite; }
+  .ig-tools{ display:flex; gap:8px; flex-wrap:wrap; }
+  .ig-btn{ font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--ice); background:rgba(10,20,30,.45); border:1px solid var(--ice-faint);
+    padding:9px 12px; cursor:pointer; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); transition:background .25s, color .25s, border-color .25s; }
+  .ig-btn:hover{ background:var(--ice); color:#04070d; border-color:var(--ice); }
+  .ig-btn.primary{ background:var(--ice); color:#04070d; border-color:var(--ice); }
+  .ig-btn.primary:hover{ background:#fff; }
+  .ig-panel{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(440px, calc(100% - 40px)); padding:28px 26px 24px; text-align:center;
+    background:rgba(6,12,20,.62); border:1px solid var(--ice-faint); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    display:flex; flex-direction:column; gap:12px; align-items:center; box-shadow:0 30px 80px -30px #000; }
+  .ig-panel::before, .ig-panel::after{ content:""; position:absolute; width:12px; height:12px; border:1px solid var(--ice); }
+  .ig-panel::before{ top:-1px; left:-1px; border-right:0; border-bottom:0; }
+  .ig-panel::after{ bottom:-1px; right:-1px; border-left:0; border-top:0; }
+  .ig-panel h3{ margin:0; font-weight:400; font-size:clamp(20px,3vw,28px); letter-spacing:.3em; color:#fff; }
+  .ig-panel p{ margin:0; text-transform:none; letter-spacing:.02em; font-size:12.5px; line-height:1.65; color:#cfe6f5; max-width:340px; }
+  .ig-big{ font-size:clamp(46px, 8vw, 84px); color:#fff; letter-spacing:.06em; font-variant-numeric:tabular-nums; line-height:1; text-shadow:0 0 30px rgba(170,220,255,.5); }
+  .ig-actions{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:6px; }
+  .ig-flash{ position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 50% 60%, rgba(200,235,255,.35), transparent 60%); opacity:0; transition:opacity .5s; }
+  .ig-flash.on{ opacity:1; transition:none; }
+  body.on-igloo #drum-nav button.on{ background:#bfe6ff; border-color:#bfe6ff; color:#04070d; box-shadow:0 0 14px -2px rgba(191,230,255,.6); }
+  body.on-igloo #cursor{ mix-blend-mode:normal; }
+  body.on-igloo .c-dot{ background:#bfe6ff; }
+  body.on-igloo .c-ring{ border-color:#bfe6ff; border-radius:0; }
+  body.on-igloo #cursor.hover .c-ring{ background:#bfe6ff; }
+  body.on-igloo #toast{ font-family:var(--mono); text-transform:uppercase; letter-spacing:.12em; font-size:12px; border-radius:0; border-color:#bfe6ff; background:rgba(6,12,20,.85); color:#dff2ff; }
+  @media(max-width:700px){
+    .ig-top{ left:28px; right:28px; top:26px; flex-wrap:wrap; }
+    .ig-up{ order:3; width:100%; }
+    .ig-stats{ gap:14px; }
+    .ig-side{ display:none; }
+    .ig-bottom{ left:28px; right:28px; bottom:24px; flex-direction:column; align-items:flex-start; }
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
 </style>
 </head>
 <body>
@@ -875,93 +936,148 @@
     </section>
 
     <!-- ================= FACE 2 : LE PENDU ================= -->
-    <section class="face face-pendu" id="face-1" data-title="Le Pendu — Le Caveau" aria-label="Le Pendu">
-      <div class="crt-screen">
-        <div class="scroller" id="scroll-1" tabindex="-1">
-          <div class="term">
-            <div class="up-hint">
-              <button class="tbtn scramble" type="button" data-goto="0">▲ Retour au Caveau</button>
-              <div class="ascii-bar" id="bar-up">remontez encore pour faire tourner le cylindre</div>
+    <section class="face face-potence" id="face-1" data-title="Le Pendu — Le Caveau" aria-label="Le Pendu">
+      <canvas class="gl-face" id="gl-pendu" aria-hidden="true"></canvas>
+      <div class="scroller" id="scroll-1" tabindex="-1">
+        <div class="up-hint">
+          <button class="linkbtn" type="button" data-goto="0">↑ Remonter vers le Caveau</button>
+          <span class="up-bar" aria-hidden="true"><span></span></span>
+        </div>
+        <section class="ph" aria-label="Partie de pendu">
+          <div class="ph-bar mono"><span>Le Pendu<sup>®</sup></span><span class="hide-sm">Acte II — La potence</span><span id="p-score">Sauvés 0 · Pendus 0</span></div>
+          <div class="ph-head">
+            <h2 class="ph-title"><span class="line"><span>Le</span></span><span class="line"><span><em>Pendu</em></span></span></h2>
+            <p class="ph-sub">Sauvez <b id="p-condemned">LUC DUVAL</b> de la corde, une lettre à la fois. Le public, lui, est venu voir autre chose.</p>
+          </div>
+          <div class="ph-stage" id="p-stage" data-cursor="Le condamné">
+            <pre id="gallows" aria-hidden="true"></pre>
+            <div class="ph-lives" id="p-lives-box"><span class="ph-lives-n" id="p-lives-n">06</span><span class="mono" id="p-lives-max">/ 06 vies</span></div>
+          </div>
+          <div class="ph-panel">
+            <div class="ph-cat mono"><span>Mot secret</span><span id="p-cat"></span></div>
+            <div class="word" id="p-word" aria-live="polite"></div>
+            <div class="wrongs mono">Ratées : <span id="p-wrong"></span></div>
+            <div class="status" id="p-status" role="status"></div>
+            <div class="kbd" id="p-kbd"></div>
+            <div class="p-actions">
+              <button class="btn primary magnetic" type="button" id="p-new">Nouvelle partie</button>
+              <button class="btn" type="button" id="p-hint">Indice (−1 vie)</button>
+              <button class="btn" type="button" id="p-copy">Copier la potence</button>
+              <button class="btn hot" type="button" id="p-grave" hidden>⚰ Graver sa pierre tombale</button>
             </div>
-            <pre class="banner" aria-label="Le Pendu">    __    ______   ____  _______   ______  __  __
-   / /   / ____/  / __ \/ ____/ | / / __ \/ / / /
-  / /   / __/    / /_/ / __/ /  |/ / / / / / / /
- / /___/ /___   / ____/ /___/ /|  / /_/ / /_/ /
-/_____/_____/  /_/   /_____/_/ |_/_____/\____/</pre>
-            <p class="term-sub">C:\CAVEAU&gt; PENDU.EXE — sauvez <b id="p-condemned">LUC DUVAL</b> de la corde, une lettre à la fois<span class="cursor" aria-hidden="true"></span></p>
-
-            <div class="tgrid">
-              <div class="tbox reveal">
-                <div class="tt">POTENCE</div>
-                <pre id="gallows" aria-hidden="true"></pre>
-                <div class="lives" id="p-lives"></div>
-              </div>
-              <div class="tbox reveal">
-                <div class="tt">MOT SECRET <span id="p-cat"></span></div>
-                <div class="word" id="p-word" aria-live="polite"></div>
-                <div class="wrongs">RATÉES&gt; <span id="p-wrong"></span></div>
-                <div class="status" id="p-status" role="status"></div>
-                <div class="kbd" id="p-kbd"></div>
-                <div class="tactions">
-                  <button class="tbtn scramble" type="button" id="p-new">Nouvelle partie</button>
-                  <button class="tbtn scramble" type="button" id="p-hint">Indice (-1 vie)</button>
-                  <button class="tbtn scramble" type="button" id="p-copy">Copier la potence</button>
-                  <button class="tbtn hot scramble" type="button" id="p-grave" hidden>⚰ Graver sa pierre tombale</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="tbox reveal">
-              <div class="tt">OPTIONS</div>
-              <div class="topts">
-                <div><label for="p-category">Catégorie</label><select class="tsel" id="p-category"></select></div>
-                <div><label for="p-level">Difficulté</label>
-                  <select class="tsel" id="p-level">
+            <div class="lives-bar" id="p-lives"></div>
+          </div>
+        </section>
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <div><span class="mono idx">(02) — Les règles</span><h2>Choisir <em>sa corde</em>.</h2></div>
+            <p>Catégorie, difficulté, lumière du projecteur… ou le mode 2 joueurs : l'un choisit le mot, l'autre tente de sauver le condamné.</p>
+          </div>
+          <div class="pd-grid">
+            <section class="panel reveal" aria-label="Réglages">
+              <h2>Réglages <em>de la scène</em></h2>
+              <div class="pd-opts">
+                <div class="field"><label for="p-category">Catégorie</label><select id="p-category"></select></div>
+                <div class="field"><label for="p-level">Difficulté</label>
+                  <select id="p-level">
                     <option value="easy">Facile — 10 erreurs</option>
                     <option value="normal">Normal — 6 erreurs</option>
                     <option value="hard">Difficile — 4 erreurs</option>
                   </select></div>
-                <div><label for="p-phosphor">Phosphore</label>
-                  <select class="tsel" id="p-phosphor">
-                    <option value="green">Vert</option>
+                <div class="field"><label for="p-light">Projecteur</label>
+                  <select id="p-light">
+                    <option value="blood">Rouge sang</option>
                     <option value="amber">Ambre</option>
-                    <option value="blue">Bleu</option>
-                    <option value="white">Blanc</option>
+                    <option value="ice">Bleu glacé</option>
+                    <option value="absinthe">Vert absinthe</option>
                   </select></div>
-                <div><label for="p-sound">Son</label>
-                  <select class="tsel" id="p-sound">
-                    <option value="on">Bips activés</option>
+                <div class="field"><label for="p-sound">Son</label>
+                  <select id="p-sound">
+                    <option value="on">Activé</option>
                     <option value="off">Silence</option>
                   </select></div>
               </div>
               <div class="duo">
-                <label for="p-secret">Mode 2 joueurs — le joueur 1 tape un mot secret, le joueur 2 devine :</label>
+                <label for="p-secret">Mode 2 joueurs — le joueur 1 tape un mot secret :</label>
                 <div class="duo-row">
-                  <input class="tinput" type="password" id="p-secret" maxlength="24" autocomplete="off" spellcheck="false" placeholder="mot secret…">
-                  <button class="tbtn scramble" type="button" id="p-duo">Lancer</button>
+                  <input type="password" id="p-secret" maxlength="24" autocomplete="off" spellcheck="false" placeholder="mot secret…">
+                  <button class="btn" type="button" id="p-duo">Lancer</button>
                 </div>
               </div>
-            </div>
-
-            <div class="tbox reveal">
-              <div class="tt">STATISTIQUES</div>
-              <div class="tstats">
-                <div><span class="n" id="s-wins">0</span><span class="l">sauvetages</span></div>
-                <div><span class="n" id="s-losses">0</span><span class="l">pendaisons</span></div>
-                <div><span class="n" id="s-streak">0</span><span class="l">série en cours</span></div>
-                <div><span class="n" id="s-best">0</span><span class="l">meilleure série</span></div>
+            </section>
+            <section class="panel reveal" style="--d:.1s" aria-label="Statistiques">
+              <h2>Le <em>registre</em></h2>
+              <div class="pd-stats">
+                <div><span class="n" id="s-wins">0</span><span class="l">Sauvetages</span></div>
+                <div><span class="n" id="s-losses">0</span><span class="l">Pendaisons</span></div>
+                <div><span class="n" id="s-streak">0</span><span class="l">Série en cours</span></div>
+                <div><span class="n" id="s-best">0</span><span class="l">Meilleure série</span></div>
               </div>
-              <div class="tactions"><button class="tbtn scramble" type="button" id="p-reset">Remettre à zéro</button></div>
-            </div>
+              <div class="p-actions" style="justify-content:flex-start"><button class="btn small" type="button" id="p-reset">Remettre à zéro</button></div>
+            </section>
+          </div>
+          <footer class="big-foot reveal">
+            <span class="mono">(03) — Entracte</span>
+            <p class="foot-title">La corde est <em>patiente.</em></p>
+            <div class="foot-row mono"><span>Lettres au clavier · Entrée : nouvelle partie · ? : indice</span><span>Glisser la potence pour la faire pivoter</span></div>
+          </footer>
+        </div>
+        <div class="turn-hint">
+          <div class="th-arrow" aria-hidden="true">↓</div>
+          <p>Continuez à descendre : le cylindre va tourner vers l'Igloo…</p>
+          <div class="th-bar" aria-hidden="true"><span></span></div>
+          <button class="btn magnetic" type="button" data-goto="2" data-cursor="Tourner">⟳ Tourner vers « Igloo »</button>
+        </div>
+      </div>
+      <div class="shade"></div>
+    </section>
 
-            <p class="tfoot">Clavier : lettres pour jouer · Entrée = nouvelle partie · ? = indice · ↑ en haut de page = retour au Caveau</p>
+    <!-- ================= FACE 3 : IGLOO ================= -->
+    <section class="face face-igloo" id="face-2" data-title="Igloo — Le Caveau" aria-label="Igloo">
+      <canvas class="gl-face" id="gl-igloo" aria-hidden="true"></canvas>
+      <pre class="ig-text" id="ig-text" aria-hidden="true"></pre>
+      <div class="scroller ig-scroller" id="scroll-2" tabindex="-1">
+        <div class="ig-hud" id="ig-hud">
+          <div class="ig-corner tl"></div><div class="ig-corner tr"></div><div class="ig-corner bl"></div><div class="ig-corner br"></div>
+          <div class="ig-flash" id="ig-flash"></div>
+          <div class="ig-top">
+            <div class="ig-brand"><span class="ig-logo">Igloo.exe</span><span class="ig-dim">Bâtisseur de dômes — v1.0</span></div>
+            <button class="ig-up" type="button" data-goto="1">↑ Le Pendu<span class="up-bar" aria-hidden="true"><span></span></span></button>
+            <div class="ig-stats">
+              <div><span class="ig-dim">Assise</span><b id="ig-level">00/12</b></div>
+              <div><span class="ig-dim">Score</span><b id="ig-score">0000</b></div>
+              <div><span class="ig-dim">Record</span><b id="ig-best">0000</b></div>
+            </div>
+          </div>
+          <div class="ig-side ig-dim">78.2232° N — 15.6267° E · −27 °C</div>
+          <div class="ig-side r ig-dim" id="ig-side-r">Vent 34 km/h · Manche 01</div>
+          <div class="ig-msg" id="ig-msg" aria-live="polite"></div>
+          <div class="ig-bottom">
+            <div class="ig-prompt" id="ig-prompt">Clic / Espace — poser le bloc</div>
+            <div class="ig-tools">
+              <button class="ig-btn" type="button" id="ig-mode">Rendu : ASCII</button>
+              <button class="ig-btn" type="button" id="ig-ramp">Glyphes : classique</button>
+              <button class="ig-btn" type="button" id="ig-sound">Son : oui</button>
+            </div>
+          </div>
+          <div class="ig-panel" id="ig-start">
+            <span class="ig-dim">Mission 01</span>
+            <h3>Bâtir l'igloo</h3>
+            <p>Les blocs de glace glissent d'un bord à l'autre. Posez chacun pile sur le précédent : ce qui dépasse se brise. Douze assises, et le dôme est fermé.</p>
+            <div class="ig-actions"><button class="ig-btn primary" type="button" id="ig-go">[ Commencer ]</button></div>
+            <span class="ig-dim">Clic, tap ou Espace</span>
+          </div>
+          <div class="ig-panel" id="ig-over" hidden>
+            <span class="ig-dim" id="ig-over-k">Effondrement</span>
+            <b class="ig-big" id="ig-over-score">0000</b>
+            <span class="ig-dim" id="ig-over-sub">Record : 0000</span>
+            <div class="ig-actions">
+              <button class="ig-btn primary" type="button" id="ig-again">[ Rejouer ]</button>
+              <button class="ig-btn" type="button" id="ig-copy">[ Copier l'igloo ]</button>
+            </div>
           </div>
         </div>
-        <div class="crt-fx" aria-hidden="true"></div>
-        <div class="boot done" id="boot" aria-hidden="true"></div>
       </div>
-      <div class="bezel-label" aria-hidden="true">CAVEAU-TRON 3000</div>
-      <div class="led" aria-hidden="true"></div>
       <div class="shade"></div>
     </section>
   </div><!-- /drum -->
@@ -972,6 +1088,7 @@
 <nav id="drum-nav" aria-label="Pages du cylindre">
   <button type="button" class="magnetic" data-goto="0" title="Le Caveau" aria-label="Page 1 : Le Caveau">I</button>
   <button type="button" class="magnetic" data-goto="1" title="Le Pendu" aria-label="Page 2 : Le Pendu">II</button>
+  <button type="button" class="magnetic" data-goto="2" title="Igloo" aria-label="Page 3 : Igloo">III</button>
 </nav>
 
 <div id="toast" role="status"></div>
@@ -2295,7 +2412,7 @@ const Drum = (() => {
 })();
 
 /* ================================================================
- * PAGE 2 : LE PENDU
+ * PAGE 2 : LE PENDU (logique + interface ; la scène 3D est dans Pendu3D)
  * ================================================================ */
 const Pendu = (() => {
   const CATS = {
@@ -2341,12 +2458,13 @@ const Pendu = (() => {
   const KB = ["AZERTYUIOP", "QSDFGHJKLM", "WXCVBN"];
   const OK_LINES = [
     "Bien vu.", "Le condamné respire un peu mieux.", "Le bourreau fronce les sourcils.", "Joli coup !",
-    "Le public retient son souffle.", "Ça sent la grâce présidentielle…", "Continuez comme ça.", "Pas mal du tout."
+    "Le public retient son souffle.", "Ça sent la grâce présidentielle…", "Continuez comme ça.", "Pas mal du tout.",
+    "Un murmure déçu traverse la foule.", "Le projecteur hésite."
   ];
   const KO_LINES = [
     "Aïe. La corde se resserre.", "Le bourreau se frotte les mains.", "Mauvaise pioche.",
     "Le public applaudit (pas pour vous).", "Raté. Quelqu'un a apporté du pop-corn.", "Le condamné transpire.",
-    "Même le corbeau a soupiré.", "Ouille."
+    "Même le corbeau a soupiré.", "Ouille.", "La foule scande votre nom. Ce n'est pas bon signe."
   ];
   const W = 22, H = 9;
   // Pièces de la potence, dans l'ordre d'apparition : [ligne, colonne, texte]
@@ -2366,18 +2484,21 @@ const Pendu = (() => {
     [[3,16,"(^_^)"],[4,17,"/|\\"],[5,17,"| |"]]
   ];
   const SWING = [0, 1, 0, -1];
+  const LIGHTS = ["blood", "amber", "ice", "absinthe"];
+  const LEGACY = { green:"absinthe", amber:"amber", blue:"ice", white:"ice" };
 
   const el = id => $(id);
   const ui = {
-    gallows:el("gallows"), lives:el("p-lives"), word:el("p-word"), wrong:el("p-wrong"), status:el("p-status"),
+    gallows:el("gallows"), lives:el("p-lives"), livesN:el("p-lives-n"), livesMax:el("p-lives-max"), livesBox:el("p-lives-box"),
+    word:el("p-word"), wrong:el("p-wrong"), status:el("p-status"), score:el("p-score"),
     kbd:el("p-kbd"), cat:el("p-cat"), condemned:el("p-condemned"), hint:el("p-hint"), grave:el("p-grave"),
-    category:el("p-category"), level:el("p-level"), phosphor:el("p-phosphor"), sound:el("p-sound"), secret:el("p-secret"),
-    boot:el("boot")
+    category:el("p-category"), level:el("p-level"), light:el("p-light"), sound:el("p-sound"), secret:el("p-secret")
   };
   const OPTS_KEY = "pendu.opts", STATS_KEY = "pendu.stats";
-  let opts = { category:"tout", level:"normal", phosphor:"green", sound:"on", ...store.get(OPTS_KEY, {}) };
+  let opts = { category:"tout", level:"normal", light:"blood", sound:"on", ...store.get(OPTS_KEY, {}) };
+  if(!LIGHTS.includes(opts.light)) opts.light = LEGACY[opts.phosphor] || "blood";
   let stats = { wins:0, losses:0, streak:0, best:0, ...store.get(STATS_KEY, {}) };
-  let g = null, anim = 0, animFrame = 0, recent = [], booted = false;
+  let g = null, anim = 0, animFrame = 0, recent = [];
   const keys = {};
 
   const baseLetter = ch => ch.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
@@ -2387,26 +2508,43 @@ const Pendu = (() => {
   const left = () => lvl().max - g.errors;
   const gender = () => GENDERS[state.gender] || GENDERS.m;
   const condemned = () => (state.name.replace(/\s+/g, " ").trim() || "Anonyme");
-  const say = (txt, cls = "") => { ui.status.textContent = accord(txt, gender()); ui.status.className = "status " + cls; };
+  const pad2 = n => String(Math.max(0, n)).padStart(2, "0");
+  function say(txt, cls = ""){
+    ui.status.textContent = accord(txt, gender());
+    ui.status.className = "status " + cls;
+    void ui.status.offsetWidth;
+    ui.status.classList.add("fresh");
+  }
 
-  function draw(){
-    const grid = Array.from({ length:H }, () => Array(W).fill(" "));
-    const put = (r, c, s) => { for(let i = 0; i < s.length; i++) if(c + i >= 0 && c + i < W) grid[r][c + i] = s[i]; };
+  // Liste des glyphes de la potence, chacun avec un identifiant stable (pour l'animation 3D)
+  function glyphs(){
+    const out = [];
     const L = lvl();
     const stage = L.stages[Math.min(g.errors, L.max)];
-    for(let k = 1; k <= Math.min(stage, 4); k++) PARTS[k].forEach(([r, c, s]) => put(r, c, s));
+    const add = (pid, r, c, s, layer) => { for(let i = 0; i < s.length; i++) if(s[i] !== " ") out.push({ id:pid + ":" + i, ch:s[i], r, c:c + i, layer }); };
+    for(let k = 1; k <= Math.min(stage, 4); k++) PARTS[k].forEach(([r, c, s], j) => add(`p${k}.${j}`, r, c, s, 0));
     if(g.won){
-      DANCE[animFrame % 2].forEach(([r, c, s]) => put(r, c, s));
+      let n = 0;
+      DANCE[animFrame % 2].forEach(([r, c, s]) => { for(let i = 0; i < s.length; i++) if(s[i] !== " ") out.push({ id:"d" + (n++), ch:s[i], r, c:c + i, layer:1 }); });
     } else {
       const dx = g.over ? SWING[animFrame % 4] : 0;
       const l = left();
       const face = g.over ? "(x_x)" : l <= 1 ? "(;_;)" : l === 2 ? "(O_O)" : "(o_o)";
       for(let k = 5; k <= stage; k++){
-        if(k === 5) put(2, 9 + dx, face);
-        else PARTS[k].forEach(([r, c, s]) => put(r, c + dx, s));
+        if(k === 5) add("head", 2, 9 + dx, face, 1);
+        else PARTS[k].forEach(([r, c, s], j) => add(`p${k}.${j}`, r, c + dx, s, 1));
       }
     }
+    return out;
+  }
+  function draw(){
+    const grid = Array.from({ length:H }, () => Array(W).fill(" "));
+    for(const q of glyphs()) if(q.r >= 0 && q.r < H && q.c >= 0 && q.c < W) grid[q.r][q.c] = q.ch;
     return grid.map(r => r.join(""));
+  }
+  function pushScene(){
+    ui.gallows.textContent = draw().join("\n");
+    if(typeof Pendu3D !== "undefined" && Pendu3D.ready) Pendu3D.setGlyphs(glyphs(), { over:g.over, won:g.won, left:left() });
   }
 
   function renderWord(fresh){
@@ -2431,12 +2569,9 @@ const Pendu = (() => {
     ui.word.classList.remove("multiline");
     if(!ui.word.clientWidth) return;
     let fs = parseFloat(getComputedStyle(ui.word).fontSize), guard = 0;
-    while(ui.word.scrollWidth > ui.word.clientWidth + 1 && fs > 20 && guard++ < 40){
-      fs -= 2; ui.word.style.fontSize = fs + "px";
-    }
-    if(ui.word.scrollWidth > ui.word.clientWidth + 1) ui.word.classList.add("multiline");   // dernier recours : le mot passe à la ligne
+    while(ui.word.scrollWidth > ui.word.clientWidth + 1 && fs > 22 && guard++ < 40){ fs -= 2; ui.word.style.fontSize = fs + "px"; }
+    if(ui.word.scrollWidth > ui.word.clientWidth + 1) ui.word.classList.add("multiline");
   }
-  // La potence doit tenir dans son cadre, quelle que soit la police chargée
   function fitGallows(){
     const pre = ui.gallows, box = pre.parentElement;
     pre.style.fontSize = "";
@@ -2446,12 +2581,15 @@ const Pendu = (() => {
     while(pre.scrollWidth > avail && fs > 10 && guard++ < 40){ fs -= 1; pre.style.fontSize = fs + "px"; }
   }
   addEventListener("resize", () => { if(g){ fitWord(); fitGallows(); } });
+
   function renderAll(fresh){
     const L = lvl(), l = left();
-    ui.gallows.textContent = draw().join("\n");
+    pushScene();
     fitGallows();
-    ui.lives.textContent = `VIES> [${"#".repeat(Math.max(0, l))}${".".repeat(Math.min(L.max, g.errors))}] ${Math.max(0, l)}/${L.max}`;
-    ui.lives.classList.toggle("low", !g.over && l === 1);
+    ui.lives.textContent = `${"●".repeat(Math.max(0, l))}${"○".repeat(Math.min(L.max, g.errors))}`;
+    ui.livesN.textContent = pad2(l);
+    ui.livesMax.textContent = `/ ${pad2(L.max)} vies`;
+    ui.livesBox.classList.toggle("low", !g.over && l === 1);
     renderWord(fresh);
     ui.wrong.innerHTML = g.wrong.length ? g.wrong.map(x => `<s>${x}</s>`).join("") : "—";
     const set = lettersOf(g.word);
@@ -2463,18 +2601,24 @@ const Pendu = (() => {
     }
     ui.hint.disabled = g.over || l <= 1;
     ui.grave.hidden = !(g.over && !g.won);
-    ui.cat.textContent = "— " + g.cat.toUpperCase();
+    ui.cat.textContent = g.cat;
     renderStats();
   }
   function renderStats(){
     $("s-wins").textContent = stats.wins; $("s-losses").textContent = stats.losses;
     $("s-streak").textContent = stats.streak; $("s-best").textContent = stats.best;
+    ui.score.textContent = `Sauvés ${pad2(stats.wins)} · Pendus ${pad2(stats.losses)}`;
   }
 
   function stopAnim(){ clearInterval(anim); anim = 0; animFrame = 0; }
-  function startAnim(ms){
-    stopAnim();
-    anim = setInterval(() => { animFrame++; ui.gallows.textContent = draw().join("\n"); }, ms);
+  function startAnim(ms){ stopAnim(); anim = setInterval(() => { animFrame++; pushScene(); }, ms); }
+
+  function fx(kind){
+    if(typeof Pendu3D !== "undefined" && Pendu3D.ready) Pendu3D.react(kind);
+    if((kind === "ko" || kind === "lose") && !REDUCED_MOTION && !document.body.classList.contains("calm")){
+      const f = $("face-1"); f.classList.remove("shake"); void f.offsetWidth; f.classList.add("shake");
+      setTimeout(() => f.classList.remove("shake"), 400);
+    }
   }
 
   function pickWord(){
@@ -2490,26 +2634,27 @@ const Pendu = (() => {
     const { word, cat } = secret ? { word:secret, cat:"Mot du joueur 1" } : pickWord();
     g = { word:word.toLocaleUpperCase("fr-FR"), cat, guessed:new Set(), wrong:[], errors:0, over:false, won:false };
     renderAll();
+    if(typeof Pendu3D !== "undefined" && Pendu3D.ready) Pendu3D.react("new");
     const n = lettersOf(g.word).size;
-    say(`> Nouveau mot : ${Array.from(g.word).filter(isLetter).length} lettres (${n} différentes). Sauvez ${condemned()} !`);
+    say(`Nouveau mot : ${Array.from(g.word).filter(isLetter).length} lettres, ${n} différentes. Sauvez ${condemned()} !`);
   }
   function solved(){ for(const L of lettersOf(g.word)) if(!g.guessed.has(L)) return false; return true; }
   function guess(L){
     if(!g || g.over) return;
-    if(g.guessed.has(L)){ say("> Lettre déjà jouée, distrait(e) !"); Sound.key(); return; }
+    if(g.guessed.has(L)){ say("Lettre déjà jouée, distrait(e) !"); Sound.key(); return; }
     g.guessed.add(L);
     if(lettersOf(g.word).has(L)){
       if(opts.sound === "on") Sound.ok();
-      crtFx("ok");
+      fx("ok");
       if(solved()) return win(new Set([L]));
-      say("> " + pick(OK_LINES));
+      say(pick(OK_LINES));
     } else {
       g.wrong.push(L); g.errors++;
       if(opts.sound === "on") Sound.ko();
-      crtFx("ko");
+      fx("ko");
       if(g.errors >= lvl().max) return lose();
       const l = left();
-      say(`> ${pick(KO_LINES)} ${l} erreur${l > 1 ? "s" : ""} restante${l > 1 ? "s" : ""}.`);
+      say(`${pick(KO_LINES)} ${l} erreur${l > 1 ? "s" : ""} restante${l > 1 ? "s" : ""}.`);
     }
     renderAll(new Set([L]));
   }
@@ -2520,8 +2665,9 @@ const Pendu = (() => {
     const L = pick(hidden);
     g.guessed.add(L); g.errors++;
     if(opts.sound === "on") Sound.tone(660, .1, "triangle", .04);
+    fx("ko");
     if(solved()) return win(new Set([L]));
-    say(`> Indice : la lettre ${L}. Ça vous coûte une vie.`);
+    say(`Indice : la lettre ${L}. Ça vous coûte une vie.`);
     renderAll(new Set([L]));
   }
   function win(fresh){
@@ -2529,9 +2675,9 @@ const Pendu = (() => {
     stats.wins++; stats.streak++; stats.best = Math.max(stats.best, stats.streak);
     store.set(STATS_KEY, stats);
     if(opts.sound === "on") Sound.win();
-    crtFx("win");
     renderAll(fresh);
-    say(`SAUVÉ${gender().e.toUpperCase()} ! ${condemned()} vous doit une fière chandelle. [Entrée] pour rejouer`, "win");
+    fx("win");
+    say(`Sauvé(e) ! ${condemned()} vous doit une fière chandelle. Entrée pour rejouer.`, "win");
     startAnim(420);
   }
   function lose(){
@@ -2539,9 +2685,9 @@ const Pendu = (() => {
     stats.losses++; stats.streak = 0;
     store.set(STATS_KEY, stats);
     if(opts.sound === "on") Sound.lose();
-    crtFx("lose");
     renderAll();
-    say(`TROP TARD. ${condemned()} se balance doucement… Le mot était « ${g.word} ».`);
+    fx("lose");
+    say(`Trop tard. ${condemned()} se balance doucement… Le mot était « ${g.word} ».`);
     startAnim(380);
   }
 
@@ -2570,59 +2716,30 @@ const Pendu = (() => {
     setTimeout(() => toast(`⚰ Pierre gravée pour ${condemned()}`), 900);
   }
 
-  function boot(){
-    if(booted) return;
-    booted = true;
-    if(matchMedia("(prefers-reduced-motion: reduce)").matches || document.body.classList.contains("calm")) return;
-    const lines = [
-      "CAVEAU-TRON 3000 — BIOS v6.66",
-      "Mémoire : 640 Ko (largement suffisant)",
-      "Recherche de fantômes ..... 3 trouvés",
-      "Tension de la corde ....... OK",
-      "Chargement PENDU.EXE ...... OK",
-      "",
-      "Bonne chance."
-    ];
-    const b = ui.boot;
-    b.textContent = ""; b.classList.remove("done");
-    let i = 0, timer = 0;
-    const finish = () => { clearTimeout(timer); b.classList.add("done"); };
-    b.onclick = finish;
-    const next = () => {
-      if(i >= lines.length){ timer = setTimeout(finish, 450); return; }
-      b.textContent += lines[i++] + "\n";
-      if(opts.sound === "on") Sound.key();
-      timer = setTimeout(next, 150);
-    };
-    next();
-  }
-
   function applyOpts(){
-    document.body.classList.remove("ph-amber", "ph-blue", "ph-white");
-    if(opts.phosphor !== "green") document.body.classList.add("ph-" + opts.phosphor);
+    LIGHTS.forEach(k => document.body.classList.remove("pl-" + k));
+    if(opts.light !== "blood") document.body.classList.add("pl-" + opts.light);
     Sound.enabled = opts.sound === "on";
     store.set(OPTS_KEY, opts);
+    if(typeof Pendu3D !== "undefined" && Pendu3D.ready) Pendu3D.setLight(opts.light);
   }
 
   function init(){
-    // menus
     ui.category.innerHTML = "";
     [["tout", "Tout mélanger"], ...Object.entries(CATS).map(([k, v]) => [k, v.label])].forEach(([v, t]) => {
       const o = document.createElement("option"); o.value = v; o.textContent = t; ui.category.appendChild(o);
     });
     ui.category.value = CATS[opts.category] ? opts.category : "tout";
     ui.level.value = LEVELS[opts.level] ? opts.level : "normal";
-    ui.phosphor.value = opts.phosphor; ui.sound.value = opts.sound;
-    if(!ui.phosphor.value) ui.phosphor.value = "green";
+    ui.light.value = opts.light; ui.sound.value = opts.sound;
     if(!ui.sound.value) ui.sound.value = "on";
-    opts = { ...opts, category:ui.category.value, level:ui.level.value, phosphor:ui.phosphor.value, sound:ui.sound.value };
+    opts = { category:ui.category.value, level:ui.level.value, light:ui.light.value || "blood", sound:ui.sound.value };
     applyOpts();
     ui.category.addEventListener("change", () => { opts.category = ui.category.value; applyOpts(); newGame(); });
     ui.level.addEventListener("change", () => { opts.level = ui.level.value; applyOpts(); newGame(); });
-    ui.phosphor.addEventListener("change", () => { opts.phosphor = ui.phosphor.value; applyOpts(); });
+    ui.light.addEventListener("change", () => { opts.light = ui.light.value; applyOpts(); });
     ui.sound.addEventListener("change", () => { opts.sound = ui.sound.value; applyOpts(); });
 
-    // clavier à l'écran (AZERTY)
     KB.forEach(row => {
       const r = document.createElement("div"); r.className = "r";
       for(const L of row){
@@ -2638,24 +2755,24 @@ const Pendu = (() => {
     ui.hint.addEventListener("click", hint);
     ui.grave.addEventListener("click", engrave);
     $("p-copy").addEventListener("click", async () => {
-      toast(await copyText(shareText()) ? "> Potence copiée (avec des « ⠀ »)" : "> Impossible de copier");
+      toast(await copyText(shareText()) ? "Potence copiée (avec des « ⠀ »)" : "Impossible de copier");
     });
     $("p-reset").addEventListener("click", () => {
-      stats = { wins:0, losses:0, streak:0, best:0 }; store.set(STATS_KEY, stats); renderStats(); toast("> Statistiques effacées");
+      stats = { wins:0, losses:0, streak:0, best:0 }; store.set(STATS_KEY, stats); renderStats(); toast("Registre effacé");
     });
     const launchDuo = () => {
       const raw = ui.secret.value.replace(/\s+/g, " ").trim();
       const letters = Array.from(raw).filter(isLetter).length;
-      if(letters < 2 || !/^[\p{L}' -]+$/u.test(raw)){ toast("> Mot secret invalide (lettres, espaces, - et ' uniquement)"); ui.secret.focus(); return; }
+      if(letters < 2 || !/^[\p{L}' -]+$/u.test(raw)){ toast("Mot secret invalide (lettres, espaces, - et ' uniquement)"); ui.secret.focus(); return; }
       ui.secret.value = "";
       ui.secret.blur();
       newGame(raw);
+      Drum.stopSmooth(1);
       Drum.scroller(1).scrollTo({ top:0, behavior:"smooth" });
     };
     $("p-duo").addEventListener("click", launchDuo);
     ui.secret.addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); launchDuo(); } });
 
-    // clavier physique
     document.addEventListener("keydown", e => {
       if(Drum.index !== 1 || Drum.busy || e.ctrlKey || e.metaKey || e.altKey) return;
       if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
@@ -2671,9 +2788,12 @@ const Pendu = (() => {
   }
 
   return {
-    init, boot, newGame,
+    init, newGame,
+    boot(){ document.body.classList.add("pendu-in"); },
     refreshName(){ ui.condemned.textContent = condemned().toLocaleUpperCase("fr-FR"); },
-    copy(){ return copyText(shareText()); }
+    copy(){ return copyText(shareText()); },
+    sync(){ if(g) pushScene(); },
+    get light(){ return opts.light; }
   };
 })();
 
@@ -2851,25 +2971,6 @@ const Reveal = (() => {
   tick(); setInterval(tick, 15000);
 })();
 
-/* Le Pendu : halo qui suit le curseur, secousses et flashs */
-(() => {
-  const crt = document.querySelector(".crt-screen");
-  addEventListener("pointermove", e => {
-    if(!document.body.classList.contains("on-pendu")) return;
-    const r = crt.getBoundingClientRect();
-    crt.style.setProperty("--mx", (e.clientX - r.left) + "px");
-    crt.style.setProperty("--my", (e.clientY - r.top) + "px");
-  }, { passive:true });
-})();
-function crtFx(kind){
-  if(REDUCED_MOTION || document.body.classList.contains("calm")) return;
-  const crt = document.querySelector(".crt-screen");
-  const cls = kind === "ko" || kind === "lose" ? "jolt" : "flash";
-  crt.classList.remove("jolt", "flash");
-  void crt.offsetWidth;
-  crt.classList.add(cls);
-  setTimeout(() => crt.classList.remove(cls), cls === "jolt" ? 340 : 120);
-}
 
 /* ================================================================
  * 3D : cimetière WebGL (Three.js) + pierre gravée interactive
@@ -3705,6 +3806,909 @@ const Caveau3D = (() => {
   };
 })();
 
+
+/* ================================================================
+ * Atlas de glyphes partagé (Pendu 3D et rendu ASCII de l'Igloo)
+ * ================================================================ */
+function glyphAtlas(T, chars, cw, ch, font, cols = 16){
+  const list = Array.from(chars);
+  cols = Math.min(cols, list.length);
+  const rows = Math.ceil(list.length / cols);
+  const c = document.createElement("canvas"); c.width = cols * cw; c.height = rows * ch;
+  const x = c.getContext("2d");
+  x.fillStyle = "#fff"; x.font = font; x.textAlign = "center"; x.textBaseline = "middle";
+  list.forEach((g, i) => x.fillText(g, (i % cols + .5) * cw, (Math.floor(i / cols) + .54) * ch));
+  const tex = new T.CanvasTexture(c);
+  tex.anisotropy = 4;
+  const map = new Map(list.map((g, i) => [g, i]));
+  return { tex, cols, rows, count:list.length, index:g => map.has(g) ? map.get(g) : (map.get("?") ?? 0) };
+}
+
+/* ================================================================
+ * 3D : LE PENDU — théâtre, projecteur, foule, potence en glyphes
+ * ================================================================ */
+const Pendu3D = (() => {
+  const canvas = $("gl-pendu"), anchor = $("p-stage"), face = $("face-1");
+  const LIGHTS = { blood:"#ff5b4f", amber:"#ffb35c", ice:"#a3dcff", absinthe:"#b8f07c" };
+  const MAXG = 110, CW = .36, CH = .7, TOP = .72;
+  let T = null, renderer = null, scene, cam, set, pivot, ready = false;
+  let glyphMesh, aGlyph, aAlpha, aHeat, atlas, spot, cone, coneMat, dust, crowd, crowdState = [], hemi, flashLight;
+  let W = innerWidth, H = innerHeight, time = 0, lastT = 0;
+  const slots = [], byId = new Map();
+  const fxs = { flare:0, shake:0, cheer:0, boo:0, red:0 };
+  const ptr = { x:0, y:0, nx:0, ny:0, over:false, down:false, sx:0, baseR:0, moved:0 };
+  const rot = { y:0, v:0, t:0 };
+  const rig = { x:0, y:0, s:1, init:false };
+  let lightCol = null, lightTarget = null;
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const lk = (rate, dt) => 1 - Math.exp(-rate * dt);
+
+  function woodTex(){
+    const c = document.createElement("canvas"); c.width = 512; c.height = 512;
+    const x = c.getContext("2d");
+    x.fillStyle = "#3a2618"; x.fillRect(0, 0, 512, 512);
+    for(let i = 0; i < 8; i++){
+      const y = i * 64;
+      x.fillStyle = `hsl(25, ${30 + Math.random() * 15}%, ${12 + Math.random() * 8}%)`; x.fillRect(0, y + 1, 512, 62);
+      for(let k = 0; k < 40; k++){ x.strokeStyle = `rgba(${Math.random() < .5 ? "255,210,160" : "0,0,0"},${Math.random() * .08})`; x.lineWidth = 1 + Math.random() * 2;
+        x.beginPath(); x.moveTo(0, y + Math.random() * 62); x.bezierCurveTo(170, y + Math.random() * 62, 340, y + Math.random() * 62, 512, y + Math.random() * 62); x.stroke(); }
+      x.fillStyle = "rgba(0,0,0,.6)"; x.fillRect(0, y, 512, 2);
+      const nx = Math.random() * 400; x.fillStyle = "rgba(0,0,0,.5)"; x.fillRect(nx, y + 6, 3, 3); x.fillRect(nx + 90, y + 52, 3, 3);
+    }
+    const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; t.wrapS = t.wrapT = T.RepeatWrapping; t.anisotropy = 4; return t;
+  }
+
+  function build(){
+    scene = new T.Scene();
+    scene.background = new T.Color("#070304");
+    scene.fog = new T.Fog("#070304", 16, 34);
+    cam = new T.PerspectiveCamera(38, W / H, .1, 100);
+    cam.position.set(0, 3.4, 15); cam.lookAt(0, 3, 0);
+
+    set = new T.Group(); scene.add(set);            // calé sur la zone « scène » du HTML
+    pivot = new T.Group(); set.add(pivot);          // pivote quand on glisse
+
+    // plancher de scène + rideau
+    const wood = woodTex();
+    const floorTex = wood.clone(); floorTex.needsUpdate = true; floorTex.repeat.set(10, 5); floorTex.rotation = Math.PI / 2;
+    const floor = new T.Mesh(new T.PlaneGeometry(60, 30), new T.MeshStandardMaterial({ map:floorTex, color:"#8a7a70", roughness:.85 }));
+    floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; set.add(floor);
+    const cg = new T.PlaneGeometry(44, 20, 260, 1);
+    const cp = cg.attributes.position;
+    for(let i = 0; i < cp.count; i++){ const x = cp.getX(i); cp.setZ(i, Math.sin(x * 2.3) * .32 + Math.sin(x * .7 + 1) * .25); }
+    cg.computeVertexNormals();
+    const curtain = new T.Mesh(cg, new T.MeshStandardMaterial({ color:"#5a0f16", roughness:.75, metalness:.05 }));
+    curtain.position.set(0, 9, -7); curtain.receiveShadow = true; set.add(curtain);
+
+    // estrade
+    const plankMat = new T.MeshStandardMaterial({ map:wood, color:"#b49a88", roughness:.8 });
+    const darkMat = new T.MeshStandardMaterial({ color:"#1c120c", roughness:.9 });
+    const deck = new T.Mesh(new T.BoxGeometry(9.4, .18, 3.6), plankMat); deck.position.y = TOP - .09; deck.castShadow = deck.receiveShadow = true; pivot.add(deck);
+    const skirt = new T.Mesh(new T.BoxGeometry(9.2, TOP - .18, 3.4), darkMat); skirt.position.y = (TOP - .18) / 2; skirt.receiveShadow = true; pivot.add(skirt);
+    for(let i = 0; i < 2; i++){ const st = new T.Mesh(new T.BoxGeometry(1.4, (i + 1) * TOP / 3, .55), plankMat); st.position.set(-3.4, (i + 1) * TOP / 6, 1.8 + .55 * (2 - i) - .27); st.castShadow = st.receiveShadow = true; pivot.add(st); }
+
+    // potence en glyphes ASCII (une instance par caractère)
+    // cellule ≈ avance de la police : les « _ » voisins se rejoignent
+    atlas = glyphAtlas(T, Array.from({ length:95 }, (_, i) => String.fromCharCode(32 + i)).join(""), 52, 104, '700 86px "JetBrains Mono", "Courier Prime", "Courier New", monospace');
+    const geo = new T.PlaneGeometry(CW * 1.04, CH * 1.02);
+    aGlyph = new T.InstancedBufferAttribute(new Float32Array(MAXG), 1);
+    aAlpha = new T.InstancedBufferAttribute(new Float32Array(MAXG), 1);
+    aHeat = new T.InstancedBufferAttribute(new Float32Array(MAXG), 1);
+    geo.setAttribute("aGlyph", aGlyph); geo.setAttribute("aAlpha", aAlpha); geo.setAttribute("aHeat", aHeat);
+    const mat = new T.ShaderMaterial({
+      transparent:true, depthWrite:false, side:T.DoubleSide,
+      uniforms:{ tAtlas:{ value:atlas.tex }, uGrid:{ value:new T.Vector2(atlas.cols, atlas.rows) }, uColor:{ value:new T.Color("#f4ead7") }, uHot:{ value:new T.Color("#ff5b4f") } },
+      vertexShader:`attribute float aGlyph, aAlpha, aHeat; uniform vec2 uGrid; varying vec2 vUv; varying float vA, vHeat;
+        void main(){ float col = mod(aGlyph, uGrid.x), row = floor(aGlyph / uGrid.x);
+          vUv = vec2((col + uv.x) / uGrid.x, 1. - (row + 1. - uv.y) / uGrid.y); vA = aAlpha; vHeat = aHeat;
+          gl_Position = projectionMatrix * viewMatrix * modelMatrix * instanceMatrix * vec4(position, 1.); }`,
+      fragmentShader:`uniform sampler2D tAtlas; uniform vec3 uColor, uHot; varying vec2 vUv; varying float vA, vHeat;
+        void main(){ float a = texture2D(tAtlas, vUv).a * vA; if(a < .03) discard; vec3 c = mix(uColor, uHot, clamp(vHeat, 0., 1.)) * (1.15 + vHeat * .9);
+          gl_FragColor = vec4(c, a);
+          #include <tonemapping_fragment>
+          #include <colorspace_fragment>
+        }`
+    });
+    glyphMesh = new T.InstancedMesh(geo, mat, MAXG);
+    glyphMesh.frustumCulled = false;
+    pivot.add(glyphMesh);
+    const zero = new T.Matrix4().makeScale(0, 0, 0);
+    for(let i = 0; i < MAXG; i++){ glyphMesh.setMatrixAt(i, zero); slots.push(null); }
+
+    // projecteur + cône de lumière + poussière
+    lightCol = new T.Color(LIGHTS[Pendu.light] || LIGHTS.blood); lightTarget = lightCol.clone();
+    spot = new T.SpotLight(lightCol, 380, 30, .42, .55, 1.4);
+    spot.position.set(0, 12, 5.5); spot.target.position.set(0, 2.6, 0);
+    spot.castShadow = true; spot.shadow.mapSize.set(1024, 1024); spot.shadow.bias = -.0004;
+    set.add(spot, spot.target);
+    const coneH = 12.4;
+    const cgeo = new T.ConeGeometry(3.9, coneH, 48, 1, true); cgeo.translate(0, -coneH / 2, 0);   // sommet en (0,0,0)
+    coneMat = new T.ShaderMaterial({
+      transparent:true, depthWrite:false, blending:T.AdditiveBlending, side:T.DoubleSide,
+      uniforms:{ uColor:{ value:lightCol }, uH:{ value:coneH }, uStr:{ value:.16 } },
+      vertexShader:`uniform float uH; varying float vH; varying vec3 vN, vV;
+        void main(){ vH = -position.y / uH; vec4 mv = modelViewMatrix * vec4(position, 1.); vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }`,
+      fragmentShader:`uniform vec3 uColor; uniform float uStr; varying float vH; varying vec3 vN, vV;
+        void main(){ float f = pow(abs(dot(normalize(vN), normalize(vV))), 1.6); float a = f * (1. - vH) * smoothstep(0., .08, vH) * uStr; gl_FragColor = vec4(uColor * a, a); }`
+    });
+    cone = new T.Mesh(cgeo, coneMat);
+    cone.position.copy(spot.position);
+    cone.quaternion.setFromUnitVectors(new T.Vector3(0, -1, 0), spot.target.position.clone().sub(spot.position).normalize());
+    set.add(cone);
+    const DN = 220, dp = new Float32Array(DN * 3), ds = new Float32Array(DN);
+    for(let i = 0; i < DN; i++){ dp[i*3] = rand(-3, 3); dp[i*3+1] = rand(.5, 9); dp[i*3+2] = rand(-1.5, 3); ds[i] = Math.random(); }
+    const dg = new T.BufferGeometry(); dg.setAttribute("position", new T.BufferAttribute(dp, 3)); dg.setAttribute("aSeed", new T.BufferAttribute(ds, 1));
+    dust = new T.Points(dg, new T.ShaderMaterial({
+      transparent:true, depthWrite:false, blending:T.AdditiveBlending,
+      uniforms:{ uTime:{ value:0 }, uColor:{ value:lightCol }, uPR:{ value:Math.min(devicePixelRatio, 1.75) } },
+      vertexShader:`uniform float uTime, uPR; attribute float aSeed; varying float vA;
+        void main(){ vec3 p = position; float t = uTime * .12 + aSeed * 20.; p.x += sin(t * 1.3) * .5; p.y += sin(t * .7) * .6; p.z += cos(t) * .4;
+          vec4 mv = modelViewMatrix * vec4(p, 1.); gl_Position = projectionMatrix * mv; gl_PointSize = (6. + aSeed * 10.) * uPR / -mv.z * 3.; vA = .25 + .5 * aSeed; }`,
+      fragmentShader:`uniform vec3 uColor; varying float vA; void main(){ float d = length(gl_PointCoord - .5); if(d > .5) discard; float a = smoothstep(.5, 0., d) * vA; gl_FragColor = vec4(mix(vec3(1.), uColor, .5) * a, a); }`
+    }));
+    set.add(dust);
+
+    // la foule (silhouettes au premier plan)
+    const CN = 44;
+    const headGeo = new T.SphereGeometry(.2, 14, 10), bodyGeo = new T.SphereGeometry(.38, 14, 10);
+    const crowdMat = new T.MeshBasicMaterial({ color:"#030102" });
+    const heads = new T.InstancedMesh(headGeo, crowdMat, CN), bodies = new T.InstancedMesh(bodyGeo, crowdMat, CN);
+    for(let i = 0; i < CN; i++){
+      const row = i % 2, x = -7 + (i / CN) * 14 + rand(-.15, .15) + row * .16;
+      crowdState.push({ x, z:7.6 + row * .9 + rand(-.15, .15), y:rand(-.08, .12) - row * .06, ph:Math.random() * 6.28, s:rand(.88, 1.12) });
+    }
+    crowd = { heads, bodies, n:CN };
+    scene.add(heads, bodies);
+
+    hemi = new T.HemisphereLight("#6b4248", "#0a0405", 1.3); scene.add(hemi);
+    const foot = new T.PointLight("#ff9a6a", 30, 30, 1.2); foot.position.set(0, .4, 8); set.add(foot);
+    const rimL = new T.DirectionalLight("#6f7dff", .55); rimL.position.set(-4, 6, -8); set.add(rimL);
+    flashLight = new T.PointLight("#ff3b30", 0, 18, 1.5); flashLight.position.set(0, 5, 3); set.add(flashLight);
+  }
+
+  /* --- glyphes --- */
+  function toWorld(q){
+    const j = ((q.id.charCodeAt(0) * 31 + q.id.length * 7 + (q.id.charCodeAt(q.id.length - 1) || 0)) % 13) / 13 - .5;
+    return new T.Vector3((q.c - 10.5) * CW, TOP + (8.55 - q.r) * CH, .25 + q.layer * .28 + j * .08);
+  }
+  function setGlyphs(list, st){
+    const seen = new Set();
+    for(const q of list){
+      seen.add(q.id);
+      let s = byId.get(q.id);
+      const t = toWorld(q);
+      if(!s){
+        const idx = slots.findIndex(x => !x);
+        if(idx < 0) continue;
+        const from = t.clone().add(new T.Vector3(rand(-4, 4), rand(2, 6), rand(-2, 4)));
+        s = { id:q.id, idx, p:from, v:new T.Vector3(rand(-2, 2), rand(-1, 1), 0), t, a:0, ta:1, rz:rand(-3, 3), vr:0, heat:.8, ch:q.ch, leaving:false };
+        slots[idx] = s; byId.set(q.id, s);
+      }
+      s.t.copy(t); s.ta = 1; s.leaving = false;
+      if(s.ch !== q.ch){ s.ch = q.ch; s.heat = Math.max(s.heat, .5); }
+      aGlyph.setX(s.idx, atlas.index(q.ch));
+    }
+    for(const [id, s] of byId){
+      if(seen.has(id) || s.leaving) continue;
+      s.leaving = true; s.ta = 0;
+      s.t = s.p.clone().add(new T.Vector3(rand(-3, 3), rand(1, 4), rand(-1, 3)));
+      s.vr = rand(-6, 6);
+    }
+    aGlyph.needsUpdate = true;
+    if(st) uni.state = st;
+  }
+  const uni = { state:{ over:false, won:false, left:6 } };
+
+  function react(kind){
+    if(kind === "ok"){ fxs.flare = 1; for(const s of byId.values()) s.heat = Math.max(s.heat, .25); }
+    else if(kind === "ko"){ fxs.cheer = Math.max(fxs.cheer, .55); fxs.shake = .5; fxs.flare = -.6; }
+    else if(kind === "lose"){ fxs.cheer = 1.2; fxs.shake = 1; fxs.red = 1; for(const s of byId.values()) s.heat = 1; }
+    else if(kind === "win"){ fxs.boo = 1; fxs.flare = 1.5; for(const s of byId.values()){ s.v.add(new T.Vector3(rand(-6, 6), rand(4, 10), rand(-2, 4))); s.vr = rand(-12, 12); } }
+    else if(kind === "new"){ fxs.flare = .6; fxs.red = 0; }
+    else if(kind === "poke"){ for(const s of byId.values()){ s.v.add(new T.Vector3(rand(-2.5, 2.5), rand(-1, 3), rand(-1, 2))); s.vr += rand(-5, 5); } fxs.cheer = Math.max(fxs.cheer, .3); }
+  }
+  function setLight(name){ if(lightTarget) lightTarget.set(LIGHTS[name] || LIGHTS.blood); }
+
+  /* --- interaction --- */
+  function bind(){
+    addEventListener("resize", () => { W = innerWidth; H = innerHeight; if(renderer){ renderer.setSize(W, H, false); cam.aspect = W / H; cam.updateProjectionMatrix(); } });
+    addEventListener("pointermove", e => {
+      ptr.x = e.clientX; ptr.y = e.clientY; ptr.nx = e.clientX / W * 2 - 1; ptr.ny = -(e.clientY / H * 2 - 1);
+      if(ptr.down){ ptr.moved = Math.max(ptr.moved, Math.abs(e.clientX - ptr.sx)); rot.t = Math.max(-1, Math.min(1, ptr.baseR + (e.clientX - ptr.sx) * .006)); }
+    }, { passive:true });
+    anchor.addEventListener("pointerenter", () => ptr.over = true);
+    anchor.addEventListener("pointerleave", () => { if(!ptr.down) ptr.over = false; });
+    anchor.addEventListener("pointerdown", e => {
+      if(e.button > 0) return;
+      ptr.down = true; ptr.sx = e.clientX; ptr.baseR = rot.t; ptr.moved = 0;
+      try { anchor.setPointerCapture(e.pointerId); } catch {}
+    });
+    const up = () => { if(!ptr.down) return; ptr.down = false; if(ptr.moved < 6){ react("poke"); Sound.tone(220, .08, "triangle", .04); } rot.t = 0; };
+    anchor.addEventListener("pointerup", up); anchor.addEventListener("pointercancel", up);
+  }
+
+  function screenToPlane(px, py){
+    const ray = new T.Raycaster(); ray.setFromCamera({ x:px / W * 2 - 1, y:-(py / H * 2 - 1) }, cam);
+    const hit = new T.Vector3();
+    if(!ray.ray.intersectPlane(new T.Plane(new T.Vector3(0, 0, 1), 0), hit)) hit.set(0, 0, 0);
+    return hit;
+  }
+
+  function update(dt){
+    const calmMode = document.body.classList.contains("calm") || REDUCED_MOTION;
+    const adt = calmMode ? 0 : dt;
+    time += adt;
+    const turning = !$("stage").classList.contains("flat");
+
+    // caméra : parallaxe + secousse
+    fxs.shake = Math.max(0, fxs.shake - dt * 2.5);
+    const sh = calmMode ? 0 : fxs.shake * .12;
+    const kc = lk(2.2, dt);
+    cam.position.x += (ptr.nx * .8 - cam.position.x) * kc + (Math.random() - .5) * sh;
+    cam.position.y += (3.4 + ptr.ny * .35 - cam.position.y) * kc + (Math.random() - .5) * sh;
+    cam.lookAt(cam.position.x * .25, 3, 0);
+
+    // calage sur la zone HTML
+    if(!turning){
+      const r = anchor.getBoundingClientRect();
+      if(r.width > 0){
+        const hit = screenToPlane(r.left + r.width / 2, r.top + r.height / 2);
+        const wpp = 2 * Math.tan(T.MathUtils.degToRad(cam.fov / 2)) * hit.distanceTo(cam.position) / H;
+        const s = Math.min(r.height * .94 * wpp / 7.6, r.width * .94 * wpp / 9.6);
+        const tx = hit.x, ty = hit.y - 3.7 * s;
+        if(!rig.init){ rig.x = tx; rig.y = ty; rig.s = s; rig.init = true; }
+        const k = lk(10, dt);
+        rig.x += (tx - rig.x) * k; rig.y += (ty - rig.y) * k; rig.s += (s - rig.s) * k;
+      }
+    }
+    set.position.set(rig.x, rig.y, 0); set.scale.setScalar(rig.s);
+
+    // pivot (glisser / survol)
+    if(!ptr.down) rot.t = ptr.over ? ((ptr.x - anchor.getBoundingClientRect().left) / Math.max(1, anchor.clientWidth) * 2 - 1) * .22 : 0;
+    const f60 = Math.min(3, dt * 60);
+    rot.v += (rot.t + (calmMode ? 0 : Math.sin(time * .5) * .03) - rot.y) * .06 * f60; rot.v *= Math.pow(.84, f60); rot.y += rot.v * f60;
+    pivot.rotation.y = rot.y;
+
+    // lumière
+    lightCol.lerp(lightTarget, lk(4, dt));
+    fxs.red = Math.max(0, fxs.red - dt * .25);
+    fxs.flare += (0 - fxs.flare) * lk(3, dt);
+    const flick = calmMode ? 1 : 1 + Math.sin(time * 31) * .02 + (Math.random() < .02 ? -.25 : 0) * (uni.state.over && !uni.state.won ? 1 : .3);
+    spot.color.copy(lightCol);
+    spot.intensity = 380 * (1 + fxs.flare * .7) * flick;
+    coneMat.uniforms.uStr.value = .16 * (1 + fxs.flare * .8) * flick;
+    flashLight.intensity = fxs.red * 40 * (calmMode ? 1 : .7 + Math.random() * .3);
+    dust.material.uniforms.uTime.value = time;
+
+    // glyphes : ressorts
+    const m = new T.Matrix4(), q = new T.Quaternion(), e = new T.Euler(), sc = new T.Vector3(1, 1, 1);
+    const damp = Math.exp(-8.5 * dt), K = 70;
+    for(const s of byId.values()){
+      const ax = (s.t.x - s.p.x) * K, ay = (s.t.y - s.p.y) * K, az = (s.t.z - s.p.z) * K;
+      s.v.x = (s.v.x + ax * dt) * damp; s.v.y = (s.v.y + ay * dt) * damp; s.v.z = (s.v.z + az * dt) * damp;
+      s.p.x += s.v.x * dt; s.p.y += s.v.y * dt; s.p.z += s.v.z * dt;
+      s.vr = (s.vr + (0 - s.rz) * 60 * dt) * Math.exp(-7 * dt); s.rz += s.vr * dt;
+      s.a += (s.ta - s.a) * lk(s.leaving ? 3 : 7, dt);
+      s.heat = Math.max(uni.state.over && !uni.state.won && !s.leaving ? .55 : 0, s.heat - dt * .9);
+      e.set(0, 0, s.rz); q.setFromEuler(e);
+      const k = .6 + .4 * Math.min(1, s.a * 1.4);
+      sc.set(k, k, k);
+      m.compose(s.p, q, sc);
+      glyphMesh.setMatrixAt(s.idx, m);
+      aAlpha.setX(s.idx, s.a); aHeat.setX(s.idx, s.heat);
+      if(s.leaving && s.a < .02){ slots[s.idx] = null; byId.delete(s.id); glyphMesh.setMatrixAt(s.idx, m.makeScale(0, 0, 0)); aAlpha.setX(s.idx, 0); }
+    }
+    glyphMesh.instanceMatrix.needsUpdate = true; aAlpha.needsUpdate = true; aHeat.needsUpdate = true;
+
+    // foule
+    fxs.cheer = Math.max(0, fxs.cheer - dt * .7);
+    fxs.boo = Math.max(0, fxs.boo - dt * .35);
+    const visH = 2 * Math.tan(T.MathUtils.degToRad(cam.fov / 2));
+    for(let i = 0; i < crowd.n; i++){
+      const c = crowdState[i];
+      const jump = Math.abs(Math.sin(time * 11 + c.ph)) * fxs.cheer * .3;
+      const sway = Math.sin(time * 1.3 + c.ph) * .04;
+      const slump = fxs.boo * .35;
+      // la foule est fixée au cadre de la caméra, en bas de l'écran
+      const d = cam.position.z - c.z, bottom = cam.position.y - visH * d * .5;
+      const by = bottom - .78 + c.y + jump - slump * .6;
+      m.compose(new T.Vector3(c.x + sway + cam.position.x * .6, by + .36 * c.s, c.z), q.identity(), sc.set(c.s * 1.25, c.s, c.s));
+      crowd.bodies.setMatrixAt(i, m);
+      m.compose(new T.Vector3(c.x + sway * 1.6 + cam.position.x * .6, by + .9 * c.s, c.z), q.identity(), sc.set(c.s, c.s * 1.08, c.s));
+      crowd.heads.setMatrixAt(i, m);
+    }
+    crowd.heads.instanceMatrix.needsUpdate = crowd.bodies.instanceMatrix.needsUpdate = true;
+  }
+
+  function loop(now){
+    requestAnimationFrame(loop);
+    if(document.hidden || face.classList.contains("sleep")){ lastT = now; return; }
+    const dt = Math.min(.05, Math.max(.001, (now - (lastT || now)) / 1000)); lastT = now;
+    update(dt);
+    renderer.render(scene, cam);
+  }
+
+  async function init(){
+    const test = document.createElement("canvas");
+    if(!(test.getContext("webgl2") || test.getContext("webgl"))) throw new Error("WebGL indisponible");
+    T = await import("three");
+    try { await Promise.race([document.fonts.load('700 40px "JetBrains Mono"'), new Promise(r => setTimeout(r, 2500))]); } catch {}
+    renderer = new T.WebGLRenderer({ canvas, antialias:true, powerPreference:"high-performance" });
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, matchMedia("(pointer: coarse)").matches ? 1.5 : 1.75));
+    renderer.setSize(W, H, false);
+    renderer.outputColorSpace = T.SRGBColorSpace;
+    renderer.toneMapping = T.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = T.PCFShadowMap;
+    build(); bind();
+    try { await renderer.compileAsync(scene, cam); } catch {}
+    ready = true;
+    face.classList.add("gl-ready");
+    Pendu.sync();
+    requestAnimationFrame(loop);
+  }
+
+  return { init, setGlyphs, react, setLight, get ready(){ return ready; }, get debug(){ return ready ? { rig:{ ...rig }, n:byId.size } : null; } };
+})();
+
+/* ================================================================
+ * PAGE 3 : IGLOO — jeu d'empilement (logique, interface, rendu texte)
+ * ================================================================ */
+const Igloo = (() => {
+  const N = 12, BASE = 9, BH = 1, TOL = .22;
+  const domeW = i => BASE * Math.sqrt(Math.max(0, 1 - Math.pow(i / (N + .45), 2)));
+  const ui = {
+    hud:$("ig-hud"), level:$("ig-level"), score:$("ig-score"), best:$("ig-best"), msg:$("ig-msg"), prompt:$("ig-prompt"),
+    start:$("ig-start"), over:$("ig-over"), overK:$("ig-over-k"), overScore:$("ig-over-score"), overSub:$("ig-over-sub"),
+    again:$("ig-again"), copy:$("ig-copy"), go:$("ig-go"), mode:$("ig-mode"), ramp:$("ig-ramp"), sound:$("ig-sound"),
+    text:$("ig-text"), side:$("ig-side-r"), flash:$("ig-flash")
+  };
+  const face = $("face-2");
+  let best = +store.get("igloo.best", 0) || 0;
+  let soundOn = store.get("igloo.sound", true) !== false;
+  let gs = null, lastT = 0, msgTimer = 0;
+  const listeners = [];
+  const emit = (type, data) => listeners.forEach(fn => fn(type, data));
+  const pad4 = n => String(Math.max(0, Math.floor(n))).padStart(4, "0");
+  const pad2 = n => String(Math.max(0, n)).padStart(2, "0");
+
+  /* --- texte qui se « décode » (façon HUD) --- */
+  const GL = "!<>-_\\/[]{}=+*^?#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  function decode(el, text, ms = 420){
+    if(REDUCED_MOTION){ el.textContent = text; return; }
+    const target = Array.from(text), t0 = performance.now();
+    cancelAnimationFrame(el._dec);
+    const tick = now => {
+      const p = Math.min(1, (now - t0) / ms);
+      el.textContent = target.map((c, i) => c === " " || i / target.length < p ? c : GL[Math.floor(Math.random() * GL.length)]).join("");
+      if(p < 1) el._dec = requestAnimationFrame(tick);
+    };
+    el._dec = requestAnimationFrame(tick);
+  }
+  function flashMsg(main, sub = "", ms = 1100){
+    ui.msg.innerHTML = "";
+    const a = document.createElement("span"); ui.msg.appendChild(a); decode(a, main, 360);
+    if(sub){ const b = document.createElement("small"); ui.msg.appendChild(b); decode(b, sub, 500); }
+    ui.msg.classList.add("show");
+    clearTimeout(msgTimer);
+    if(ms) msgTimer = setTimeout(() => ui.msg.classList.remove("show"), ms);
+  }
+  function tone(f, d, type = "triangle", v = .05, delay = 0){ if(soundOn) Sound.tone(f, d, type, v, delay); }
+
+  /* --- état --- */
+  function demoState(){
+    // igloo déjà bâti pour l'écran d'accueil (mode « vitrine »)
+    const levels = [];
+    for(let i = 0; i <= N; i++) levels.push({ x:0, w:domeW(i), d:domeW(i) * .85, perfect:true, born:-10 });
+    return { levels, cur:null, falling:[], score:0, combo:0, over:true, won:true, demo:true, round:0, t:0 };
+  }
+  function reset(keepScore){
+    const round = keepScore && gs ? gs.round + 1 : 0;
+    const score = keepScore && gs ? gs.score : 0;
+    gs = { levels:[{ x:0, w:BASE, d:BASE * .85, perfect:true, born:0 }], cur:null, falling:[], score, combo:0, over:false, won:false, demo:false, round, t:0 };
+    ui.start.hidden = true; ui.over.hidden = true;
+    spawn();
+    updateHud();
+    flashMsg(round ? `Manche ${pad2(round + 1)}` : "Assise 01", round ? "Plus vite, plus froid" : "Posez le premier bloc", 1200);
+    emit("reset");
+  }
+  function spawn(){
+    const i = gs.levels.length, prev = gs.levels[i - 1];
+    const w = Math.min(prev.w, domeW(i));
+    const fromLeft = i % 2 === 1, range = BASE * .78 + w / 2;
+    gs.cur = { x:fromLeft ? -range : range, w, d:domeW(i) * .85, dir:fromLeft ? 1 : -1, range, i };
+    gs.speed = 5.2 + i * .42 + gs.round * 1.5;
+  }
+  function step(dt){
+    if(!gs) return;
+    gs.t += dt;
+    const c = gs.cur;
+    if(c && !gs.over){
+      c.x += c.dir * gs.speed * dt;
+      if(c.x > c.range){ c.x = c.range; c.dir = -1; }
+      if(c.x < -c.range){ c.x = -c.range; c.dir = 1; }
+    }
+    for(const f of gs.falling){
+      f.vy -= 24 * dt; f.y += f.vy * dt; f.x += f.vx * dt; f.rot += f.vr * dt;
+      if(f.y < -1.2 && !f.landed){ f.landed = true; emit("shatter", f); tone(1400 + Math.random() * 400, .05, "square", .015); }
+    }
+    gs.falling = gs.falling.filter(f => f.y > -6);
+  }
+  function drop(){
+    if(!gs || gs.demo){ reset(false); return; }
+    if(gs.over){ return; }
+    const c = gs.cur; if(!c) return;
+    const prev = gs.levels[gs.levels.length - 1];
+    const delta = c.x - prev.x;
+    const perfect = Math.abs(delta) <= TOL;
+    if(perfect) c.x = prev.x;
+    const L = Math.max(c.x - c.w / 2, prev.x - prev.w / 2), R = Math.min(c.x + c.w / 2, prev.x + prev.w / 2);
+    const ov = R - L, y = gs.levels.length * BH;
+    if(ov <= .06){
+      gs.falling.push({ x:c.x, w:c.w, d:c.d, y, vy:1, vx:c.dir * 3, rot:0, vr:c.dir * 2.5 });
+      gs.cur = null;
+      return gameOver();
+    }
+    if(!perfect){
+      const cutW = c.w - ov, cutX = delta > 0 ? R + cutW / 2 : L - cutW / 2;
+      gs.falling.push({ x:cutX, w:cutW, d:c.d, y, vy:2.5, vx:Math.sign(delta) * 2, rot:0, vr:Math.sign(delta) * (2 + Math.random() * 3) });
+      gs.combo = 0;
+      tone(160, .16, "sawtooth", .035);
+      if(cutW / c.w > .35) flashMsg("Bloc fendu", `−${Math.round(cutW / c.w * 100)} %`, 900);
+    } else {
+      gs.combo++;
+      tone(523 * Math.pow(2, Math.min(gs.combo, 12) / 12), .2, "triangle", .06);
+      tone(1568 * Math.pow(2, Math.min(gs.combo, 12) / 12), .12, "sine", .025, .04);
+      if(gs.combo >= 2) flashMsg(`Parfait ×${gs.combo}`, gs.combo >= 3 ? "Le bloc s'élargit" : "", 900);
+      ui.flash.classList.add("on"); requestAnimationFrame(() => requestAnimationFrame(() => ui.flash.classList.remove("on")));
+    }
+    gs.levels.push({ x:(L + R) / 2, w:ov, d:c.d, perfect, born:gs.t });
+    gs.score += perfect ? 2 + Math.min(gs.combo, 6) : 1;
+    emit("place", { perfect, level:gs.levels.length - 1 });
+    if(gs.levels.length - 1 >= N) return victory();
+    spawn();
+    if(perfect && gs.combo >= 3){ gs.cur.w = Math.min(domeW(gs.cur.i), gs.cur.w + .4); }
+    updateHud();
+  }
+  function gameOver(){
+    gs.over = true; gs.won = false;
+    if(gs.score > best){ best = gs.score; store.set("igloo.best", best); }
+    tone(330, .3, "triangle", .05); tone(247, .3, "triangle", .05, .18); tone(165, .5, "triangle", .05, .36);
+    updateHud();
+    emit("over");
+    setTimeout(() => {
+      ui.overK.textContent = "Effondrement";
+      decode(ui.overScore, pad4(gs.score), 700);
+      ui.overSub.textContent = `Assises : ${pad2(gs.levels.length - 1)}/${N} · Record : ${pad4(best)}`;
+      ui.again.textContent = "[ Rejouer ]";
+      ui.over.hidden = false;
+    }, 700);
+  }
+  function victory(){
+    gs.over = true; gs.won = true; gs.cur = null;
+    gs.score += 25 * (gs.round + 1);
+    if(gs.score > best){ best = gs.score; store.set("igloo.best", best); }
+    [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, .25, "triangle", .05, i * .11));
+    updateHud();
+    emit("win");
+    flashMsg("Igloo terminé", `+${25 * (gs.round + 1)} points de chaleur`, 1800);
+    setTimeout(() => {
+      ui.overK.textContent = "Dôme fermé";
+      decode(ui.overScore, pad4(gs.score), 700);
+      ui.overSub.textContent = `Manche ${pad2(gs.round + 1)} réussie · Record : ${pad4(best)}`;
+      ui.again.textContent = "[ Igloo suivant ]";
+      ui.over.hidden = false;
+    }, 1600);
+  }
+  function updateHud(){
+    if(!gs) return;
+    decode(ui.level, `${pad2(gs.demo ? N : gs.levels.length - 1)}/${N}`, 260);
+    decode(ui.score, pad4(gs.score), 260);
+    ui.best.textContent = pad4(best);
+    ui.side.textContent = `Vent ${30 + gs.round * 9} km/h · Manche ${pad2(gs.round + 1)}`;
+  }
+
+  /* --- rendu texte (repli sans WebGL, et copie) --- */
+  function textFrame(cols = 64, rows = 26, withMoving = true){
+    const range = BASE * 1.25;
+    const top = gs.levels.length + 2;
+    const y0 = Math.max(0, top - rows + 3);        // ligne de monde la plus basse affichée
+    const grid = Array.from({ length:rows }, () => Array(cols).fill(" "));
+    const X = x => Math.round((x + range) / (2 * range) * (cols - 1));
+    const put = (row, x, w, l, m, r) => {
+      if(row < 0 || row >= rows) return;
+      const a = X(x - w / 2), b = X(x + w / 2);
+      for(let k = a; k <= b; k++) if(k >= 0 && k < cols) grid[row][k] = k === a ? l : k === b ? r : m;
+    };
+    const rowOf = y => rows - 2 - (Math.floor(y / BH) - y0);
+    gs.levels.forEach((L, i) => put(rowOf(i * BH), L.x, L.w, "[", L.perfect ? "#" : "=", "]"));
+    if(withMoving && gs.cur) put(rowOf(gs.levels.length * BH), gs.cur.x, gs.cur.w, "<", "~", ">");
+    if(withMoving) for(const f of gs.falling) put(Math.round(rowOf(f.y)), f.x, f.w, "%", "%", "%");
+    if(gs.won && !gs.demo || gs.demo){ const r = rowOf(0); const a = X(-.9), b = X(.9); for(let k = a; k <= b; k++) if(r >= 0 && r < rows) grid[r][k] = k === a ? "(" : k === b ? ")" : " "; }
+    for(let k = 0; k < cols; k++) grid[rows - 1][k] = "~-^"[(k * 7 + 3) % 3];
+    return grid.map(r => r.join(""));
+  }
+  let textAcc = 0;
+  function renderText(dt){
+    textAcc += dt;
+    if(textAcc < 1 / 30) return;
+    textAcc = 0;
+    const cols = Math.max(40, Math.min(90, Math.floor(innerWidth / 11))), rows = Math.max(18, Math.min(34, Math.floor(innerHeight / 22)));
+    ui.text.textContent = textFrame(cols, rows).join("\n");
+  }
+
+  /* --- boucle & entrées --- */
+  function loop(now){
+    requestAnimationFrame(loop);
+    if(document.hidden || face.classList.contains("sleep")){ lastT = now; return; }
+    const dt = Math.min(.05, Math.max(.001, (now - (lastT || now)) / 1000)); lastT = now;
+    const paused = Drum.index !== 2 || !ui.start.hidden && !gs.demo;
+    if(!paused) step(dt);
+    else if(gs && gs.demo) gs.t += dt;
+    const gl = typeof Igloo3D !== "undefined" && Igloo3D.ready;
+    if(!gl || document.body.classList.contains("ig-textmode")) renderText(dt);
+    if(gl) Igloo3D.frame(dt, gs);
+  }
+  function bind(){
+    let down = null;
+    ui.hud.addEventListener("pointerdown", e => {
+      if(e.target.closest("button, .ig-panel")) return;
+      if(e.pointerType === "mouse"){ if(e.button === 0) drop(); return; }
+      down = { x:e.clientX, y:e.clientY, t:performance.now() };
+    });
+    ui.hud.addEventListener("pointerup", e => {
+      if(!down || e.pointerType === "mouse") return;
+      const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y), dur = performance.now() - down.t;
+      down = null;
+      if(moved < 12 && dur < 450 && !Drum.busy) drop();
+    });
+    ui.go.addEventListener("click", () => reset(false));
+    ui.again.addEventListener("click", () => reset(gs && gs.won && !gs.demo));
+    ui.copy.addEventListener("click", async () => {
+      const lines = textFrame(48, Math.min(22, gs.levels.length + 6), false);
+      while(lines.length && !lines[0].trim()) lines.shift();
+      const txt = toBraille([...lines, "", `IGLOO.EXE — ${pad4(gs.score)} pts — ${pad2(gs.levels.length - 1)}/${N} assises`].join("\n"));
+      toast(await copyText(txt) ? "Igloo copié (avec des « ⠀ »)" : "Impossible de copier");
+    });
+    ui.sound.addEventListener("click", () => {
+      soundOn = !soundOn; store.set("igloo.sound", soundOn);
+      decode(ui.sound, `Son : ${soundOn ? "oui" : "non"}`, 300);
+    });
+    ui.sound.textContent = `Son : ${soundOn ? "oui" : "non"}`;
+    document.addEventListener("keydown", e => {
+      if(Drum.index !== 2 || Drum.busy || e.ctrlKey || e.metaKey || e.altKey) return;
+      if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+      if(e.key === " " || e.key === "Enter"){
+        if(e.target.closest("button") && e.key === "Enter") return;
+        e.preventDefault();
+        if(!ui.over.hidden){ ui.again.click(); return; }
+        if(!ui.start.hidden){ reset(false); return; }
+        drop();
+      }
+    });
+  }
+  function init(){
+    gs = demoState();
+    bind();
+    updateHud();
+    ui.best.textContent = pad4(best);
+    requestAnimationFrame(loop);
+  }
+  return { init, on(fn){ listeners.push(fn); }, get state(){ return gs; }, BH, N, BASE, domeW, decode };
+})();
+
+/* ================================================================
+ * 3D : IGLOO — scène glacée rendue en caractères ASCII (post-traitement)
+ * ================================================================ */
+const Igloo3D = (() => {
+  const canvas = $("gl-igloo"), face = $("face-2");
+  const RAMPS = [
+    ["classique", " .:-=+*#%@"],
+    ["blocs", " .·░▒▓█"],
+    ["flocons", " .·:*+✦❄"],
+    ["binaire", " .:01"]
+  ];
+  let T = null, renderer, scene, cam, rt, post, postScene, postCam, ready = false;
+  let W = innerWidth, H = innerHeight, dpr = 1, time = 0;
+  let rampIdx = 0, mode = "ascii";
+  const blocks = [];          // meshes des assises posées
+  let curMesh = null, ground, aurora, snow, burst, ring, door, doorLight, boxGeo, edgeGeo, iceMat, curMat, chunkMat;
+  const chunkMeshes = new Map();
+  const camState = { y:4, az:.62, r:25, ty:4 };
+  const ptr = { nx:0, ny:0 };
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const lk = (rate, dt) => 1 - Math.exp(-rate * dt);
+
+  function makeAtlas(){
+    const chars = RAMPS[rampIdx][1];
+    const a = glyphAtlas(T, chars, 48, 86, '500 64px "JetBrains Mono", "Courier New", monospace', chars.length);
+    a.tex.minFilter = T.LinearFilter; a.tex.generateMipmaps = false;
+    return a;
+  }
+  function cellSize(){ const cw = W < 700 ? 7 : W < 1300 ? 8 : 9; return { cw, ch:cw * 1.8 }; }
+  function sizeTargets(){
+    const { cw, ch } = cellSize();
+    const cols = Math.ceil(W / cw), rows = Math.ceil(H / ch);
+    rt.setSize(cols * 2, rows * 2);
+    post.uniforms.uCell.value.set(cw * dpr, ch * dpr);
+    post.uniforms.uRes.value.set(W * dpr, H * dpr);
+  }
+
+  function build(){
+    scene = new T.Scene();
+    scene.background = new T.Color("#000000");
+    scene.fog = new T.FogExp2("#000000", .018);
+    cam = new T.PerspectiveCamera(40, W / H, .1, 400);
+
+    // aurore boréale
+    const ag = new T.CylinderGeometry(120, 120, 60, 64, 1, true, Math.PI * .55, Math.PI * .9);
+    aurora = new T.Mesh(ag, new T.ShaderMaterial({
+      side:T.BackSide, depthWrite:false, transparent:true, blending:T.AdditiveBlending, fog:false,
+      uniforms:{ uTime:{ value:0 } },
+      vertexShader:`varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
+      fragmentShader:`uniform float uTime; varying vec2 vUv;
+        float n(vec2 p){ return sin(p.x * 3.1 + sin(p.y * 2.3 + uTime * .3)) * .5 + .5; }
+        void main(){
+          float x = vUv.x * 9.;
+          float band = sin(x + uTime * .25 + sin(x * .7 + uTime * .2) * 1.6) * .5 + .5;
+          float y = vUv.y;
+          float curtain = smoothstep(.15, .55, y) * smoothstep(1., .62, y) * pow(band, 2.2);
+          curtain *= .6 + .4 * n(vec2(x * 2., y * 6. - uTime));
+          vec3 c = mix(vec3(.1, .9, .6), vec3(.3, .5, 1.), y) * curtain * 1.7;
+          gl_FragColor = vec4(c, curtain);
+        }`
+    }));
+    aurora.position.y = 18;
+    scene.add(aurora);
+
+    // étoiles
+    const SN = 900, sp = new Float32Array(SN * 3);
+    for(let i = 0; i < SN; i++){ const u = Math.random() * Math.PI * 2, v = rand(.15, 1), r = 150; sp[i*3] = Math.cos(u) * Math.sqrt(1 - v*v) * r; sp[i*3+1] = v * r; sp[i*3+2] = Math.sin(u) * Math.sqrt(1 - v*v) * r; }
+    const sgeo = new T.BufferGeometry(); sgeo.setAttribute("position", new T.BufferAttribute(sp, 3));
+    scene.add(new T.Points(sgeo, new T.PointsMaterial({ color:"#ffffff", size:1.6, sizeAttenuation:false, fog:false })));
+
+    // sol enneigé
+    const gg = new T.PlaneGeometry(300, 300, 120, 120); gg.rotateX(-Math.PI / 2);
+    const gp = gg.attributes.position;
+    for(let i = 0; i < gp.count; i++){ const x = gp.getX(i), z = gp.getZ(i), d = Math.hypot(x, z); gp.setY(i, (Math.sin(x * .15) * Math.cos(z * .12) * .6 + Math.sin(x * .05 + z * .07) * 1.4) * Math.min(1, Math.max(0, d - 9) / 14) - .02); }
+    gg.computeVertexNormals();
+    ground = new T.Mesh(gg, new T.MeshStandardMaterial({ color:"#55687a", roughness:1 }));
+    scene.add(ground);
+
+    // blocs
+    boxGeo = new T.BoxGeometry(1, 1, 1);
+    edgeGeo = new T.EdgesGeometry(boxGeo);
+    iceMat = new T.MeshStandardMaterial({ color:"#e2f3ff", roughness:.35, metalness:0, emissive:"#3d6f96", emissiveIntensity:.55 });
+    curMat = new T.MeshStandardMaterial({ color:"#ffffff", roughness:.3, emissive:"#5aa8e0", emissiveIntensity:.6 });
+    chunkMat = new T.MeshStandardMaterial({ color:"#a9d4f2", roughness:.4, emissive:"#0e2235", emissiveIntensity:.4 });
+
+    // neige qui tombe
+    const FN = 1600, fp = new Float32Array(FN * 3), fs = new Float32Array(FN);
+    for(let i = 0; i < FN; i++){ fp[i*3] = rand(-40, 40); fp[i*3+1] = rand(0, 40); fp[i*3+2] = rand(-40, 30); fs[i] = Math.random(); }
+    const fg = new T.BufferGeometry(); fg.setAttribute("position", new T.BufferAttribute(fp, 3)); fg.setAttribute("aSeed", new T.BufferAttribute(fs, 1));
+    snow = new T.Points(fg, new T.ShaderMaterial({
+      transparent:true, depthWrite:false, fog:false,
+      uniforms:{ uTime:{ value:0 }, uBase:{ value:0 }, uPR:{ value:1 } },
+      vertexShader:`uniform float uTime, uBase, uPR; attribute float aSeed; varying float vA;
+        void main(){ vec3 p = position; float sp = 1.2 + aSeed * 2.;
+          p.y = uBase + mod(p.y - uTime * sp, 40.) - 6.; p.x += sin(uTime * .6 + aSeed * 30.) * 1.2 + uTime * 1.5 * (aSeed + .3); p.x = mod(p.x + 40., 80.) - 40.;
+          vec4 mv = modelViewMatrix * vec4(p, 1.); gl_Position = projectionMatrix * mv; gl_PointSize = (2. + aSeed * 4.) * uPR * 14. / -mv.z; vA = .5 + aSeed * .5; }`,
+      fragmentShader:`varying float vA; void main(){ float d = length(gl_PointCoord - .5); if(d > .5) discard; gl_FragColor = vec4(vec3(1.), smoothstep(.5, .1, d) * vA); }`
+    }));
+    scene.add(snow);
+
+    // éclats de glace
+    const BN = 400, bp = new Float32Array(BN * 3);
+    const bgeo = new T.BufferGeometry(); bgeo.setAttribute("position", new T.BufferAttribute(bp, 3));
+    burst = { pts:new T.Points(bgeo, new T.PointsMaterial({ color:"#ffffff", size:.22, transparent:true, opacity:1, depthWrite:false })), vel:new Float32Array(BN * 3), life:new Float32Array(BN), next:0, n:BN };
+    burst.pts.frustumCulled = false;
+    for(let i = 0; i < BN; i++) bp[i*3+1] = -999;
+    scene.add(burst.pts);
+
+    // anneau « parfait »
+    ring = new T.Mesh(new T.TorusGeometry(1, .06, 8, 64), new T.MeshBasicMaterial({ color:"#ffffff", transparent:true, opacity:0, fog:false }));
+    ring.rotation.x = Math.PI / 2; scene.add(ring);
+
+    // entrée de l'igloo (apparaît une fois le dôme fermé)
+    door = new T.Group();
+    const tunnel = new T.Mesh(new T.CylinderGeometry(1.25, 1.25, 2.4, 24, 1, true, -Math.PI / 2, Math.PI), new T.MeshStandardMaterial({ color:"#d8efff", roughness:.4, emissive:"#18324a", emissiveIntensity:.4, side:T.DoubleSide }));
+    tunnel.rotation.x = Math.PI / 2; tunnel.position.set(0, 0, 0);
+    const glow = new T.Mesh(new T.CircleGeometry(1.1, 24, 0, Math.PI), new T.MeshBasicMaterial({ color:"#ffd9a0" }));
+    glow.position.z = -.2;
+    door.add(tunnel, glow);
+    doorLight = new T.PointLight("#ffbd73", 0, 12, 1.5); doorLight.position.set(0, .8, 1.5); door.add(doorLight);
+    door.visible = false;
+    scene.add(door);
+
+    scene.add(new T.HemisphereLight("#bfe3ff", "#1b2733", 1.15));
+    const key = new T.DirectionalLight("#ffffff", 2.6); key.position.set(-8, 14, 10); scene.add(key);
+    const rim = new T.DirectionalLight("#7fb6ff", 1.2); rim.position.set(10, 6, -8); scene.add(rim);
+
+    // post-traitement ASCII
+    rt = new T.WebGLRenderTarget(2, 2, { type:T.HalfFloatType, minFilter:T.LinearFilter, magFilter:T.LinearFilter, depthBuffer:true });
+    const atlas = makeAtlas();
+    post = new T.ShaderMaterial({
+      depthTest:false, depthWrite:false,
+      uniforms:{
+        tScene:{ value:rt.texture }, tAtlas:{ value:atlas.tex }, uCount:{ value:atlas.count },
+        uCell:{ value:new T.Vector2(8, 14) }, uRes:{ value:new T.Vector2(W, H) },
+        uTint:{ value:new T.Color("#bfe6ff") }, uBg:{ value:new T.Color("#02050a") }, uTime:{ value:0 }
+      },
+      vertexShader:`varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }`,
+      fragmentShader:`uniform sampler2D tScene, tAtlas; uniform float uCount, uTime; uniform vec2 uCell, uRes; uniform vec3 uTint, uBg;
+        void main(){
+          vec2 fc = gl_FragCoord.xy;
+          vec2 cells = ceil(uRes / uCell);
+          vec2 cell = floor(fc / uCell);
+          vec3 c = texture2D(tScene, (cell + .5) / cells).rgb;
+          c = 1. - exp(-c * 1.35);                                    // compression des hautes lumières
+          float l = dot(c, vec3(.2126, .7152, .0722));
+          l = pow(clamp(l, 0., 1.), .62);                             // courbe « perceptuelle »
+          float idx = clamp(floor(l * (uCount - .01)), 0., uCount - 1.);
+          vec2 local = fract(fc / uCell);
+          float g = texture2D(tAtlas, vec2((idx + local.x) / uCount, local.y)).a;
+          vec3 col = mix(uTint, c * 1.25 + vec3(.04, .07, .1), .45) * (.75 + l * .6);
+          float scan = .92 + .08 * sin(fc.y * 1.3);
+          gl_FragColor = vec4(uBg + col * g * scan, 1.);
+          #include <colorspace_fragment>
+        }`
+    });
+    postScene = new T.Scene();
+    postScene.add(new T.Mesh(new T.PlaneGeometry(2, 2), post));
+    postCam = new T.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    sizeTargets();
+  }
+
+  function setRamp(i){
+    rampIdx = (i + RAMPS.length) % RAMPS.length;
+    const old = post.uniforms.tAtlas.value;
+    const a = makeAtlas();
+    post.uniforms.tAtlas.value = a.tex; post.uniforms.uCount.value = a.count;
+    old.dispose();
+    Igloo.decode($("ig-ramp"), `Glyphes : ${RAMPS[rampIdx][0]}`, 300);
+    store.set("igloo.ramp", rampIdx);
+  }
+  function setMode(m){
+    mode = m;
+    document.body.classList.toggle("ig-textmode", m === "text");
+    Igloo.decode($("ig-mode"), `Rendu : ${{ ascii:"ASCII", raw:"3D brute", text:"texte" }[m]}`, 300);
+  }
+
+  function blockMesh(mat){
+    const m = new T.Mesh(boxGeo, mat);
+    const e = new T.LineSegments(edgeGeo, new T.LineBasicMaterial({ color:"#ffffff", transparent:true, opacity:.9 }));
+    m.add(e);
+    scene.add(m);
+    return m;
+  }
+  function spawnBurst(x, y, z, n, spread){
+    const B = burst, pos = B.pts.geometry.attributes.position;
+    for(let k = 0; k < n; k++){
+      const i = B.next; B.next = (B.next + 1) % B.n;
+      pos.setXYZ(i, x + rand(-spread, spread), y + rand(0, .4), z + rand(-1, 1));
+      B.vel[i*3] = rand(-4, 4); B.vel[i*3+1] = rand(2, 7); B.vel[i*3+2] = rand(-3, 3); B.life[i] = rand(.6, 1.2);
+    }
+  }
+
+  // synchronise la scène avec l'état du jeu, puis dessine
+  function frame(dt, gs){
+    if(!ready || !gs) return;
+    const calmMode = document.body.classList.contains("calm") || REDUCED_MOTION;
+    time += calmMode ? 0 : dt;
+    const BH = Igloo.BH;
+
+    // assises
+    while(blocks.length > gs.levels.length){ const m = blocks.pop(); scene.remove(m); }
+    gs.levels.forEach((L, i) => {
+      let m = blocks[i];
+      if(!m){ m = blockMesh(iceMat); blocks[i] = m; m.userData.land = L.born === gs.t || gs.t - L.born < .05 ? 1 : 0; }
+      const land = m.userData.land || 0;
+      m.userData.land = Math.max(0, land - dt * 4);
+      m.scale.set(L.w * (1 + land * .06), BH * .96 * (1 - land * .2), L.d);
+      m.position.set(L.x, i * BH + BH / 2 - land * .1, 0);
+    });
+    // bloc en mouvement
+    if(gs.cur && !gs.over){
+      if(!curMesh) curMesh = blockMesh(curMat);
+      curMesh.visible = true;
+      curMesh.scale.set(gs.cur.w, BH * .96, gs.cur.d);
+      curMesh.position.set(gs.cur.x, gs.levels.length * BH + BH / 2 + Math.sin(time * 6) * .03, 0);
+      curMat.emissiveIntensity = .5 + Math.sin(time * 5) * .25;
+    } else if(curMesh) curMesh.visible = false;
+    // morceaux qui tombent
+    const alive = new Set(gs.falling);
+    for(const [f, m] of chunkMeshes) if(!alive.has(f)){ scene.remove(m); chunkMeshes.delete(f); }
+    for(const f of gs.falling){
+      let m = chunkMeshes.get(f);
+      if(!m){ m = blockMesh(chunkMat); chunkMeshes.set(f, m); }
+      m.scale.set(f.w, BH * .96, f.d); m.position.set(f.x, f.y + BH / 2, 0); m.rotation.z = -f.rot * .5; m.rotation.x = f.rot * .2;
+    }
+    // éclats
+    const B = burst, pos = B.pts.geometry.attributes.position;
+    for(let i = 0; i < B.n; i++){
+      if(B.life[i] <= 0) continue;
+      B.life[i] -= dt; B.vel[i*3+1] -= 14 * dt;
+      pos.setXYZ(i, pos.getX(i) + B.vel[i*3] * dt, pos.getY(i) + B.vel[i*3+1] * dt, pos.getZ(i) + B.vel[i*3+2] * dt);
+      if(B.life[i] <= 0) pos.setY(i, -999);
+    }
+    pos.needsUpdate = true;
+    // anneau
+    if(ring.material.opacity > 0){ ring.scale.multiplyScalar(1 + dt * 2.2); ring.material.opacity = Math.max(0, ring.material.opacity - dt * 1.6); }
+    // porte
+    door.visible = gs.won;
+    if(gs.won){ door.position.set(gs.levels[0].x, 1.05, gs.levels[0].d / 2 + .9); doorLight.intensity += (30 - doorLight.intensity) * lk(2, dt); }
+    else doorLight.intensity = 0;
+
+    // caméra : suit le sommet ; tourne lentement autour du dôme en vitrine / fin de partie
+    const topY = gs.levels.length * BH;
+    const showcase = gs.over || gs.demo;
+    const ty = showcase ? Math.max(3.5, topY * .45) : Math.max(4, topY - 2.5);
+    camState.ty += (ty - camState.ty) * lk(3, dt);
+    const tr = showcase ? 25 : 19 + Math.min(6, topY * .25);
+    const fit = Math.min(2.4, Math.max(1, 1.05 / (W / H)));      // écrans en portrait : on recule
+    camState.r += (tr * fit - camState.r) * lk(2, dt);
+    if(showcase && !calmMode) camState.az += dt * .18;
+    else camState.az += (.62 + ptr.nx * .18 - camState.az) * lk(2, dt);
+    const el = .32 + ptr.ny * .06;
+    cam.position.set(Math.sin(camState.az) * camState.r * Math.cos(el), camState.ty + Math.sin(el) * camState.r, Math.cos(camState.az) * camState.r * Math.cos(el));
+    cam.lookAt(0, camState.ty, 0);
+    snow.material.uniforms.uTime.value = time; snow.material.uniforms.uBase.value = camState.ty - 10;
+    aurora.material.uniforms.uTime.value = time;
+    post.uniforms.uTime.value = time;
+
+    if(mode === "ascii"){
+      renderer.setRenderTarget(rt); renderer.render(scene, cam);
+      renderer.setRenderTarget(null); renderer.render(postScene, postCam);
+    } else if(mode === "raw"){
+      renderer.setRenderTarget(null); renderer.render(scene, cam);
+    }
+  }
+
+  function onGame(type, data){
+    if(!ready) return;
+    const gs = Igloo.state;
+    if(type === "place"){
+      const L = gs.levels[data.level];
+      if(blocks[data.level]) blocks[data.level].userData.land = 1;
+      if(data.perfect){ ring.position.set(L.x, data.level * Igloo.BH + .05, 0); ring.scale.setScalar(L.w * .55); ring.material.opacity = .95; spawnBurst(L.x, data.level * Igloo.BH + 1, 0, 24, L.w / 2); }
+      else spawnBurst(L.x, data.level * Igloo.BH + 1, 0, 10, L.w / 2);
+    } else if(type === "shatter"){
+      spawnBurst(data.x, -.2, 0, 40, data.w / 2);
+    } else if(type === "win"){
+      spawnBurst(0, gs.levels.length * Igloo.BH, 0, 120, 3);
+    } else if(type === "reset"){
+      for(const m of blocks) scene.remove(m); blocks.length = 0;
+      for(const m of chunkMeshes.values()) scene.remove(m); chunkMeshes.clear();
+    }
+  }
+
+  async function init(){
+    const test = document.createElement("canvas");
+    if(!(test.getContext("webgl2") || test.getContext("webgl"))) throw new Error("WebGL indisponible");
+    T = await import("three");
+    try { await Promise.race([document.fonts.load('500 40px "JetBrains Mono"'), new Promise(r => setTimeout(r, 2500))]); } catch {}
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    renderer = new T.WebGLRenderer({ canvas, antialias:false, powerPreference:"high-performance" });
+    renderer.setPixelRatio(dpr);
+    renderer.setSize(W, H, false);
+    renderer.outputColorSpace = T.SRGBColorSpace;
+    rampIdx = Math.max(0, Math.min(RAMPS.length - 1, +store.get("igloo.ramp", 0) || 0));
+    build();
+    addEventListener("resize", () => { W = innerWidth; H = innerHeight; renderer.setSize(W, H, false); cam.aspect = W / H; cam.updateProjectionMatrix(); sizeTargets(); });
+    addEventListener("pointermove", e => { ptr.nx = e.clientX / W * 2 - 1; ptr.ny = -(e.clientY / H * 2 - 1); }, { passive:true });
+    $("ig-mode").addEventListener("click", () => setMode(mode === "ascii" ? "raw" : mode === "raw" ? "text" : "ascii"));
+    $("ig-ramp").addEventListener("click", () => setRamp(rampIdx + 1));
+    $("ig-ramp").textContent = `Glyphes : ${RAMPS[rampIdx][0]}`;
+    Igloo.on(onGame);
+    try { await renderer.compileAsync(scene, cam); await renderer.compileAsync(postScene, postCam); } catch {}
+    ready = true;
+    face.classList.add("gl-ready");
+  }
+
+  return { init, frame, get ready(){ return ready; } };
+})();
+
 /* ================================================================
  * INIT
  * ================================================================ */
@@ -3723,28 +4727,30 @@ const Caveau3D = (() => {
   spawnFireflies();
 
   // Cylindre : barres de progression, titre, navigation
-  const barDown = $("bar-down"), barUp = $("bar-up");
-  const BAR_UP_IDLE = barUp.textContent;
   Drum.onPeek(p => {
-    barDown.style.width = (Math.max(0, p) * 100) + "%";
-    if(p < 0){ const n = Math.round(-p * 20); barUp.textContent = "[" + "#".repeat(n) + ".".repeat(20 - n) + "]"; }
-    else barUp.textContent = BAR_UP_IDLE;
+    const f = $("face-" + Drum.index);
+    f.querySelectorAll(".th-bar span").forEach(b => b.style.width = (Math.max(0, p) * 100) + "%");
+    f.querySelectorAll(".up-bar span").forEach(b => b.style.width = (Math.max(0, -p) * 100) + "%");
   });
+  const HASHES = ["", "#pendu", "#igloo"];
   Drum.onChange(i => {
     const face = $("face-" + i);
     document.title = face.dataset.title;
     document.body.classList.toggle("on-pendu", i === 1);
+    document.body.classList.toggle("on-igloo", i === 2);
     document.querySelectorAll("#drum-nav button").forEach(b => b.classList.toggle("on", +b.dataset.goto === i));
     try {
-      if(i === 1) history.replaceState(null, "", location.pathname + location.search + "#pendu");
-      else if(location.hash === "#pendu") history.replaceState(null, "", location.pathname + location.search);
+      if(HASHES[i]) history.replaceState(null, "", location.pathname + location.search + HASHES[i]);
+      else if(HASHES.includes(location.hash)) history.replaceState(null, "", location.pathname + location.search);
     } catch {}
     if(i === 0) fitPreview();
     if(i === 1){ Pendu.refreshName(); afterLoad(() => Pendu.boot()); }
     Reveal.check(face);
   });
   Pendu.init();
-  Drum.settle(location.hash === "#pendu" ? 1 : 0);
+  Igloo.init();
+  const startFace = Math.max(0, HASHES.indexOf(location.hash));
+  Drum.settle(startFace);
 
   // re-cale l'aperçu une fois les polices chargées
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitPreview);
@@ -3756,6 +4762,12 @@ const Caveau3D = (() => {
     .then(() => {
       GL3D = Caveau3D;
       if(document.fonts) document.fonts.ready.then(() => GL3D.update(state));   // repeint avec la bonne police
+      // les scènes des autres faces se préparent ensuite, sans bloquer
+      const later = [() => Pendu3D.init(), () => Igloo3D.init()];
+      if(startFace === 2) later.reverse();
+      setTimeout(async () => {
+        for(const job of later){ try { await job(); } catch(err){ console.warn("Scène 3D indisponible :", err && err.message); } }
+      }, 900);
     })
     .catch(err => {
       console.warn("Scène 3D indisponible, repli sur l'aperçu HTML :", err && err.message);
