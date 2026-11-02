@@ -403,16 +403,7 @@
           </div>
           <div class="field">
             <label for="moment">Moment de la journée</label>
-            <select id="moment">
-              <option value="En plein jour">En plein jour</option>
-              <option value="Pendant la nuit" selected>Pendant la nuit</option>
-              <option value="À l'aube">À l'aube</option>
-              <option value="Au crépuscule">Au crépuscule</option>
-              <option value="À l'heure du goûter">À l'heure du goûter</option>
-              <option value="Un lundi matin, évidemment">Un lundi matin, évidemment</option>
-              <option value="Personne ne sait trop">Personne ne sait trop</option>
-              <option value="">— Ne pas préciser —</option>
-            </select>
+            <select id="moment"></select>
           </div>
         </div>
       </details>
@@ -560,6 +551,62 @@ const CAUSES = [
   "après avoir dit « regarde, je lâche le guidon »",
   "terrassé(e) par une raclette de trop",
   "en mettant à jour Windows",
+  "en voulant caresser un cygne « trop mignon »",
+  "en mangeant le dernier yaourt de quelqu'un d'autre",
+  "en lisant les commentaires sous une vidéo",
+  "en essayant de plier un drap-housse",
+  "en confondant la mayonnaise et le dentifrice",
+  "d'ennui pendant une réunion qui aurait pu être un mail",
+  "en cherchant le bout du scotch",
+  "en sautant dans une piscine vide « pour le fun »",
+  "en cherchant une place de parking à Paris",
+  "écrasé(e) par sa pile de linge à repasser",
+  "en tentant de dépasser un tracteur dans un virage",
+  "emporté(e) par un parapluie un jour de mistral",
+  "en jouant à cache-cache dans un congélateur",
+  "en faisant confiance au GPS jusque dans le lac",
+  "en ouvrant un pot de cornichons récalcitrant",
+  "après une partie de Monopoly qui a mal tourné",
+  "en voulant prouver qu'on n'a pas peur des oies",
+  "en mangeant une barquette de frites au fond du four",
+  "en criant « même pas mal » une fois de trop",
+  "en montant un meuble suédois sans la notice",
+  "étranglé(e) par le fil de ses écouteurs",
+  "en courant après un bus qui ne s'arrêtait pas",
+  "en goûtant les champignons « trouvés dans le jardin »",
+  "en faisant un barbecue en appartement",
+  "noyé(e) dans un verre d'eau, littéralement",
+  "en essayant de vider sa boîte mail",
+  "en attendant que l'eau des pâtes bouille",
+  "en voulant rattraper un couteau qui tombait",
+  "d'une overdose de chocolat de Pâques",
+  "en tentant de battre son chat au regard fixe",
+  "en cherchant ses lunettes posées sur son nez",
+  "victime d'un trou de mémoire au pire moment",
+  "en essayant d'expliquer les NFT à sa grand-mère",
+  "en se battant avec un distributeur de boissons",
+  "en faisant du stand-up devant des pigeons",
+  "en traversant hors des clous, pour une fois",
+  "d'une crise de jalousie envers un aspirateur robot",
+  "en tentant le défi « 100 piments en 1 minute »",
+  "en appuyant sur le gros bouton rouge",
+  "en suivant un tuto YouTube de 3 minutes",
+  "en voulant récupérer sa tartine tombée côté confiture",
+  "en jurant que le four était éteint",
+  "en tirant sur le mauvais fil",
+  "de rire devant ses propres blagues",
+  "en essayant d'ouvrir un emballage plastique de piles",
+  "en voulant faire un câlin à un cactus",
+  "en disant « tiens, regarde ce que je sais faire »",
+  "foudroyé(e) en brandissant un parapluie en métal",
+  "en repoussant son réveil quinze fois de trop",
+  "en se disputant avec son correcteur orthographique",
+  "en installant une imprimante",
+  "au bout de sa 47ᵉ tentative de mot de passe",
+  "en mangeant un kebab à 4 heures du matin",
+  "englouti(e) par la machine à laver",
+  "en mettant de l'eau sur de l'huile qui brûlait",
+  "pendant la fondue, en cherchant son pain perdu",
   OTHER
 ];
 
@@ -574,6 +621,29 @@ const LATIN = [
   "Ci-gît et ci-reste",
   "Game over",
   "Déconnecté(e)",
+  "Alea jacta est",
+  "Veni, vidi, pas vici",
+  "Errare humanum est",
+  "Dura lex, sed lex",
+  "Fluctuat nec mergitur (raté)",
+  "In vino veritas",
+  "Ad patres",
+  "Ite, missa est",
+  "Vae victis",
+  "Tempus fugit",
+  "Fin de partie",
+  "Insérez une pièce pour continuer",
+  "Hors ligne",
+  "Batterie à 0 %",
+  "Abonné(e) absent(e)",
+  "Mise à jour terminée",
+  "Erreur 404 : vie introuvable",
+  "Rendez-vous au prochain épisode",
+  "Pause café éternelle",
+  "Ctrl+Z indisponible",
+  "Respawn dans 3… 2… 1…",
+  "Enfin en vacances",
+  "C'est pas faux",
   "",
   OTHER
 ];
@@ -587,7 +657,69 @@ const MESSAGES = [
   "Ne pas déranger.",
   "Ici repose un(e) grand(e) incompris(e).",
   "Toujours en retard, sauf cette fois.",
-  "Il/Elle avait raison, finalement."
+  "Il/Elle avait raison, finalement.",
+  "Je vous l'avais bien dit que j'étais malade.",
+  "Il/Elle doit encore 20 € à tout le monde.",
+  "Merci de refermer derrière vous.",
+  "Ne pas arroser.",
+  "Revient dans 5 minutes.",
+  "Le Wi-Fi est meilleur ici.",
+  "Pas de fleurs, des chips.",
+  "Il/Elle aurait voulu un plus grand caillou.",
+  "Enfin, une pierre qui ne bouge pas.",
+  "Il/Elle est parti(e) avec la télécommande.",
+  "Ses plantes vertes l'ont suivi(e) de près.",
+  "Personne n'a jamais su son mot de passe Netflix.",
+  "Ci-dessous : un(e) champion(ne) de la sieste.",
+  "Prière de ne pas marcher sur les pieds.",
+  "Il/Elle rêvait d'une vie paisible. C'est fait.",
+  "Désolé(e) pour le bruit.",
+  "Toujours mieux que le lundi.",
+  "A vécu, a ri, a oublié ses clés.",
+  "Ses derniers mots : « Tiens, c'est quoi ce bouton ? »",
+  "Ses derniers mots : « Fais-moi confiance. »",
+  "Ses derniers mots : « Ça va, c'est pas chaud. »",
+  "Ses derniers mots : « Je gère. »",
+  "Enfin ponctuel(le).",
+  "Ici, pas de réveil à 6 h.",
+  "Garé(e) définitivement.",
+  "Mode avion activé.",
+  "Il/Elle a enfin trouvé la paix… et ses lunettes.",
+  "Ne cherchez plus, il/elle est ici.",
+  "Ses chaussettes, elles, n'ont jamais été retrouvées.",
+  "Il/Elle avait encore 3 épisodes à regarder.",
+  "Ni fleurs, ni couronnes, ni réunion d'équipe.",
+  "Le meilleur pour la fin. Ou pas.",
+  "Une pensée pour son chat, enfin libre.",
+  "Partagez ce message à 10 personnes ou rejoignez-le/la.",
+  "Il/Elle repose en paix, ses voisins aussi."
+];
+
+const MOMENTS = [
+  "En plein jour",
+  "Pendant la nuit",
+  "À l'aube",
+  "Au crépuscule",
+  "À l'heure du goûter",
+  "Un lundi matin, évidemment",
+  "Personne ne sait trop",
+  "Un vendredi 13",
+  "Pendant la pause café",
+  "En pleine réunion Zoom",
+  "Entre la poire et le fromage",
+  "Pendant les soldes",
+  "Juste avant les vacances",
+  "À 3 heures du matin",
+  "Pendant le journal de 20 h",
+  "Le jour de son anniversaire",
+  "Au premier coup de minuit",
+  "Pendant la sieste",
+  "Sous une pluie battante",
+  "Un dimanche soir de déprime",
+  "Pendant un orage",
+  "Devant tout le monde",
+  "Sans prévenir personne",
+  "Pile à l'heure, pour une fois"
 ];
 
 const SPECIAL_CHARS = ["☠","✝","†","✟","♱","☾","✦","❀","⚰","⚱","☺","∞","♥","🕊","🥀","💀","🖤","🌑","🕸","🦇"];
@@ -716,14 +848,70 @@ const MATERIALS = {
   night:    { label:"Nuit étoilée",  c:["#1d2440","#0e1226","#171b30"], ink:"#d4dcf4", dark:true }
 };
 
-const RANDOM_NAMES = [
-  "Luc Duval","Berthe Lacroix","Gontran Pichon","Odette Fournier",
-  "Roger Delamain","Yvonne Pétard","Marcel Lhuissier","Ginette Bouchard",
-  "Fernand Trouille","Huguette Crampon","Aristide Lebon","Solange Maugrin",
-  "Marie-Antoinette De La Fontaine","Jean-Baptiste Extraordinaire",
-  "Kévin du 3ᵉ","Josiane Tartempion","Albert Patapouf","Raymonde Cassoulet"
+const RANDOM_NAMES_M = [
+  "Luc Duval",
+  "Gontran Pichon",
+  "Roger Delamain",
+  "Marcel Lhuissier",
+  "Fernand Trouille",
+  "Aristide Lebon",
+  "Jean-Baptiste Extraordinaire",
+  "Kévin du 3ᵉ",
+  "Albert Patapouf",
+  "Hector Bigoudi",
+  "Gaston Lagaffe-Dupont",
+  "Raoul Saucisson",
+  "Bernard Croquette",
+  "Firmin Lavoine",
+  "Eugène Pantoufle",
+  "Jean-Michel Apeuprès",
+  "Maurice Ronchon",
+  "Lucien Courgette",
+  "Théodule Ramier",
+  "Norbert Gratin",
+  "Edmond Tartine",
+  "Jacky Tuning",
+  "Gérard Menvussa",
+  "Didier Sansonnet",
+  "Barnabé Pistache",
+  "Anatole Grumeau",
+  "Brandon Maxi-Best",
+  "Hippolyte Cornichon",
+  "René Laflemme",
+  "Ignace Moutarde"
 ];
-const FEMALE_NAMES = ["Berthe","Odette","Yvonne","Ginette","Huguette","Solange","Marie-Antoinette","Josiane","Raymonde"];
+const RANDOM_NAMES_F = [
+  "Berthe Lacroix",
+  "Odette Fournier",
+  "Yvonne Pétard",
+  "Ginette Bouchard",
+  "Huguette Crampon",
+  "Solange Maugrin",
+  "Marie-Antoinette De La Fontaine",
+  "Josiane Tartempion",
+  "Raymonde Cassoulet",
+  "Germaine Bigorneau",
+  "Paulette Chouquette",
+  "Simone Patatras",
+  "Jacqueline Flan",
+  "Micheline Truffe",
+  "Suzanne Escargot",
+  "Bernadette Clafoutis",
+  "Lucienne Toupie",
+  "Gisèle Cacahuète",
+  "Mauricette Pruneau",
+  "Henriette Brioche",
+  "Pierrette Bisou",
+  "Marcelle Moussaka",
+  "Joséphine Tirelire",
+  "Augustine Grelot",
+  "Jessica Pailletée",
+  "Agathe Zeblouse",
+  "Fernande Courant-d'air",
+  "Colette Ronron",
+  "Thérèse Tracas",
+  "Clotilde Bazar"
+];
 
 const DEFAULTS = {
   name:"Luc Duval", gender:"m", caps:false,
@@ -841,7 +1029,13 @@ function ageBetween(b, d){
  * ================================================================ */
 const NAME_MARGIN = 8;
 function accord(text, g){
-  return text.replace(/\(e\)/g, g.e).replace(/Il\/Elle/g, g.il);
+  const f = g.e === "e", n = g.e === "·e";
+  return text
+    .replace(/\((ne|le)\)/g, (_, x) => f ? x : n ? "·" + x : "")    // champion(ne), ponctuel(le)
+    .replace(/\(e\)/g, g.e)
+    .replace(/Il\/Elle/g, g.il)
+    .replace(/il\/elle/g, g.il.toLowerCase())
+    .replace(/-le\/la\b/g, f ? "-la" : n ? "-le/la" : "-le");
 }
 
 function compose(s){
@@ -975,6 +1169,7 @@ function fillSelect(el, options, labels = {}){
 }
 fillSelect(els.cause, CAUSES);
 fillSelect(els.latin, LATIN, LATIN_LABELS);
+fillSelect(els.moment, [...MOMENTS, ""], { "": "— Ne pas préciser —" });
 
 function makePills(wrapId, dict, key, decorate){
   const wrap = $(wrapId);
@@ -1132,15 +1327,14 @@ function randomDate(y0, y1){
   return isoDate(d.getUTCFullYear(), d.getUTCMonth()+1, d.getUTCDate());
 }
 function randomize(){
-  const name = pick(RANDOM_NAMES);
-  const first = name.split(" ")[0];
+  const gender = Math.random() < .5 ? "f" : "m";
   const s = {
     ...state,
-    name,
-    gender: FEMALE_NAMES.includes(first) ? "f" : "m",
+    name: pick(gender === "f" ? RANDOM_NAMES_F : RANDOM_NAMES_M),
+    gender,
     cause: pick(CAUSES.filter(c => c !== OTHER)),
     latin: pick(LATIN.filter(c => c !== OTHER)),
-    moment: pick(["En plein jour","Pendant la nuit","À l'aube","Au crépuscule","À l'heure du goûter","Un lundi matin, évidemment","Personne ne sait trop"]),
+    moment: pick(MOMENTS),
     date: randomDate(2026, 2026),
     birth: Math.random() < .6 ? randomDate(1925, 2005) : "",
     datefmt: pick(["doy","doy","classic","roman","short"]),
