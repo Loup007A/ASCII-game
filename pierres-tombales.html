@@ -703,6 +703,68 @@
     .ig-bottom{ left:28px; right:28px; bottom:24px; flex-direction:column; align-items:flex-start; }
   }
   @keyframes blink{ 50%{ opacity:0; } }
+
+  /* ================================================================
+   * FACE 4 : LE SURSIS — ping-pong contre la Mort, film muet en ASCII
+   * ================================================================ */
+  .face-sursis{ background:#0a0a09; color:#ebe6da; }
+  .su-scroller{ overflow:hidden !important; }
+  .su{ position:absolute; inset:0; display:flex; flex-direction:column; overflow:hidden; filter:grayscale(1) contrast(1.06);
+    background:radial-gradient(ellipse 70% 60% at 50% 42%, #2a2926, #0b0b0a 75%); animation:suFlicker 3.4s steps(1) infinite; }
+  @keyframes suFlicker{ 0%,100%{ opacity:1; } 11%{ opacity:.93; } 12%{ opacity:1; } 47%{ opacity:.96; } 48%{ opacity:1; } 73%{ opacity:.9; } 74%{ opacity:1; } }
+  .su::after{ content:""; position:absolute; inset:0; pointer-events:none; z-index:6;
+    background:radial-gradient(ellipse 80% 75% at 50% 50%, transparent 55%, rgba(0,0,0,.75) 100%); }
+  .su-film{ position:absolute; inset:0; pointer-events:none; z-index:7; }
+  .su-scratch{ position:absolute; top:-10%; bottom:-10%; width:1px; background:rgba(255,255,255,.22); animation:suScratch 6s linear infinite; }
+  .su-scratch.a{ left:23%; }
+  .su-scratch.b{ left:71%; width:2px; background:rgba(255,255,255,.12); animation-duration:4.3s; animation-delay:-2s; }
+  @keyframes suScratch{ 0%{ transform:translateX(0); opacity:0; } 8%{ opacity:1; } 30%{ transform:translateX(18px); opacity:0; } 55%{ transform:translateX(-40px); opacity:0; } 60%{ opacity:.8; } 85%{ transform:translateX(-60px); opacity:0; } 100%{ opacity:0; } }
+  body.calm .su, body.calm .su-scratch, body.calm .su-reaper{ animation:none !important; }
+  @media (prefers-reduced-motion: reduce){ .su, .su-scratch, .su-reaper{ animation:none !important; } }
+  body.on-sursis #grain{ opacity:.17; }
+  .su-bar, .su-foot{ position:relative; z-index:8; display:flex; justify-content:space-between; align-items:center; gap:14px; padding:16px clamp(16px,3vw,40px);
+    background:#000; color:#cfc9bb; flex-wrap:wrap; }
+  .su-bar{ border-bottom:1px solid #ffffff10; }
+  .su-foot{ border-top:1px solid #ffffff10; font-size:10.5px; }
+  .su-arena{ position:relative; z-index:2; flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+    padding:10px 10px 16px; touch-action:none; user-select:none; -webkit-user-select:none; }
+  .su-reaper{ position:absolute; left:50%; top:0; margin:0; font-family:'Courier Prime', 'Courier New', monospace; font-weight:700; line-height:1.05; white-space:pre; color:#ebe6da;
+    text-shadow:0 0 12px rgba(255,255,255,.18); transform-origin:50% 100%; will-change:transform; animation:suBreath 3.6s ease-in-out infinite; z-index:1; }
+  @keyframes suBreath{ 50%{ scale:1 1.025; } }
+  .su-table-wrap{ position:relative; perspective:900px; perspective-origin:50% -40%; will-change:transform; flex:none; }
+  .su-table{ display:block; position:absolute; left:0; bottom:0; transform:rotateX(54deg); transform-origin:50% 100%; }
+  .su-score{ position:absolute; z-index:3; top:14px; left:clamp(14px,3vw,36px); right:clamp(14px,3vw,36px); display:flex; justify-content:space-between; pointer-events:none; }
+  .su-score b{ font-family:var(--serif); font-weight:400; font-size:clamp(34px,5vw,64px); line-height:1; display:block; letter-spacing:0; text-transform:none; color:#fff; }
+  .su-score span:last-child{ text-align:right; }
+  .su-card{ position:absolute; inset:0; z-index:9; display:flex; align-items:center; justify-content:center; background:#050505; opacity:0; pointer-events:none; transition:opacity .25s; }
+  .su-card.show{ opacity:1; }
+  .su-card-in{ position:relative; width:min(640px, 84vw); padding:44px 34px; text-align:center; border:2px solid #d9d3c4; outline:1px solid #d9d3c4; outline-offset:6px; }
+  .su-card-in::before, .su-card-in::after{ content:"❦"; position:absolute; left:50%; transform:translateX(-50%); font-size:20px; color:#d9d3c4; background:#050505; padding:0 12px; }
+  .su-card-in::before{ top:-15px; } .su-card-in::after{ bottom:-15px; transform:translateX(-50%) rotate(180deg); }
+  .su-card-k{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:#a8a293; margin-bottom:16px; }
+  .su-card p{ margin:0; font-family:var(--serif); font-style:italic; font-size:clamp(26px, 4vw, 44px); line-height:1.15; color:#f2ede1; }
+  .su-menu{ position:absolute; z-index:10; left:50%; top:50%; transform:translate(-50%,-50%); width:min(560px, calc(100% - 32px)); max-height:calc(100% - 32px); overflow:auto;
+    padding:34px 30px 26px; text-align:center; background:rgba(8,8,8,.88); border:1px solid #d9d3c4; outline:1px solid #d9d3c4; outline-offset:5px;
+    display:flex; flex-direction:column; gap:14px; align-items:center; }
+  .su-menu[hidden]{ display:none !important; }
+  .su-title{ margin:0; font-family:var(--serif); font-weight:400; font-size:clamp(54px, 9vw, 96px); line-height:.9; letter-spacing:-.02em; color:#f4efe3; }
+  .su-title em{ font-style:italic; }
+  .su-big{ font-family:var(--serif); font-size:clamp(46px, 7vw, 76px); line-height:1; color:#fff; }
+  .su-menu p{ margin:0; max-width:430px; color:#cbc5b6; font-size:16.5px; line-height:1.5; }
+  .su-opts{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; width:100%; }
+  .su-opts label{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#a8a293; text-align:left; display:flex; flex-direction:column; gap:6px; margin:0; }
+  .su-opts select{ font-size:14px; padding:9px 10px; border-radius:0; background:#111; border-color:#ffffff30; filter:none; }
+  @media(max-width:560px){ .su-opts{ grid-template-columns:1fr; } }
+  .su-actions{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:4px; }
+  .su-menu .btn{ border-radius:0; }
+  .su-menu .btn.primary{ background:#f2ede1; border-color:#f2ede1; color:#0a0a0a; box-shadow:none; }
+  .su-pause{ position:absolute; z-index:8; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; opacity:0; transition:opacity .2s;
+    font-family:var(--serif); font-style:italic; font-size:clamp(40px,7vw,80px); color:#fff; text-shadow:0 0 30px #000; }
+  .su-pause.show{ opacity:1; }
+  body.on-sursis #drum-nav button.on{ background:#f2ede1; border-color:#f2ede1; color:#0a0a0a; box-shadow:0 0 14px -2px rgba(255,255,255,.5); }
+  body.on-sursis #cursor .c-ring{ border-radius:0; }
+  body.on-sursis.su-playing #cursor{ opacity:0; }
+  body.on-sursis #toast{ border-radius:0; border-color:#f2ede1; background:#0a0a0a; font-family:var(--serif); font-style:italic; font-size:18px; }
 </style>
 </head>
 <body>
@@ -1055,6 +1117,7 @@
           <div class="ig-bottom">
             <div class="ig-prompt" id="ig-prompt">Clic / Espace — poser le bloc</div>
             <div class="ig-tools">
+              <button class="ig-btn" type="button" data-goto="3">↓ Le Sursis</button>
               <button class="ig-btn" type="button" id="ig-mode">Rendu : ASCII</button>
               <button class="ig-btn" type="button" id="ig-ramp">Glyphes : classique</button>
               <button class="ig-btn" type="button" id="ig-sound">Son : oui</button>
@@ -1080,6 +1143,60 @@
       </div>
       <div class="shade"></div>
     </section>
+
+    <!-- ================= FACE 4 : LE SURSIS ================= -->
+    <section class="face face-sursis" id="face-3" data-title="Le Sursis — Le Caveau" aria-label="Le Sursis">
+      <div class="scroller su-scroller" id="scroll-3" tabindex="-1">
+        <div class="su" id="su">
+          <div class="su-film" aria-hidden="true"><span class="su-scratch a"></span><span class="su-scratch b"></span></div>
+          <header class="su-bar mono">
+            <button class="linkbtn" type="button" data-goto="2">↑ Igloo<span class="up-bar" aria-hidden="true"><span></span></span></button>
+            <span>Le Sursis — un film en un acte</span>
+            <span id="su-meta">Novice · 7 points</span>
+          </header>
+          <div class="su-arena" id="su-arena" data-no-drum>
+            <div class="su-score mono" aria-live="polite"><span>La Mort<b id="su-s-death">0</b></span><span>Vous<b id="su-s-you">0</b></span></div>
+            <pre class="su-reaper" id="su-reaper" aria-hidden="true"></pre>
+            <div class="su-table-wrap" id="su-wrap"><canvas class="su-table" id="su-canvas" aria-label="Table de ping-pong"></canvas></div>
+            <div class="su-pause" id="su-pause">Pause</div>
+          </div>
+          <footer class="su-foot mono"><span id="su-hint">Souris, doigt ou ← → · Espace : pause</span><span>Une production du Caveau ✝</span></footer>
+          <div class="su-card" id="su-card" aria-live="polite"><div class="su-card-in"><span class="su-card-k" id="su-card-k">Acte I</span><p id="su-card-t"></p></div></div>
+          <div class="su-menu" id="su-menu">
+            <span class="mono" id="su-menu-k">Un film de la Mort</span>
+            <h2 class="su-title" id="su-menu-title">Le <em>Sursis</em></h2>
+            <div class="su-big" id="su-menu-score" hidden></div>
+            <p id="su-menu-text">Battez la Mort au ping-pong pour gagner un peu de temps. Raquette à la souris, au doigt ou aux flèches ← →.</p>
+            <div class="su-opts">
+              <label>Adversaire
+                <select id="su-level">
+                  <option value="novice">La Mort, novice</option>
+                  <option value="coriace">La Mort, coriace</option>
+                  <option value="implacable">La Mort, implacable</option>
+                </select></label>
+              <label>Partie en
+                <select id="su-points">
+                  <option value="5">5 points</option>
+                  <option value="7">7 points</option>
+                  <option value="11">11 points</option>
+                </select></label>
+              <label>Mode
+                <select id="su-mode">
+                  <option value="solo">Seul contre la Mort</option>
+                  <option value="duo">Duel à deux</option>
+                </select></label>
+            </div>
+            <div class="su-actions">
+              <button class="btn primary magnetic" type="button" id="su-play">Défier la Mort</button>
+              <button class="btn" type="button" id="su-grave" hidden>⚰ Graver sa pierre tombale</button>
+              <button class="btn" type="button" id="su-copy" hidden>Copier le score</button>
+            </div>
+            <span class="mono" id="su-record" style="color:#a8a293">Sursis obtenus : 0 · Défaites : 0</span>
+          </div>
+        </div>
+      </div>
+      <div class="shade"></div>
+    </section>
   </div><!-- /drum -->
   <div class="rail l" aria-hidden="true"></div>
   <div class="rail r" aria-hidden="true"></div>
@@ -1089,6 +1206,7 @@
   <button type="button" class="magnetic" data-goto="0" title="Le Caveau" aria-label="Page 1 : Le Caveau">I</button>
   <button type="button" class="magnetic" data-goto="1" title="Le Pendu" aria-label="Page 2 : Le Pendu">II</button>
   <button type="button" class="magnetic" data-goto="2" title="Igloo" aria-label="Page 3 : Igloo">III</button>
+  <button type="button" class="magnetic" data-goto="3" title="Le Sursis" aria-label="Page 4 : Le Sursis">IV</button>
 </nav>
 
 <div id="toast" role="status"></div>
@@ -2366,6 +2484,7 @@ const Drum = (() => {
   let ty0 = null, tBottom = false, tTop = false;
   stage.addEventListener("touchstart", e => {
     if(busy || e.touches.length > 1){ ty0 = null; return; }
+    if(e.target.closest && e.target.closest("[data-no-drum]")){ ty0 = null; return; }
     const sc = scrollers[index];
     ty0 = e.touches[0].clientY; tBottom = atBottom(sc); tTop = atTop(sc);
   }, { passive:true });
@@ -4709,6 +4828,424 @@ const Igloo3D = (() => {
   return { init, frame, get ready(){ return ready; } };
 })();
 
+
+/* ================================================================
+ * PAGE 4 : LE SURSIS — ping-pong contre la Mort (canvas ASCII)
+ * ================================================================ */
+const Sursis = (() => {
+  const face = $("face-3"), arena = $("su-arena"), wrap = $("su-wrap"), cv = $("su-canvas"), reaperEl = $("su-reaper");
+  const ui = {
+    sDeath:$("su-s-death"), sYou:$("su-s-you"), meta:$("su-meta"), hint:$("su-hint"), card:$("su-card"), cardK:$("su-card-k"), cardT:$("su-card-t"),
+    menu:$("su-menu"), menuK:$("su-menu-k"), menuTitle:$("su-menu-title"), menuScore:$("su-menu-score"), menuText:$("su-menu-text"),
+    level:$("su-level"), points:$("su-points"), mode:$("su-mode"), play:$("su-play"), grave:$("su-grave"), copy:$("su-copy"), record:$("su-record"), pause:$("su-pause")
+  };
+  const ctx = cv.getContext("2d");
+  const COLS = 55, ROWS = 39;                       // grille ASCII de la table (bordures comprises)
+  const HALF_W = .5, HALF_L = .8, PAD_Y = .7, R = .014;
+  const LEVELS = {
+    novice:    { label:"Novice",     speed:.62, react:.2,  err:.13, w:.22 },
+    coriace:   { label:"Coriace",    speed:.92, react:.11, err:.075, w:.2 },
+    implacable:{ label:"Implacable", speed:1.3, react:.05, err:.035, w:.19 }
+  };
+  const LINES = {
+    you:["Un point pour les vivants !", "La Mort fronce ce qui lui sert de sourcils.", "La Mort conteste. Personne ne l'écoute.", "Dans l'au-delà, on siffle.", "La faux tremble un peu.", "Un revers que même la Mort n'a pas vu venir."],
+    death:["La Mort marque. Elle ricane.", "Un point de plus vers l'éternité.", "La faux n'était même pas nécessaire.", "La Mort fait semblant d'être surprise.", "Le sablier s'impatiente.", "« Je ne rate jamais », dit la Mort."],
+    duoYou:["Le joueur du bas marque !", "Point pour les vivants du bas."], duoDeath:["Le joueur du haut marque !", "La Mort (jouée par un vivant) marque."]
+  };
+  const DIGITS = {
+    0:["###","# #","# #","# #","###"], 1:[" # ","## "," # "," # ","###"], 2:["###","  #","###","#  ","###"], 3:["###","  #","###","  #","###"],
+    4:["# #","# #","###","  #","  #"], 5:["###","#  ","###","  #","###"], 6:["###","#  ","###","# #","###"], 7:["###","  #","  #","  #","  #"],
+    8:["###","# #","###","# #","###"], 9:["###","# #","###","  #","###"]
+  };
+  const REAPER = [
+    "           .-''''''-.                   ",
+    "          /          \\        .------.  ",
+    "         /  .------.  \\     .'          ",
+    "        |  /        \\  |   /            ",
+    "        |  |  {E}   |  |  |             ",
+    "        |  |   ^    |  |  |             ",
+    "        |  \\  {M}   /  |  |             ",
+    "         \\  '------'  /   |             ",
+    "        __\\          /__  |             ",
+    "       /   '--------'   \\ |             ",
+    "      /  /|            |\\  \\|            ",
+    "     /__/ |            | \\__\\            "
+  ];
+  const FACES = { idle:["o o", "---"], blink:["- -", "---"], laugh:["^ ^", "vVv"], angry:["\\ /", "/-\\"], shock:["O O", " o "], win:["^ ^", "\\_/"] };
+
+  let stats = { wins:0, losses:0, ...store.get("sursis.stats", {}) };
+  let opts = { level:"novice", points:7, mode:"solo", ...store.get("sursis.opts", {}) };
+  let g = null, phase = "menu", lastT = 0, cell = 10, dpr = 1, face0 = "idle", faceTimer = 0, cardTimer = 0;
+  const keys = new Set();
+  const ptr = { x:null, xDeath:null };
+
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+  /* --- mise en page --- */
+  function layout(){
+    const r = arena.getBoundingClientRect();
+    if(!r.width || !r.height) return;
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    const apply = c => {
+      cell = c;
+      const cw = cell * .62, ch = cell * 1.3;
+      layout.cw = cw; layout.ch = ch;
+      cv.width = Math.round(COLS * cw * dpr); cv.height = Math.round(ROWS * ch * dpr);
+      cv.style.width = (COLS * cw) + "px"; cv.style.height = (ROWS * ch) + "px";
+      // le conteneur garde la taille « à plat » : la perspective ne dépend donc pas de la mesure
+      wrap.style.width = (COLS * cw) + "px"; wrap.style.height = (ROWS * ch) + "px";
+      wrap.style.perspective = Math.round(ROWS * ch * 1.5) + "px";
+      reaperEl.style.fontSize = (cell * .9) + "px";
+    };
+    let c = clamp((r.width * .94) / (COLS * .62), 6, 24);
+    for(let k = 0; k < 4; k++){
+      apply(c);
+      const th = cv.getBoundingClientRect().height, rh = reaperEl.offsetHeight;
+      const avail = r.height - 24;
+      if(th + rh * .9 <= avail) break;
+      c = Math.max(6, c * avail / (th + rh * .9) * .98);
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.font = `700 ${cell}px "JetBrains Mono", "Courier Prime", "Courier New", monospace`;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    // la Faucheuse se tient juste derrière le bord lointain de la table
+    const tb = cv.getBoundingClientRect();
+    layout.reaperTop = tb.top - r.top - reaperEl.offsetHeight * .9;
+    layout.topWidth = tb.width;
+    placeReaper(0);
+  }
+  function placeReaper(x){
+    reaperEl.style.top = Math.max(0, layout.reaperTop || 0) + "px";
+    reaperEl.style.transform = `translateX(calc(-50% + ${x}px))`;
+  }
+
+  /* --- Faucheuse --- */
+  function setFace(name, ms = 0){
+    face0 = name; faceTimer = ms;
+    const [e, m] = FACES[name] || FACES.idle;
+    reaperEl.textContent = REAPER.map(l => l.replace("{E}", e).replace("{M}", m)).join("\n");
+  }
+
+  /* --- état de partie --- */
+  function newMatch(){
+    const L = LEVELS[opts.level] || LEVELS.novice;
+    g = {
+      L, to:+opts.points || 7, duo:opts.mode === "duo",
+      s:[0, 0],                                    // [la Mort, vous]
+      ball:{ x:0, y:0, vx:0, vy:0, speed:.8 },
+      you:{ x:0, w:.21, v:0, px:0 }, death:{ x:0, w:L.w, v:0, px:0, target:0, think:0 },
+      server:1, trail:[], sparks:[], pops:[], shake:0, rally:0, hits:0, best:0
+    };
+    renderScore();
+    ui.meta.textContent = `${g.duo ? "Duel" : L.label} · ${g.to} points`;
+    ui.hint.textContent = g.duo ? "Bas : ← → · Haut : A D · Espace : pause" : "Souris, doigt ou ← → · Espace : pause";
+  }
+  function serve(){
+    const b = g.ball, toward = g.server === 1 ? -1 : 1;     // le serveur envoie vers l'adversaire
+    b.x = (g.server === 1 ? g.you.x : g.death.x) * .6;
+    b.y = g.server === 1 ? PAD_Y - .06 : -PAD_Y + .06;
+    b.speed = .78 + g.L.speed * .08;
+    const a = rand(-.38, .38);
+    b.vx = Math.sin(a) * b.speed; b.vy = Math.cos(a) * b.speed * toward;
+    g.trail = []; g.rally = 0;
+  }
+  function renderScore(){ ui.sDeath.textContent = g.s[0]; ui.sYou.textContent = g.s[1]; }
+
+  /* --- cartons de film muet --- */
+  function card(kicker, text, ms, then){
+    ui.cardK.textContent = kicker; ui.cardT.textContent = text;
+    ui.card.classList.add("show");
+    phase = "card";
+    clearTimeout(cardTimer);
+    cardTimer = setTimeout(() => { ui.card.classList.remove("show"); then && then(); }, REDUCED_MOTION ? Math.min(ms, 900) : ms);
+  }
+
+  function start(){
+    opts = { level:ui.level.value, points:+ui.points.value, mode:ui.mode.value };
+    store.set("sursis.opts", opts);
+    newMatch();
+    ui.menu.hidden = true;
+    setFace("idle");
+    document.body.classList.add("su-playing");
+    card("Acte I", g.duo ? "Deux vivants se disputent une balle. La Mort compte les points." : "Où l'on défie la Mort au ping-pong.", 1900, () => { serve(); phase = "play"; });
+  }
+  function point(winner){                          // 0 = la Mort, 1 = vous
+    g.s[winner]++;
+    renderScore();
+    g.server = winner === 0 ? 1 : 0;               // le perdant du point sert
+    g.best = Math.max(g.best, g.rally);
+    if(winner === 0){ setFace("laugh", 2.2); laugh(); } else { setFace("angry", 2.2); tone(523, .12); tone(784, .18, "triangle", .05, .1); }
+    const [d, y] = g.s;
+    if(d >= g.to || y >= g.to) return end(y > d);
+    let kick = `${d} — ${y}`, text = pick(g.duo ? (winner ? LINES.duoYou : LINES.duoDeath) : (winner ? LINES.you : LINES.death));
+    if(Math.max(d, y) === g.to - 1 && d !== y) text = "Balle de match. L'au-delà retient son souffle.";
+    if(d === y && d >= 3) text = "Égalité. La Mort réajuste sa capuche.";
+    card(kick, text, 1500, () => { serve(); phase = "play"; });
+  }
+  function end(youWon){
+    phase = "end";
+    document.body.classList.remove("su-playing");
+    if(!g.duo){ youWon ? stats.wins++ : stats.losses++; store.set("sursis.stats", stats); }
+    setFace(youWon ? "angry" : "win");
+    const [d, y] = g.s;
+    const text = g.duo ? (youWon ? "Le joueur du bas l'emporte." : "Le joueur du haut l'emporte.")
+      : youWon ? "Sursis accordé. La Mort reviendra. Elle revient toujours." : "Fin. La Mort range sa raquette… et vous avec.";
+    card(`${d} — ${y}`, text, 2400, () => showMenu(youWon));
+    youWon ? [523, 659, 784, 1047].forEach((f, i) => tone(f, .2, "triangle", .05, i * .12)) : laugh(1.6);
+  }
+  function showMenu(youWon){
+    phase = "menu";
+    const [d, y] = g.s;
+    ui.menuK.textContent = g.duo ? "Fin du duel" : youWon ? "Sursis accordé" : "La Mort l'emporte";
+    ui.menuTitle.innerHTML = g.duo ? "Le <em>Duel</em>" : youWon ? "Encore <em>un peu</em>" : "Rideau.";
+    ui.menuScore.hidden = false; ui.menuScore.textContent = `${d} — ${y}`;
+    ui.menuText.textContent = g.duo ? `Meilleur échange : ${g.best} coups.` : youWon ? `Vous gagnez un sursis. Meilleur échange : ${g.best} coups.` : `La Mort gagne ${d} à ${y}. Meilleur échange : ${g.best} coups. On grave ?`;
+    ui.play.textContent = youWon ? "Redéfier la Mort" : "Revanche";
+    ui.grave.hidden = g.duo || youWon;
+    ui.copy.hidden = false;
+    renderRecord();
+    ui.menu.hidden = false;
+  }
+  function renderRecord(){ ui.record.textContent = `Sursis obtenus : ${stats.wins} · Défaites : ${stats.losses}`; }
+
+  /* --- sons --- */
+  function tone(f, d = .05, type = "square", v = .04, delay = 0){ if(Sound.enabled) Sound.tone(f, d, type, v, delay); }
+  function laugh(k = 1){ [392, 370, 349, 330, 311, 294].forEach((f, i) => tone(f * (1 + Math.sin(i * 2) * .03), .09 * k, "triangle", .05, i * .09 * k)); }
+
+  /* --- physique --- */
+  function predictX(b, yPlane){
+    // position de la balle quand elle atteindra yPlane (rebonds sur les côtés compris)
+    if(Math.abs(b.vy) < 1e-4) return b.x;
+    const t = (yPlane - b.y) / b.vy;
+    if(t < 0) return 0;
+    let x = b.x + b.vx * t;
+    const span = 2 * (HALF_W - R);
+    x += HALF_W - R;
+    x = ((x % (2 * span)) + 2 * span) % (2 * span);
+    if(x > span) x = 2 * span - x;
+    return x - (HALF_W - R);
+  }
+  function spark(x, y, n, chars = "*+'.:"){
+    for(let i = 0; i < n; i++) g.sparks.push({ x, y, vx:rand(-.6, .6), vy:rand(-.6, .6), life:rand(.3, .7), ch:chars[Math.floor(Math.random() * chars.length)] });
+  }
+  function hitPaddle(p, dir){
+    const b = g.ball;
+    const off = clamp((b.x - p.x) / (p.w / 2), -1, 1);
+    const smash = !g.duo && dir < 0 && Math.abs(p.v) > 1.25;
+    b.speed = Math.min(2.6, b.speed * (smash ? 1.2 : 1.055));
+    let vx = off * .95 + p.v * .22;
+    let vy = Math.sqrt(Math.max(.3, 1 - Math.min(.8, vx * vx)));
+    const n = Math.hypot(vx, vy);
+    b.vx = vx / n * b.speed; b.vy = vy / n * b.speed * dir;
+    if(Math.abs(b.vy) < b.speed * .55){ b.vy = Math.sign(b.vy) * b.speed * .55; }
+    g.rally++; g.hits++;
+    spark(b.x, b.y, smash ? 18 : 7);
+    tone(smash ? 900 : 660 + Math.random() * 60, .04, "square", .05);
+    if(smash){ g.shake = .6; g.pops.push({ x:b.x, y:b.y - .1, text:"SMASH!", life:.8 }); setFace("shock", .8); }
+    else if(g.rally > 0 && g.rally % 10 === 0){ g.pops.push({ x:0, y:0, text:`${g.rally} COUPS`, life:1 }); }
+  }
+  function step(dt){
+    const b = g.ball, Y = g.you, D = g.death;
+    // vous
+    const kx = (keys.has("ArrowLeft") || (!g.duo && (keys.has("a") || keys.has("q"))) ? -1 : 0) + (keys.has("ArrowRight") || (!g.duo && keys.has("d")) ? 1 : 0);
+    if(kx) Y.x += kx * 1.7 * dt, ptr.x = null;
+    else if(ptr.x !== null) Y.x += (ptr.x - Y.x) * Math.min(1, dt * 22);
+    Y.x = clamp(Y.x, -HALF_W + Y.w / 2, HALF_W - Y.w / 2);
+    Y.v = (Y.x - Y.px) / dt; Y.px = Y.x;
+    // la Mort (ou le second joueur)
+    if(g.duo){
+      const kd = (keys.has("a") || keys.has("q") ? -1 : 0) + (keys.has("d") ? 1 : 0);
+      if(kd) D.x += kd * 1.7 * dt, ptr.xDeath = null;
+      else if(ptr.xDeath !== null) D.x += (ptr.xDeath - D.x) * Math.min(1, dt * 22);
+    } else {
+      D.think -= dt;
+      if(D.think <= 0){
+        D.think = g.L.react;
+        const warm = 1 + (g.s[0] + g.s[1]) * .025;           // la Mort s'échauffe
+        if(b.vy < 0){ const err = (Math.random() - .5) * 2 * g.L.err * (1 + b.speed * .4) / warm; D.target = predictX(b, -PAD_Y) + err; }
+        else D.target = b.x * .3;
+      }
+      const sp = g.L.speed * (1 + (g.s[0] + g.s[1]) * .025);
+      D.x += clamp(D.target - D.x, -sp * dt, sp * dt);
+    }
+    D.x = clamp(D.x, -HALF_W + D.w / 2, HALF_W - D.w / 2);
+    D.v = (D.x - D.px) / dt; D.px = D.x;
+    // balle (sous-pas pour ne jamais traverser une raquette)
+    const n = Math.max(1, Math.ceil(b.speed * dt / .01));
+    for(let i = 0; i < n; i++){
+      const h = dt / n, py = b.y;
+      b.x += b.vx * h; b.y += b.vy * h;
+      if(b.x > HALF_W - R){ b.x = HALF_W - R; b.vx = -Math.abs(b.vx); tone(420, .03, "square", .025); spark(b.x, b.y, 3, ".'"); }
+      if(b.x < -HALF_W + R){ b.x = -HALF_W + R; b.vx = Math.abs(b.vx); tone(420, .03, "square", .025); spark(b.x, b.y, 3, ".'"); }
+      if(b.vy > 0 && py <= PAD_Y && b.y >= PAD_Y && Math.abs(b.x - Y.x) <= Y.w / 2 + R){ b.y = PAD_Y; hitPaddle(Y, -1); }
+      if(b.vy < 0 && py >= -PAD_Y && b.y <= -PAD_Y && Math.abs(b.x - D.x) <= D.w / 2 + R){ b.y = -PAD_Y; hitPaddle(D, 1); }
+      if(b.y > HALF_L + .04){ spark(b.x, HALF_L, 14, "x*+"); g.shake = .4; return point(0); }
+      if(b.y < -HALF_L - .04){ spark(b.x, -HALF_L, 14, "x*+"); g.shake = .4; return point(1); }
+    }
+    g.trail.unshift({ x:b.x, y:b.y }); if(g.trail.length > 6) g.trail.pop();
+  }
+
+  /* --- rendu ASCII --- */
+  const toCol = x => Math.round((x + HALF_W) / (2 * HALF_W) * (COLS - 3)) + 1;
+  const toRow = y => Math.round((y + HALF_L) / (2 * HALF_L) * (ROWS - 3)) + 1;
+  function put(col, row, ch, a = 1, glow = 0){
+    if(col < 0 || col >= COLS || row < 0 || row >= ROWS) return;
+    ctx.globalAlpha = a;
+    ctx.shadowBlur = glow; ctx.shadowColor = "rgba(255,255,255,.9)";
+    ctx.fillText(ch, (col + .5) * layout.cw, (row + .5) * layout.ch);
+  }
+  function text(col, row, s, a, glow){ for(let i = 0; i < s.length; i++) if(s[i] !== " ") put(col + i, row, s[i], a, glow); }
+  function draw(){
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = "#ebe6da";
+    // bordures
+    for(let c = 0; c < COLS; c++){ put(c, 0, c === 0 || c === COLS - 1 ? "+" : "=", .9); put(c, ROWS - 1, c === 0 || c === COLS - 1 ? "+" : "=", .9); }
+    for(let r = 1; r < ROWS - 1; r++){ put(0, r, "|", .85); put(COLS - 1, r, "|", .85); }
+    // ligne centrale et filet
+    const mid = Math.floor(ROWS / 2);
+    for(let r = 2; r < ROWS - 2; r++) if(r !== mid && r % 2 === 0) put(Math.floor(COLS / 2), r, ":", .18);
+    for(let c = 0; c < COLS; c++) put(c, mid, c === 0 || c === COLS - 1 ? "#" : c % 2 ? "-" : "+", .7);
+    // scores en filigrane
+    if(g){
+      const big = (n, row, a) => {
+        const s = String(n), w = s.length * 4 - 1, c0 = Math.floor((COLS - w * 2) / 2);
+        [...s].forEach((d, k) => DIGITS[d].forEach((line, r) => [...line].forEach((ch, i) => { if(ch !== " "){ put(c0 + k * 8 + i * 2, row + r, "#", a); put(c0 + k * 8 + i * 2 + 1, row + r, "#", a); } })));
+      };
+      big(g.s[0], Math.floor(ROWS * .25) - 2, .09);
+      big(g.s[1], Math.floor(ROWS * .75) - 2, .09);
+    }
+    if(!g) return;
+    // raquettes
+    const pad = (p, row, l, m, r) => {
+      const a = toCol(p.x - p.w / 2), b2 = toCol(p.x + p.w / 2);
+      for(let c = a; c <= b2; c++) put(c, row, c === a ? l : c === b2 ? r : m, 1, 6);
+    };
+    pad(g.death, toRow(-PAD_Y) - 1, "<", "#", ">");
+    pad(g.you, toRow(PAD_Y) + 1, "[", "=", "]");
+    // traînée + balle
+    if(phase === "play" || phase === "card"){
+      const tch = ["o", "o", "·", "·", ".", "."];
+      g.trail.slice(1).forEach((t, i) => put(toCol(t.x), toRow(t.y), tch[i] || ".", .55 - i * .08));
+      if(phase === "play") put(toCol(g.ball.x), toRow(g.ball.y), "O", 1, 14);
+    }
+    // étincelles et messages
+    for(const s of g.sparks) put(toCol(s.x), toRow(s.y), s.ch, Math.min(1, s.life * 2));
+    for(const p of g.pops){ const c = toCol(p.x) - Math.floor(p.text.length / 2); text(clamp(c, 1, COLS - 1 - p.text.length), toRow(p.y), p.text, Math.min(1, p.life * 2), 10); }
+    ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+  }
+  function effects(dt){
+    for(const s of g.sparks){ s.x += s.vx * dt; s.y += s.vy * dt; s.life -= dt; }
+    g.sparks = g.sparks.filter(s => s.life > 0);
+    for(const p of g.pops){ p.y -= dt * .08; p.life -= dt; }
+    g.pops = g.pops.filter(p => p.life > 0);
+    g.shake = Math.max(0, g.shake - dt * 2);
+    const calmMode = REDUCED_MOTION || document.body.classList.contains("calm");
+    const s = calmMode ? 0 : g.shake * 10;
+    wrap.style.transform = s ? `translate(${rand(-s, s)}px, ${rand(-s, s)}px)` : "";
+    // la Faucheuse suit sa raquette (bord lointain, donc raccourci par la perspective)
+    const tw = COLS * layout.cw;
+    placeReaper(g.death.x * tw * .62);
+    if(faceTimer > 0){ faceTimer -= dt; if(faceTimer <= 0) setFace("idle"); }
+    else if(face0 === "idle" && Math.random() < dt * .25){ setFace("blink", .14); }
+  }
+
+  /* --- boucle --- */
+  function loop(now){
+    requestAnimationFrame(loop);
+    if(document.hidden || face.classList.contains("sleep")){ lastT = now; return; }
+    const dt = Math.min(.04, Math.max(.001, (now - (lastT || now)) / 1000)); lastT = now;
+    if(g && phase === "play" && Drum.index === 3 && !paused()) step(dt);
+    if(g){ effects(dt); }
+    draw();
+  }
+  let isPaused = false;
+  const paused = () => isPaused;
+  function togglePause(force){
+    if(phase !== "play") return;
+    isPaused = force ?? !isPaused;
+    ui.pause.classList.toggle("show", isPaused);
+  }
+
+  /* --- entrées --- */
+  function bind(){
+    addEventListener("resize", layout);
+    const toX = (clientX) => {
+      const r = cv.getBoundingClientRect();
+      return clamp((clientX - r.left) / r.width * 2 - 1, -1, 1) * HALF_W;
+    };
+    arena.addEventListener("pointermove", e => {
+      if(phase !== "play") return;
+      const r = arena.getBoundingClientRect();
+      if(g && g.duo && e.pointerType !== "mouse" && e.clientY < r.top + r.height * .5) ptr.xDeath = toX(e.clientX);
+      else ptr.x = toX(e.clientX);
+    });
+    arena.addEventListener("pointerdown", e => {
+      if(phase !== "play") return;
+      const r = arena.getBoundingClientRect();
+      if(g && g.duo && e.pointerType !== "mouse" && e.clientY < r.top + r.height * .5) ptr.xDeath = toX(e.clientX); else ptr.x = toX(e.clientX);
+      try { arena.setPointerCapture(e.pointerId); } catch {}
+    });
+    document.addEventListener("keydown", e => {
+      if(Drum.index !== 3 || Drum.busy || e.ctrlKey || e.metaKey || e.altKey) return;
+      if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+      const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      if(["ArrowLeft", "ArrowRight", "a", "d", "q"].includes(k)){ keys.add(k); if(phase === "play") e.preventDefault(); }
+      if(k === " " || k === "Escape"){
+        if(phase === "play"){ e.preventDefault(); togglePause(k === "Escape" ? true : undefined); }
+        else if(phase === "menu" && k === " " && !e.target.closest("button")){ e.preventDefault(); start(); }
+      }
+    });
+    document.addEventListener("keyup", e => { keys.delete(e.key.length === 1 ? e.key.toLowerCase() : e.key); });
+    addEventListener("blur", () => { keys.clear(); togglePause(true); });
+    ui.play.addEventListener("click", start);
+    ui.grave.addEventListener("click", () => {
+      const [d, y] = g.s;
+      const now = new Date();
+      writeForm({ ...state, cause:OTHER, causeCustom:`après avoir perdu ${d} à ${y} au ping-pong contre la Mort`,
+        date:isoDate(now.getFullYear(), now.getMonth() + 1, now.getDate()), message:"Il/Elle avait pourtant un bon revers.", latin:"Game over", icon:"skull" });
+      render();
+      Drum.goTo(0, { land:"top" });
+      setTimeout(() => toast("⚰ Pierre gravée. Belle partie quand même."), 900);
+    });
+    ui.copy.addEventListener("click", async () => {
+      const [d, y] = g.s;
+      const row = n => String(n).split("").map(c => DIGITS[c]);
+      const dd = row(d), yy = row(y);
+      const lines = [];
+      for(let r = 0; r < 5; r++) lines.push(dd.map(x => x[r]).join(" ") + (r === 2 ? "   —   " : "       ") + yy.map(x => x[r]).join(" "));
+      const dw = dd.length * 4 - 1;
+      const head = "La Mort".padEnd(dw + 7) + "Vous";
+      const txt = toBraille(["LE SURSIS — ping-pong contre la Mort", "", head, ...lines, "", y > d ? "Sursis accordé." : "La Mort l'emporte."].join("\n"));
+      toast(await copyText(txt) ? "Score copié (avec des « ⠀ »)" : "Impossible de copier");
+    });
+    [ui.level, ui.points, ui.mode].forEach(s => s.addEventListener("change", () => {
+      opts = { level:ui.level.value, points:+ui.points.value, mode:ui.mode.value }; store.set("sursis.opts", opts);
+      ui.meta.textContent = `${opts.mode === "duo" ? "Duel" : LEVELS[opts.level].label} · ${opts.points} points`;
+    }));
+  }
+
+  function init(){
+    ui.level.value = LEVELS[opts.level] ? opts.level : "novice";
+    ui.points.value = String(opts.points || 7); if(!ui.points.value) ui.points.value = "7";
+    ui.mode.value = opts.mode === "duo" ? "duo" : "solo";
+    ui.meta.textContent = `${ui.mode.value === "duo" ? "Duel" : LEVELS[ui.level.value].label} · ${ui.points.value} points`;
+    setFace("idle");
+    renderRecord();
+    layout();
+    bind();
+    if(document.fonts) document.fonts.ready.then(layout);
+    requestAnimationFrame(loop);
+  }
+  return {
+    init, layout,
+    onShow(){ layout(); },
+    onHide(){ togglePause(true); keys.clear(); document.body.classList.remove("su-playing"); },
+    onReturn(){ if(phase === "play") document.body.classList.add("su-playing"); },
+    get phase(){ return phase; }, get game(){ return g; }
+  };
+})();
+
 /* ================================================================
  * INIT
  * ================================================================ */
@@ -4732,12 +5269,14 @@ const Igloo3D = (() => {
     f.querySelectorAll(".th-bar span").forEach(b => b.style.width = (Math.max(0, p) * 100) + "%");
     f.querySelectorAll(".up-bar span").forEach(b => b.style.width = (Math.max(0, -p) * 100) + "%");
   });
-  const HASHES = ["", "#pendu", "#igloo"];
+  const HASHES = ["", "#pendu", "#igloo", "#sursis"];
   Drum.onChange(i => {
     const face = $("face-" + i);
     document.title = face.dataset.title;
     document.body.classList.toggle("on-pendu", i === 1);
     document.body.classList.toggle("on-igloo", i === 2);
+    document.body.classList.toggle("on-sursis", i === 3);
+    if(i === 3) Sursis.onShow(); else Sursis.onHide();
     document.querySelectorAll("#drum-nav button").forEach(b => b.classList.toggle("on", +b.dataset.goto === i));
     try {
       if(HASHES[i]) history.replaceState(null, "", location.pathname + location.search + HASHES[i]);
@@ -4749,6 +5288,7 @@ const Igloo3D = (() => {
   });
   Pendu.init();
   Igloo.init();
+  Sursis.init();
   const startFace = Math.max(0, HASHES.indexOf(location.hash));
   Drum.settle(startFace);
 
