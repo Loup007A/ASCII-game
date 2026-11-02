@@ -335,18 +335,53 @@
   .stage{ position:fixed; inset:0; overflow:hidden; background:radial-gradient(ellipse at center, #111418, #000 75%); }
   .drum{ position:absolute; inset:0; transform-style:preserve-3d; }
   .face{ position:absolute; inset:0; overflow:hidden; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
-  .scroller{ position:absolute; inset:0; z-index:1; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain; outline:none; }
+  .scroller{ position:absolute; inset:0; z-index:1; overflow-y:auto; overflow-x:hidden; overscroll-behavior:none; outline:none; }
   .stage.flat .drum, .stage.flat .face{ transform:none !important; }
   .stage.flat .face:not(.active), .stage:not(.flat) .face:not(.vis){ visibility:hidden; }
   .stage:not(.flat) .face{ pointer-events:none; }
-  .face.sleep, .face.sleep *{ animation-play-state:paused !important; }
+  .face.sleep, .face.sleep *, .face.sleep::before, .face.sleep::after, .face.sleep *::before, .face.sleep *::after{ animation-play-state:paused !important; }
   .shade{ position:absolute; inset:0; z-index:40; pointer-events:none; opacity:0;
     background:linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,.35) 50%, rgba(0,0,0,.9)); }
-  .rail{ position:absolute; top:0; bottom:0; width:18px; z-index:50; pointer-events:none; opacity:0; transition:opacity .25s;
+  .rail{ position:absolute; top:0; bottom:0; width:18px; z-index:50; pointer-events:none; opacity:0; transition:opacity .25s; overflow:hidden; }
+  .rail i{ position:absolute; left:0; right:0; top:-12px; bottom:-12px; will-change:transform;
     background-image:repeating-linear-gradient(180deg, #4a4e55 0 5px, #24272b 5px 7px, #0c0d0f 7px 12px); }
   .rail::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, #000 0%, transparent 28%, transparent 72%, #000 100%); }
   .rail.l{ left:0; box-shadow:4px 0 10px #000a; } .rail.r{ right:0; box-shadow:-4px 0 10px #000a; }
   .stage.turning .rail{ opacity:1; }
+  .drum-meter{ position:absolute; z-index:55; left:50%; bottom:max(18px, env(safe-area-inset-bottom)); transform:translateX(-50%); display:flex; overflow:hidden;
+    padding:9px 0 11px; background:rgba(6,7,9,.82); border:1px solid #ffffff1c; border-radius:999px; pointer-events:none; opacity:0; transition:opacity .25s; }
+  .stage.turning .drum-meter{ opacity:1; }
+  .drum-meter span{ width:44px; text-align:center; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:#ece5cb66; transition:color .2s; }
+  .drum-meter span.on{ color:#ece5cb; }
+  .drum-meter i{ position:absolute; left:10px; bottom:6px; width:24px; height:2px; border-radius:2px; background:#d98a4a; box-shadow:0 0 10px #d98a4a; will-change:transform; }
+  /* étiquettes des faces pendant le tour de roue */
+  .face-tag{ --ft:#d98a4a; position:absolute; inset:0; z-index:45; pointer-events:none; opacity:0; visibility:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; text-align:center; color:var(--ft);
+    background:radial-gradient(ellipse 80% 65% at 50% 50%, rgba(4,5,7,.86), rgba(4,5,7,.62) 65%, rgba(4,5,7,.4)); }
+  .stage.turning .face.vis .face-tag, .face.active .face-tag.out{ visibility:visible; }
+  .face-tag.out{ transition:opacity .65s cubic-bezier(.2,.7,.2,1); }
+  .stage.turning .face-tag, .stage.turning .shade{ will-change:opacity; }
+  .stage.turning .face.vis{ will-change:transform; }
+  .face-tag::before, .face-tag::after{ content:""; position:absolute; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--ft) 30%, var(--ft) 70%, transparent); opacity:.9; }
+  .face-tag::before{ top:0; } .face-tag::after{ bottom:0; }
+  .ft-frame{ position:absolute; inset:16px; border:1px solid var(--ft); opacity:.28; }
+  .ft-frame::before, .ft-frame::after{ content:"✝"; position:absolute; left:50%; transform:translateX(-50%); font-size:14px; line-height:1; color:var(--ft); background:#05060a; padding:0 8px; }
+  .ft-frame::before{ top:-8px; } .ft-frame::after{ bottom:-8px; }
+  .ft-num{ font-family:var(--serif); font-size:clamp(96px, 22vh, 220px); line-height:.8; letter-spacing:.02em; text-shadow:0 0 50px currentColor; }
+  .ft-name{ font-family:var(--serif); font-style:italic; font-size:clamp(26px, min(5vh, 8.5vw), 48px); line-height:1; color:#f3ecd8; padding:0 20px; }
+  .ft-sub{ font-family:var(--mono); font-size:11px; letter-spacing:.32em; opacity:.8; }
+  #face-1 .face-tag{ --ft:var(--pd); } #face-2 .face-tag{ --ft:#bfe6ff; } #face-3 .face-tag{ --ft:#f2ede1; }
+  #face-4 .face-tag{ --ft:#ffb46b; } #face-5 .face-tag{ --ft:#e8695d; }
+
+  /* profil léger (téléphones) : pas de flou d'arrière-plan, pas de grain animé en surimpression */
+  html.lite *{ backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
+  html.lite #grain{ display:none; }
+  html.lite .magnetic{ will-change:auto; }
+  html.lite .fog{ filter:none; }
+  html.lite .panel{ background:rgba(12,14,17,.88); }
+  html.lite .ph-panel{ background:rgba(14,9,10,.86); }
+  html.lite .ig-panel{ background:rgba(6,12,20,.9); }
+  html.lite .ig-btn{ background:rgba(10,20,30,.8); }
 
   .face-caveau{ background:radial-gradient(ellipse 120% 80% at 50% -10%, var(--sky-bot), var(--sky-top) 70%); }
 
@@ -1474,8 +1509,8 @@
       <div class="shade"></div>
     </section>
   </div><!-- /drum -->
-  <div class="rail l" aria-hidden="true"></div>
-  <div class="rail r" aria-hidden="true"></div>
+  <div class="rail l" aria-hidden="true"><i></i></div>
+  <div class="rail r" aria-hidden="true"><i></i></div>
 </div><!-- /stage -->
 
 <nav id="drum-nav" aria-label="Pages du cylindre">
@@ -2521,7 +2556,7 @@ $("btn-clear").addEventListener("click", () => {
  * ================================================================ */
 function spawnFireflies(){
   const sky = document.querySelector(".sky");
-  for(let i = 0; i < 14; i++){
+  for(let i = 0; i < (Perf.lite ? 7 : 14); i++){
     const f = document.createElement("div"); f.className = "firefly";
     f.style.left = (Math.random() * 100) + "vw";
     f.style.top = (40 + Math.random() * 55) + "vh";
@@ -2597,20 +2632,72 @@ const Sound = (() => {
 /* ================================================================
  * CYLINDRE : tambour hexagonal, une page par face, rotation d'un cran
  * ================================================================ */
+/* ================================================================
+ * PERFORMANCES : profil « léger » pour téléphones, tablettes et petites machines
+ *   (moins de pixels en 3D, pas de flou d'arrière-plan ni de grain animé,
+ *    rendu figé des faces pendant qu'elles tournent)
+ * ================================================================ */
+const Perf = (() => {
+  const coarse = matchMedia("(pointer: coarse)").matches;
+  const mem = navigator.deviceMemory || 8, cores = navigator.hardwareConcurrency || 8;
+  const forced = /[?&]lite=([01])/.exec(location.search);
+  const lite = forced ? forced[1] === "1" : coarse || (mem <= 4 && cores <= 4);
+  document.documentElement.classList.toggle("lite", lite);
+  const DPR = devicePixelRatio || 1;
+  return {
+    lite, coarse,
+    dpr3d(max = 1.75){ return Math.min(DPR, lite ? Math.min(max, 1.5) : max); },
+    dpr2d(){ return Math.min(DPR, lite ? 1.5 : 2); },
+    // faut-il sauter le rendu de cette face ? (endormie, ou figée pendant un tour de cylindre)
+    skip(face){
+      if(face.classList.contains("sleep")) return true;
+      if(face.dataset.hold){ if(face.dataset.prime){ delete face.dataset.prime; return false; } return true; }
+      return false;
+    }
+  };
+})();
+
 const Drum = (() => {
   const stage = $("stage"), drum = $("drum");
   const faces = [...drum.querySelectorAll(".face")];
   const scrollers = faces.map(f => f.querySelector(".scroller"));
   const shades = faces.map(f => f.querySelector(".shade"));
-  const rails = [...stage.querySelectorAll(".rail")];
+  const rails = [...stage.querySelectorAll(".rail")], railBands = rails.map(r => r.firstElementChild);
   const SIDES = 6, STEP = 360 / SIDES;     // un cran = 60°
   const MAX_PEEK = 13;                     // inclinaison max avant le déclic (degrés)
   const WHEEL_THRESHOLD = 380, TOUCH_THRESHOLD = 150;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const changeHandlers = [], peekHandlers = [];
-  let index = 0, angle = 0, busy = false, peeking = false, peekTarget = -1, raf = 0;
+  let index = 0, angle = 0, busy = false, peeking = false, peekTarget = -1, raf = 0, curPull = 0, curTag = 0;
+  const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+  // étiquette de chaque face, visible pendant le tour : on voit clairement quelle page part et laquelle arrive
+  const tags = faces.map((f, k) => {
+    const t = document.createElement("div");
+    t.className = "face-tag"; t.setAttribute("aria-hidden", "true");
+    t.innerHTML = `<span class="ft-frame"></span><span class="ft-num">${ROMAN[k]}</span><span class="ft-name"></span><span class="ft-sub">${String(k + 1).padStart(2, "0")} / ${String(faces.length).padStart(2, "0")}</span>`;
+    t.querySelector(".ft-name").textContent = f.getAttribute("aria-label") || "";
+    f.appendChild(t);
+    return t;
+  });
+  const pullZ = () => vh * (Perf.lite ? .5 : .62);      // recul du tambour pendant le tour
+  // compteur de crans en bas de l'écran : le repère glisse d'une page à l'autre pendant le tour
+  const meter = document.createElement("div");
+  meter.className = "drum-meter"; meter.setAttribute("aria-hidden", "true");
+  meter.innerHTML = faces.map((f, k) => `<span>${ROMAN[k]}</span>`).join("") + `<i></i><i></i>`;
+  stage.appendChild(meter);
+  const meterLabels = [...meter.querySelectorAll("span")], meterMarks = [...meter.querySelectorAll("i")];
+  let meterOn = -1;
+  function setMeter(a){
+    const N6 = faces.length, pos = ((a / STEP) % N6 + N6) % N6, slot = 44;
+    meterMarks[0].style.transform = `translateX(${(pos * slot).toFixed(1)}px)`;
+    meterMarks[1].style.transform = `translateX(${((pos - N6) * slot).toFixed(1)}px)`;
+    const on = Math.round(pos) % N6;
+    if(on !== meterOn){ meterLabels.forEach((l, k) => l.classList.toggle("on", k === on)); meterOn = on; }
+  }
 
-  const apothem = () => innerHeight / (2 * Math.tan(Math.PI / SIDES));
+  let vh = innerHeight;
+  addEventListener("resize", () => { vh = innerHeight; }, { passive:true });
+  const apothem = () => vh / (2 * Math.tan(Math.PI / SIDES));
   const has = i => i >= 0 && i < faces.length;
   const N = faces.length, RING = N === SIDES;          // six faces sur six côtés : le cylindre est bouclé
   const real = i => ((i % N) + N) % N;
@@ -2644,30 +2731,35 @@ const Drum = (() => {
   }
   scrollers.forEach((sc, i) => ["pointerdown", "keydown", "touchstart"].forEach(ev => sc.addEventListener(ev, () => stopSmooth(i), { passive:true })));
   const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
-  const easeRatchet = t => { const c1 = 1.25, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
 
-  function apply(a){
-    angle = a;
+  function apply(a, pull = 0, tag = 0){
+    angle = a; curPull = pull; curTag = tag;
     const ap = apothem();
-    drum.style.transform = `translateZ(${-ap}px) rotateX(${a}deg)`;
+    drum.style.transform = `translateZ(${(-ap - pull * pullZ()).toFixed(1)}px) rotateX(${a.toFixed(3)}deg)`;
     faces.forEach((f, k) => {
       if(!f.classList.contains("vis")) return;
       const d = Math.abs((((a - k * STEP) % 360) + 540) % 360 - 180);   // écart angulaire, modulo un tour
-      shades[k].style.opacity = (Math.min(1, d / STEP) * .85).toFixed(3);
+      shades[k].style.opacity = Math.min(.85, Math.min(1, d / STEP) * .85 + Math.max(0, pull) * .25).toFixed(3);
+      tags[k].style.opacity = tag.toFixed(3);
     });
     const off = -a * Math.PI / 180 * ap;   // les crans des rails défilent à la vitesse de la surface
-    rails.forEach(r => r.style.backgroundPositionY = off.toFixed(1) + "px");
+    setMeter(a);
+    const ro = `translateY(${(((off % 12) + 12) % 12).toFixed(1)}px)`;
+    railBands.forEach(r => r.style.transform = ro);
     const p = (a - index * STEP) / MAX_PEEK;
     peekHandlers.forEach(fn => fn(Math.max(-1, Math.min(1, p))));
   }
-  function show(list){
+  function show(list, arriving){
     const ap = apothem();
-    stage.style.perspective = Math.round(innerHeight * 2.4) + "px";
+    stage.style.perspective = Math.round(vh * 2.4) + "px";
     faces.forEach((f, k) => {
       const on = list.includes(k);
       f.classList.toggle("vis", on);
       f.classList.toggle("sleep", !on);
       f.style.transform = `rotateX(${-k * STEP}deg) translateZ(${ap}px)`;
+      // mobile : les faces en mouvement gardent leur dernière image (une image fraîche pour celle qui arrive)
+      if(on && Perf.lite){ f.dataset.hold = "1"; if(k === arriving && !f.classList.contains("active")) f.dataset.prime = "1"; }
+      tags[k].classList.remove("out");
     });
     stage.classList.remove("flat");
     stage.classList.add("turning");
@@ -2677,6 +2769,8 @@ const Drum = (() => {
     index = i; busy = false; peeking = false; peekTarget = -1;
     stage.classList.add("flat"); stage.classList.remove("turning");
     drum.style.transform = "";
+    const landTag = curTag;
+    curPull = curTag = 0;
     faces.forEach((f, k) => {
       const on = k === i;
       f.classList.toggle("active", on);
@@ -2686,22 +2780,31 @@ const Drum = (() => {
       f.inert = !on;
       f.setAttribute("aria-hidden", on ? "false" : "true");
       shades[k].style.opacity = "0";
+      delete f.dataset.hold; delete f.dataset.prime;
+      // l'étiquette de la face d'arrivée s'efface en douceur une fois posée
+      if(on && landTag > .05){ tags[k].style.opacity = landTag.toFixed(3); tags[k].classList.add("out"); requestAnimationFrame(() => requestAnimationFrame(() => { tags[k].style.opacity = "0"; })); }
+      else tags[k].style.opacity = "0";
     });
     peekHandlers.forEach(fn => fn(0));
-    scrollers[i].focus({ preventScroll:true });
+    const sc = scrollers[i];
+    requestAnimationFrame(() => setTimeout(() => { if(index === i && !busy) sc.focus({ preventScroll:true }); }, 0));
     changeHandlers.forEach(fn => fn(i));
   }
-  function tween(from, to, ms, ease, done){
+  function run(ms, step, done){
     cancelAnimationFrame(raf);
     const t0 = performance.now();
-    const frame = now => {
-      const t = Math.min(1, (now - t0) / ms);
-      apply(from + (to - from) * ease(t));
-      if(t < 1) raf = requestAnimationFrame(frame);
+    const frame = () => {
+      const u = Math.max(0, Math.min(1, (performance.now() - t0) / ms));
+      step(u);
+      if(u < 1) raf = requestAnimationFrame(frame);
       else done && done();
     };
     raf = requestAnimationFrame(frame);
   }
+  const clamp01 = x => Math.max(0, Math.min(1, x));
+  const easeInOutBack = t => { const c2 = 1.2 * 1.525; return t < .5 ? (Math.pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2 : (Math.pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2; };
+  const easeOutBack = t => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+  const haptic = () => { if(Perf.coarse && navigator.vibrate) try { navigator.vibrate(12); } catch {} };
   function prepareArrival(j, land){
     const sc = scrollers[real(j)];
     stopSmooth(real(j));
@@ -2725,10 +2828,22 @@ const Drum = (() => {
     if(reduced){ arrive(); return; }
     const lo = Math.min(index, j), hi = Math.max(index, j);
     const list = []; for(let k = lo; k <= hi; k++) list.push(real(k));
-    show(list);
+    show(list, real(j));
     if(!peeking) apply(index * STEP);
-    const dist = Math.abs(j * STEP - angle) / STEP;
-    tween(angle, j * STEP, 650 + 350 * Math.min(dist, 3), easeRatchet, () => { Sound.clack(); arrive(); });
+    /* le tour de roue, en trois temps :
+     *   1. le tambour recule et chaque face affiche son numéro ;
+     *   2. il tourne d'un cran (petit élan en arrière, puis dépassement) ;
+     *   3. il revient se plaquer à l'écran avec un « clac » (et une vibration sur mobile). */
+    const a0 = angle, a1 = j * STEP, p0 = curPull, g0 = curTag;
+    const steps = Math.abs(a1 - a0) / STEP;
+    const ms = (Perf.lite ? 820 : 960) + (Perf.lite ? 200 : 260) * Math.min(Math.max(0, steps - 1), 2);
+    let clacked = false;
+    run(ms, u => {
+      const pull = u < .26 ? p0 + (1 - p0) * easeOutCubic(u / .26) : u < .66 ? 1 : 1 - easeOutBack((u - .66) / .34);
+      const r = easeInOutBack(clamp01((u - .1) / .72));
+      apply(a0 + (a1 - a0) * r, pull, Math.max(g0, clamp01(u / .16)));
+      if(!clacked && u > .8){ clacked = true; Sound.clack(); haptic(); }
+    }, arrive);
   }
   function peek(p){
     if(busy || !p) return;
@@ -2738,14 +2853,16 @@ const Drum = (() => {
       cancelAnimationFrame(raf);
       peeking = true; peekTarget = j;
       prepareArrival(j);
-      show([index, real(j)]);
+      show([index, real(j)], real(j));
     }
-    apply(index * STEP + p * MAX_PEEK);
+    const k = Math.abs(p);
+    apply(index * STEP + p * MAX_PEEK, k * .5, Math.min(1, k * 1.1));
   }
   function release(){
     if(!peeking || busy) return;
     busy = true;
-    tween(angle, index * STEP, 280, easeOutCubic, () => settle(index));
+    const a0 = angle, p0 = curPull, g0 = curTag;
+    run(300, u => { const e = easeOutCubic(u); apply(a0 + (index * STEP - a0) * e, p0 * (1 - e), g0 * (1 - e)); }, () => settle(index));
   }
 
   /* --- Molette : il faut déjà être en bas (ou en haut) au début du geste --- */
@@ -2780,15 +2897,16 @@ const Drum = (() => {
     const sc = scrollers[index];
     ty0 = e.touches[0].clientY; tBottom = atBottom(sc); tTop = atTop(sc);
   }, { passive:true });
+  // écouteur passif : le navigateur fait défiler la page sans attendre le JavaScript
+  // (au bord, overscroll-behavior:none empêche tout défilement parasite)
   stage.addEventListener("touchmove", e => {
     if(ty0 === null || busy) return;
     const dy = ty0 - e.touches[0].clientY;
     const dir = dy > 0 && tBottom && canStep(1) ? 1 : dy < 0 && tTop && canStep(-1) ? -1 : 0;
-    if(!dir){ if(peeking){ apply(index * STEP); } return; }
-    e.preventDefault();
+    if(!dir){ if(peeking) apply(index * STEP); return; }
     if(Math.abs(dy) >= TOUCH_THRESHOLD){ ty0 = null; goTo(index + dir); return; }
     peek(dy / TOUCH_THRESHOLD);
-  }, { passive:false });
+  }, { passive:true });
   const touchEnd = () => { ty0 = null; if(peeking && !busy) release(); };
   stage.addEventListener("touchend", touchEnd);
   stage.addEventListener("touchcancel", touchEnd);
@@ -2810,7 +2928,7 @@ const Drum = (() => {
     const b = e.target.closest("[data-goto]");
     if(b) goTo(+b.dataset.goto, { land:b.dataset.land });
   });
-  addEventListener("resize", () => { if(!stage.classList.contains("flat")) apply(angle); });
+  addEventListener("resize", () => { if(!stage.classList.contains("flat")) apply(angle, curPull, curTag); });
 
   return {
     get index(){ return index; },
@@ -3397,7 +3515,7 @@ const Caveau3D = (() => {
   let T = null, renderer = null, bg = null, fg = null, ready = false;
   let W = innerWidth, H = innerHeight, time = 0, lastT = 0;
   const COARSE = matchMedia("(pointer: coarse)").matches;
-  const quality = { dpr: Math.min(devicePixelRatio || 1, COARSE ? 1.5 : 1.75), slow: 0, checked: 0 };
+  const quality = { dpr: Perf.dpr3d(1.75), slow: 0, checked: 0 };
   const ptr = { x: W / 2, y: H / 2, nx: 0, ny: 0, mouse: false, active: false, over: null, down: false, sx: 0, sy: 0, moved: 0, baseY: 0, baseX: 0 };
   const rot = { y: 0, x: 0, vy: 0, vx: 0, ty: 0, tx: 0 };
   const squash = { s: 0, v: 0 };
@@ -3633,7 +3751,7 @@ const Caveau3D = (() => {
 
     scene.add(new T.HemisphereLight("#8796bb", "#24180e", 1.1));
     const key = new T.DirectionalLight("#c7d5ff", 2.4); key.position.set(-5, 8, 7);
-    key.castShadow = true; key.shadow.mapSize.set(1024, 1024);
+    key.castShadow = true; key.shadow.mapSize.setScalar(Perf.lite ? 512 : 1024);
     Object.assign(key.shadow.camera, { left: -6, right: 6, top: 9, bottom: -2, near: .5, far: 30 }); key.shadow.bias = -.0005; key.shadow.normalBias = .02;
     root.add(key); root.add(key.target);
     const rim = new T.DirectionalLight("#7f9dff", 2.2); rim.position.set(4, 5, -7); root.add(rim);
@@ -4151,7 +4269,7 @@ const Caveau3D = (() => {
   function loop(now){
     requestAnimationFrame(loop);
     const face0 = document.getElementById("face-0");
-    if(document.hidden || face0.classList.contains("sleep")){ lastT = now; return; }
+    if(document.hidden || Perf.skip(face0)){ lastT = now; return; }
     const dt = Math.min(.05, Math.max(.001, (now - (lastT || now)) / 1000)); lastT = now;
     if(pending){ const s = pending; pending = null; buildStone(s); }
     update(dt);
@@ -4185,7 +4303,7 @@ const Caveau3D = (() => {
     progress(.7);
     try { await Promise.race([document.fonts.load('700 40px "Courier Prime"'), new Promise(r => setTimeout(r, 2500))]); } catch {}
     progress(.82);
-    renderer = new T.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+    renderer = new T.WebGLRenderer({ canvas, antialias: !Perf.lite, powerPreference: "high-performance" });
     renderer.setPixelRatio(quality.dpr);
     renderer.setSize(W, H, false);
     renderer.autoClear = false;
@@ -4331,7 +4449,7 @@ const Pendu3D = (() => {
     lightCol = new T.Color(LIGHTS[Pendu.light] || LIGHTS.blood); lightTarget = lightCol.clone();
     spot = new T.SpotLight(lightCol, 380, 30, .42, .55, 1.4);
     spot.position.set(0, 12, 5.5); spot.target.position.set(0, 2.6, 0);
-    spot.castShadow = true; spot.shadow.mapSize.set(1024, 1024); spot.shadow.bias = -.0004;
+    spot.castShadow = true; spot.shadow.mapSize.setScalar(Perf.lite ? 512 : 1024); spot.shadow.bias = -.0004;
     set.add(spot, spot.target);
     const coneH = 12.4;
     const cgeo = new T.ConeGeometry(3.9, coneH, 48, 1, true); cgeo.translate(0, -coneH / 2, 0);   // sommet en (0,0,0)
@@ -4352,7 +4470,7 @@ const Pendu3D = (() => {
     const dg = new T.BufferGeometry(); dg.setAttribute("position", new T.BufferAttribute(dp, 3)); dg.setAttribute("aSeed", new T.BufferAttribute(ds, 1));
     dust = new T.Points(dg, new T.ShaderMaterial({
       transparent:true, depthWrite:false, blending:T.AdditiveBlending,
-      uniforms:{ uTime:{ value:0 }, uColor:{ value:lightCol }, uPR:{ value:Math.min(devicePixelRatio, 1.75) } },
+      uniforms:{ uTime:{ value:0 }, uColor:{ value:lightCol }, uPR:{ value:Perf.dpr3d(1.75) } },
       vertexShader:`uniform float uTime, uPR; attribute float aSeed; varying float vA;
         void main(){ vec3 p = position; float t = uTime * .12 + aSeed * 20.; p.x += sin(t * 1.3) * .5; p.y += sin(t * .7) * .6; p.z += cos(t) * .4;
           vec4 mv = modelViewMatrix * vec4(p, 1.); gl_Position = projectionMatrix * mv; gl_PointSize = (6. + aSeed * 10.) * uPR / -mv.z * 3.; vA = .25 + .5 * aSeed; }`,
@@ -4534,7 +4652,7 @@ const Pendu3D = (() => {
 
   function loop(now){
     requestAnimationFrame(loop);
-    if(document.hidden || face.classList.contains("sleep")){ lastT = now; return; }
+    if(document.hidden || Perf.skip(face)){ lastT = now; return; }
     const dt = Math.min(.05, Math.max(.001, (now - (lastT || now)) / 1000)); lastT = now;
     update(dt);
     renderer.render(scene, cam);
@@ -4545,8 +4663,8 @@ const Pendu3D = (() => {
     if(!(test.getContext("webgl2") || test.getContext("webgl"))) throw new Error("WebGL indisponible");
     T = await import("three");
     try { await Promise.race([document.fonts.load('700 40px "JetBrains Mono"'), new Promise(r => setTimeout(r, 2500))]); } catch {}
-    renderer = new T.WebGLRenderer({ canvas, antialias:true, powerPreference:"high-performance" });
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, matchMedia("(pointer: coarse)").matches ? 1.5 : 1.75));
+    renderer = new T.WebGLRenderer({ canvas, antialias:!Perf.lite, powerPreference:"high-performance" });
+    renderer.setPixelRatio(Perf.dpr3d(1.75));
     renderer.setSize(W, H, false);
     renderer.outputColorSpace = T.SRGBColorSpace;
     renderer.toneMapping = T.ACESFilmicToneMapping;
@@ -4753,7 +4871,7 @@ const Igloo = (() => {
   /* --- boucle & entrées --- */
   function loop(now){
     requestAnimationFrame(loop);
-    if(document.hidden || face.classList.contains("sleep")){ lastT = now; return; }
+    if(document.hidden || Perf.skip(face)){ lastT = now; return; }
     const dt = Math.min(.05, Math.max(.001, (now - (lastT || now)) / 1000)); lastT = now;
     const paused = Drum.index !== 2 || !ui.start.hidden && !gs.demo;
     if(!paused) step(dt);
@@ -5100,7 +5218,7 @@ const Igloo3D = (() => {
     if(!(test.getContext("webgl2") || test.getContext("webgl"))) throw new Error("WebGL indisponible");
     T = await import("three");
     try { await Promise.race([document.fonts.load('500 40px "JetBrains Mono"'), new Promise(r => setTimeout(r, 2500))]); } catch {}
-    dpr = Math.min(devicePixelRatio || 1, 2);
+    dpr = Perf.dpr3d(2);
     renderer = new T.WebGLRenderer({ canvas, antialias:false, powerPreference:"high-performance" });
     renderer.setPixelRatio(dpr);
     renderer.setSize(W, H, false);
@@ -5179,7 +5297,7 @@ const Sursis = (() => {
   function layout(){
     const r = arena.getBoundingClientRect();
     if(!r.width || !r.height) return;
-    dpr = Math.min(devicePixelRatio || 1, 2);
+    dpr = Perf.dpr2d();
     const apply = c => {
       cell = c;
       const cw = cell * .62, ch = cell * 1.3;
@@ -5446,7 +5564,7 @@ const Sursis = (() => {
   /* --- boucle --- */
   function loop(now){
     requestAnimationFrame(loop);
-    if(document.hidden || face.classList.contains("sleep")){ lastT = now; return; }
+    if(document.hidden || Perf.skip(face)){ lastT = now; return; }
     const dt = Math.min(.04, Math.max(.001, (now - (lastT || now)) / 1000)); lastT = now;
     if(g && phase === "play" && Drum.index === 3 && !paused()) step(dt);
     if(g){ effects(dt); }
@@ -5573,6 +5691,10 @@ const Crypte = (() => {
   let map = new Uint8Array(MW * MH), seen = new Uint8Array(MW * MH), vis = new Float32Array(MW * MH);
   let mons = [], items = [], lights = [], P = null, depth = 1, turn = 0, phase = "menu", killer = null, kills = 0, logLines = [];
   let cw = 11, ch = 20, cam = { x:0, y:0 }, memCanvas = document.createElement("canvas"), memDirty = true, lastT = 0, time = 0;
+  // calque des cases éclairées, mis en cache : redessiné à chaque tour, quand la caméra change de case,
+  // et ~12 fois par seconde pour le scintillement (au lieu de 60) — gros gain sur mobile
+  let litCanvas = document.createElement("canvas"), litDirty = true, litAge = 1, litKey = "", nearMask = null, nearFor = null;
+  const glowCache = new Map();
   let floats = [], parts = [], shake = 0, walkPath = null, walkTimer = 0;
   let best = +store.get("crypte.best", 0) || 0;
   const idx = (x, y) => y * MW + x;
@@ -5634,7 +5756,7 @@ const Crypte = (() => {
     put(depth % 2 ? "weapon" : "armor", 1);
     // mousses luminescentes
     for(let i = 0; i < rr(4, 7); i++){ const r = rooms[rnd(rooms.length)], pos = free(r); if(pos) lights.push({ x:pos[0], y:pos[1], col:MOSS[rnd(MOSS.length)], r:rr(3, 5), ph:Math.random() * 6 }); }
-    memDirty = true;
+    memDirty = litDirty = true;
     fov();
     cam.x = P.x; cam.y = P.y;
   }
@@ -5668,7 +5790,7 @@ const Crypte = (() => {
     };
     for(let o = 0; o < 8; o++) cast(1, 1, 0, mult[0][o], mult[1][o], mult[2][o], mult[3][o]);
     seen[idx(P.x, P.y)] = 1;
-    memDirty = true;
+    memDirty = litDirty = true;
   }
 
   /* --- tour de jeu --- */
@@ -5740,7 +5862,7 @@ const Crypte = (() => {
     if(phase !== "play" || !P.scrolls) return;
     P.scrolls--;
     for(let i = 0; i < map.length; i++) if(map[i] !== WALL){ seen[i] = 1; const x = i % MW, y = (i / MW) | 0; for(let k = 0; k < 8; k++){ const xx = x + [-1,0,1,-1,1,-1,0,1][k], yy = y + [-1,-1,-1,0,0,1,1,1][k]; if(inb(xx, yy)) seen[idx(xx, yy)] = 1; } }
-    memDirty = true;
+    memDirty = litDirty = true;
     log("Le parchemin révèle le plan de l'étage.");
     tone(880, .2, "sine", .04);
     endTurn();
@@ -5899,7 +6021,7 @@ const Crypte = (() => {
   function resize(){
     const r = face.getBoundingClientRect();
     if(!r.width) return;
-    const dpr = Math.min(devicePixelRatio || 1, 2);
+    const dpr = Perf.dpr2d();
     // caractères assez grands pour l'immersion : la caméra suit le personnage
     const fs = Math.max(15, Math.min(30, Math.floor(r.width / (MW * .62) * .92), Math.floor(r.height / 22)));
     cw = Math.round(fs * .62); ch = Math.round(fs * 1.22);
@@ -5907,7 +6029,10 @@ const Crypte = (() => {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     resize.fs = fs; resize.w = r.width; resize.h = r.height;
     memCanvas.width = MW * cw; memCanvas.height = MH * ch;
-    memDirty = true;
+    resize.dpr = dpr;
+    litCanvas.width = Math.ceil((Math.ceil(r.width / cw) + 5) * cw * dpr); litCanvas.height = Math.ceil((Math.ceil(r.height / ch) + 5) * ch * dpr);
+    glowCache.clear();
+    memDirty = litDirty = true;
   }
   const font = () => `700 ${resize.fs}px "JetBrains Mono", "Courier Prime", "Courier New", monospace`;
   const isWallEdge = (x, y) => { for(let k = 0; k < 8; k++){ const xx = x + [-1,0,1,-1,1,-1,0,1][k], yy = y + [-1,-1,-1,0,0,1,1,1][k]; if(inb(xx, yy) && map[idx(xx, yy)] !== WALL) return true; } return false; };
@@ -5931,6 +6056,64 @@ const Crypte = (() => {
     }
     memDirty = false;
   }
+  function nearOf(){
+    if(nearFor !== lights){
+      nearFor = lights; nearMask = new Uint8Array(MW * MH);
+      for(const s of lights) for(let y = Math.max(0, s.y - s.r); y <= Math.min(MH - 1, s.y + s.r); y++) for(let x = Math.max(0, s.x - s.r); x <= Math.min(MW - 1, s.x + s.r); x++) nearMask[idx(x, y)] = 1;
+    }
+    return nearMask;
+  }
+  function drawLit(cx0, cy0, x0, x1, y0, y1){
+    const L = litCanvas.getContext("2d"), d = resize.dpr || 1;
+    L.setTransform(d, 0, 0, d, 0, 0);
+    L.clearRect(0, 0, litCanvas.width / d, litCanvas.height / d);
+    L.font = font(); L.textAlign = "center"; L.textBaseline = "middle";
+    const near = nearOf();
+    for(let y = y0; y <= y1; y++) for(let x = x0; x <= x1; x++){
+      const i = idx(x, y);
+      const lit = vis[i] > 0;
+      if(!lit && !(near[i] && seen[i])) continue;
+      const gl = glyphAt(x, y); if(!gl) continue;
+      const [lr, lg, lb] = light(x, y);
+      const px = (x - cx0 + .5) * cw, py = (y - cy0 + .5) * ch;
+      if(map[i] !== WALL){
+        L.fillStyle = `rgba(${255 * Math.min(1, lr) | 0},${150 * Math.min(1, lg) | 0},${80 * Math.min(1, lb) | 0},${Math.min(.24, (lr + lg + lb) * .075)})`;
+        L.fillRect(px - cw / 2, py - ch / 2, cw, ch);
+      }
+      const [c, col] = gl;
+      const mem = lit ? 0 : .3;
+      L.fillStyle = `rgb(${Math.min(255, col[0] * (lr + mem) + 8) | 0},${Math.min(255, col[1] * (lg + mem) + 8) | 0},${Math.min(255, col[2] * (lb + mem) + 10) | 0})`;
+      if(map[i] === STAIRS && lit){ L.shadowBlur = 12; L.shadowColor = "rgba(246,210,122,.8)"; }
+      L.fillText(c, px, py);
+      L.shadowBlur = 0;
+    }
+    // mousses
+    for(const s of lights){
+      if(!seen[idx(s.x, s.y)] || s.x < x0 || s.x > x1 || s.y < y0 || s.y > y1) continue;
+      const a = .65 + Math.sin(time * 1.6 + s.ph) * .2;
+      L.fillStyle = `rgba(${s.col[0]},${s.col[1]},${s.col[2]},${a})`;
+      L.shadowBlur = 10; L.shadowColor = `rgb(${s.col.join(",")})`;
+      L.fillText('"', (s.x - cx0 + .5) * cw, (s.y - cy0 + .5) * ch);
+      L.shadowBlur = 0;
+    }
+  }
+  // glyphe auréolé pré-rendu (le flou d'ombre du canvas coûte cher s'il est recalculé à chaque image)
+  function glowGlyph(c, col, glow, blur){
+    const key = c + col + glow + blur;
+    let g = glowCache.get(key);
+    if(!g){
+      const d = resize.dpr || 1, w = Math.ceil(resize.fs * 1.2 + blur * 3), h = Math.ceil(resize.fs * 1.4 + blur * 3);
+      g = document.createElement("canvas"); g.width = Math.ceil(w * d); g.height = Math.ceil(h * d);
+      const x = g.getContext("2d"); x.setTransform(d, 0, 0, d, 0, 0);
+      x.font = font(); x.textAlign = "center"; x.textBaseline = "middle";
+      x.shadowBlur = blur; x.shadowColor = glow; x.fillStyle = col; x.fillText(c, w / 2, h / 2);
+      g.w = w; g.h = h;
+      if(glowCache.size > 48) glowCache.clear();
+      glowCache.set(key, g);
+    }
+    return g;
+  }
+  const blitGlow = (g, px, py) => ctx.drawImage(g, px - g.w / 2, py - g.h / 2, g.w, g.h);
   function light(x, y){
     let L = vis[idx(x, y)];
     let r = 0, gg = 0, b = 0;
@@ -5962,46 +6145,22 @@ const Crypte = (() => {
     const sx = -ox * cw + (Math.random() - .5) * sk, sy = -oy * ch + (Math.random() - .5) * sk;
     ctx.drawImage(memCanvas, sx, sy);
     ctx.font = font(); ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    const x0 = Math.max(0, Math.floor(ox) - 1), x1 = Math.min(MW - 1, Math.ceil(ox + viewW) + 1);
-    const y0 = Math.max(0, Math.floor(oy) - 1), y1 = Math.min(MH - 1, Math.ceil(oy + viewH) + 1);
-    // cases éclairées
-    for(let y = y0; y <= y1; y++) for(let x = x0; x <= x1; x++){
-      const i = idx(x, y);
-      const lit = vis[i] > 0;
-      const near = lights.some(s => Math.abs(s.x - x) <= s.r && Math.abs(s.y - y) <= s.r);
-      if(!lit && !(near && seen[i])) continue;
-      const gl = glyphAt(x, y); if(!gl) continue;
-      const [lr, lg, lb] = light(x, y);
-      const px = sx + (x + .5) * cw, py = sy + (y + .5) * ch;
-      if(map[i] !== WALL){
-        ctx.fillStyle = `rgba(${255 * Math.min(1, lr) | 0},${150 * Math.min(1, lg) | 0},${80 * Math.min(1, lb) | 0},${Math.min(.24, (lr + lg + lb) * .075)})`;
-        ctx.fillRect(px - cw / 2, py - ch / 2, cw, ch);
-      }
-      const [c, col] = gl;
-      const mem = lit ? 0 : .3;
-      ctx.fillStyle = `rgb(${Math.min(255, col[0] * (lr + mem) + 8) | 0},${Math.min(255, col[1] * (lg + mem) + 8) | 0},${Math.min(255, col[2] * (lb + mem) + 10) | 0})`;
-      if(map[i] === STAIRS && lit){ ctx.shadowBlur = 12; ctx.shadowColor = "rgba(246,210,122,.8)"; }
-      ctx.fillText(c, px, py);
-      ctx.shadowBlur = 0;
-    }
-    // mousses
-    for(const s of lights){
-      if(!seen[idx(s.x, s.y)]) continue;
-      const a = .65 + Math.sin(time * 1.6 + s.ph) * .2;
-      ctx.fillStyle = `rgba(${s.col[0]},${s.col[1]},${s.col[2]},${a})`;
-      ctx.shadowBlur = 10; ctx.shadowColor = `rgb(${s.col.join(",")})`;
-      ctx.fillText('"', sx + (s.x + .5) * cw, sy + (s.y + .5) * ch);
-      ctx.shadowBlur = 0;
-    }
+    const cx0 = Math.floor(ox) - 1, cy0 = Math.floor(oy) - 1;
+    const x0 = Math.max(0, cx0), x1 = Math.min(MW - 1, cx0 + Math.ceil(viewW) + 3);
+    const y0 = Math.max(0, cy0), y1 = Math.min(MH - 1, cy0 + Math.ceil(viewH) + 3);
+    // cases éclairées et mousses (calque en cache)
+    litAge += dt;
+    const key = cx0 + "," + cy0;
+    if(litDirty || litAge > 1 / 12 || key !== litKey){ drawLit(cx0, cy0, x0, x1, y0, y1); litDirty = false; litAge = 0; litKey = key; }
+    { const d = resize.dpr || 1; ctx.drawImage(litCanvas, sx + cx0 * cw, sy + cy0 * ch, litCanvas.width / d, litCanvas.height / d); }
     // objets visibles
     for(const it of items){
       const i = idx(it.x, it.y);
       if(vis[i] <= 0 && !(it.kind === "amulet" && seen[i])) continue;
       const I = ITEMS[it.kind], [lr, lg, lb] = light(it.x, it.y), boost = .45;
       ctx.fillStyle = `rgb(${Math.min(255, I.col[0] * (lr + boost)) | 0},${Math.min(255, I.col[1] * (lg + boost)) | 0},${Math.min(255, I.col[2] * (lb + boost)) | 0})`;
-      if(it.kind === "amulet" || it.kind === "gold"){ ctx.shadowBlur = 10; ctx.shadowColor = `rgba(${I.col.join(",")},.9)`; }
+      if(it.kind === "amulet" || it.kind === "gold") blitGlow(glowGlyph(I.ch, `rgb(${I.col.join(",")})`, `rgba(${I.col.join(",")},.9)`, 10), sx + (it.x + .5) * cw, sy + (it.y + .5) * ch);
       ctx.fillText(I.ch, sx + (it.x + .5) * cw, sy + (it.y + .5) * ch);
-      ctx.shadowBlur = 0;
     }
     // monstres (animés)
     const km = 1 - Math.exp(-dt * 18);
@@ -6013,9 +6172,8 @@ const Crypte = (() => {
       const hot = m.hit > 0;
       ctx.fillStyle = hot ? "#ffffff" : `rgb(${Math.min(255, M.col[0] * f) | 0},${Math.min(255, M.col[1] * f) | 0},${Math.min(255, M.col[2] * f) | 0})`;
       const px = sx + (m.ax + .5) * cw, py = sy + (m.ay + .5) * ch;
-      if(m.boss){ ctx.shadowBlur = 14; ctx.shadowColor = "rgba(255,60,60,.9)"; }
+      if(m.boss) blitGlow(glowGlyph(M.ch, `rgb(${M.col.join(",")})`, "rgba(255,60,60,.9)", 14), px, py);
       ctx.fillText(M.ch, px + (hot ? (Math.random() - .5) * 3 : 0), py);
-      ctx.shadowBlur = 0;
       if(m.hp < m.maxhp){ ctx.fillStyle = "rgba(0,0,0,.6)"; ctx.fillRect(px - cw * .5, py + ch * .42, cw, 2); ctx.fillStyle = "#e2574c"; ctx.fillRect(px - cw * .5, py + ch * .42, cw * m.hp / m.maxhp, 2); }
     }
     // joueur
@@ -6024,10 +6182,7 @@ const Crypte = (() => {
     const halo = ctx.createRadialGradient(ppx, ppy, 0, ppx, ppy, ch * 2.2);
     halo.addColorStop(0, "rgba(255,180,107,.22)"); halo.addColorStop(1, "rgba(255,180,107,0)");
     ctx.fillStyle = halo; ctx.fillRect(ppx - ch * 2.2, ppy - ch * 2.2, ch * 4.4, ch * 4.4);
-    ctx.fillStyle = phase === "dead" ? "#7a6a5a" : "#fff2d0";
-    ctx.shadowBlur = 14; ctx.shadowColor = "rgba(255,200,120,.95)";
-    ctx.fillText(phase === "dead" ? "%" : "@", ppx, ppy);
-    ctx.shadowBlur = 0;
+    blitGlow(phase === "dead" ? glowGlyph("%", "#7a6a5a", "rgba(255,200,120,.95)", 14) : glowGlyph("@", "#fff2d0", "rgba(255,200,120,.95)", 14), ppx, ppy);
     // particules et nombres flottants
     for(const p of parts){ p.vy += 9 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt;
       ctx.globalAlpha = Math.max(0, Math.min(1, p.life * 2.5)); ctx.fillStyle = `rgb(${p.col.join(",")})`; ctx.fillText(p.ch, sx + p.x * cw, sy + p.y * ch); }
@@ -6072,11 +6227,22 @@ const Crypte = (() => {
   /* --- boucle --- */
   function loop(now){
     requestAnimationFrame(loop);
-    if(document.hidden || face.classList.contains("sleep")){ lastT = now; return; }
+    if(document.hidden || Perf.skip(face)){ lastT = now; return; }
     const dt = Math.min(.05, Math.max(.001, (now - (lastT || now)) / 1000)); lastT = now;
     time += dt;
     if(walkPath){ walkTimer -= dt; if(walkTimer <= 0){ walkTimer = .085; stepWalk(); } }
-    draw(dt);
+    // rien ne bouge (caméra posée, pas de particules ni d'animation) : on ne redessine qu'à 12 i/s pour le scintillement
+    pendingDt += dt;
+    if(isIdle() && pendingDt < 1 / 12) return;
+    draw(Math.min(.1, pendingDt)); pendingDt = 0;
+  }
+  let pendingDt = 0;
+  function isIdle(){
+    if(litDirty || walkPath || parts.length || floats.length || shake > 0 || !P) return !P;
+    const still = o => Math.abs(o.ax - o.x) < .002 && Math.abs(o.ay - o.y) < .002;
+    if(!still(P) || Math.abs(cam.x - P.ax) > .002 || Math.abs(cam.y - P.ay) > .002) return false;
+    for(const m of mons) if(m.hit > 0 || !still(m)) return false;
+    return true;
   }
   function bind(){
     addEventListener("resize", resize);
@@ -6610,7 +6776,7 @@ const Danse = (() => {
 
   function loop(now){
     requestAnimationFrame(loop);
-    if(document.hidden || face.classList.contains("sleep")){ lastT = now; return; }
+    if(document.hidden || Perf.skip(face)){ lastT = now; return; }
     const dt = Math.min(.05, Math.max(.001, (now - (lastT || now)) / 1000)); lastT = now;
     time += dt;
     if(phase === "play" && g){
@@ -6716,10 +6882,13 @@ const Danse = (() => {
   spawnFireflies();
 
   // Cylindre : barres de progression, titre, navigation
+  const peekBars = new Map();
   Drum.onPeek(p => {
-    const f = $("face-" + Drum.index);
-    f.querySelectorAll(".th-bar span").forEach(b => b.style.width = (Math.max(0, p) * 100) + "%");
-    f.querySelectorAll(".up-bar span").forEach(b => b.style.width = (Math.max(0, -p) * 100) + "%");
+    const i = Drum.index;
+    if(!peekBars.has(i)){ const f = $("face-" + i); peekBars.set(i, [[...f.querySelectorAll(".th-bar span")], [...f.querySelectorAll(".up-bar span")]]); }
+    const [down, up] = peekBars.get(i), wd = (Math.max(0, p) * 100) + "%", wu = (Math.max(0, -p) * 100) + "%";
+    down.forEach(b => { if(b.style.width !== wd) b.style.width = wd; });
+    up.forEach(b => { if(b.style.width !== wu) b.style.width = wu; });
   });
   const HASHES = ["", "#pendu", "#igloo", "#sursis", "#crypte", "#danse"];
   Drum.onChange(i => {
