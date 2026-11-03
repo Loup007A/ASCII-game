@@ -6,6 +6,7 @@
 <title>Le Caveau — Pierres tombales ASCII sur mesure</title>
 <meta name="description" content="Gravez une pierre tombale en ASCII, copiable-collable partout grâce au caractère Braille vide.">
 <meta name="theme-color" content="#07090c">
+<script>try{ if(JSON.parse(localStorage.getItem("caveau.theme")) === "light") document.documentElement.classList.add("light"); }catch(e){}</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚰</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -483,7 +484,7 @@
   details.section > summary{ display:flex; }
 
   label, .label{ font-size:15px; color:var(--bone-dim); }
-  input[type=text], input[type=date], select, textarea{ background:rgba(255,255,255,.035); border:1px solid #ffffff1c; border-radius:12px; padding:11px 13px;
+  input[type=text], input[type=date], input[type=password], select, textarea{ color:inherit; background:rgba(255,255,255,.035); border:1px solid #ffffff1c; border-radius:12px; padding:11px 13px;
     font-size:17px; transition:border-color .25s, box-shadow .25s, background .25s; }
   input[type=text]:hover, input[type=date]:hover, select:hover, textarea:hover{ background:rgba(255,255,255,.055); }
   input:focus, select:focus, textarea:focus{ border-color:var(--ember); box-shadow:0 0 0 4px rgba(228,138,76,.16); }
@@ -646,7 +647,7 @@
   .pd-opts select{ min-width:0; }
   .duo{ margin-top:20px; }
   .duo-row{ display:flex; gap:10px; align-items:center; }
-  .duo-row input{ flex:1; }
+  .duo-row input{ flex:1; min-width:0; width:100%; }
   .pd-stats{ display:grid; grid-template-columns:1fr 1fr; gap:18px 10px; }
   .pd-stats .n{ display:block; font-family:var(--serif); font-size:clamp(46px,5vw,72px); line-height:.9; color:var(--bone); font-variant-numeric:tabular-nums; }
   .pd-stats .l{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--bone-dim); }
@@ -958,13 +959,99 @@
   body.on-danse.da-playing #cursor{ opacity:0; }
   .da-brand .linkbtn{ padding:0; color:var(--ink-dim); }
   .da-brand .linkbtn:hover{ color:var(--rubric); }
+
+  /* ================================================================
+   * LIEN VERS LA PAGE SUIVANTE + BOUTON DE THÈME
+   * ================================================================ */
+  .th-next{ display:flex; align-items:baseline; gap:22px; width:min(1240px, calc(100% - 44px)); margin:0 auto; padding:34px 0; background:none; border:0;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line); color:var(--bone); text-align:left; cursor:pointer; text-transform:none; letter-spacing:0; }
+  .th-next .th-n{ color:var(--bone-dim); }
+  .th-next .th-t{ flex:1; font-family:var(--serif); font-style:normal; font-size:clamp(46px, 7vw, 100px); line-height:.9; letter-spacing:-.02em; transition:color .3s; }
+  .th-next .th-a{ font-family:var(--serif); font-size:clamp(26px, 3vw, 40px); color:var(--ember-soft); transition:transform .4s var(--ease-out); }
+  .th-next:hover .th-t{ color:var(--ember-soft); } .th-next:hover .th-a{ transform:translateY(6px); }
+  .face-potence .th-next .th-a, .face-potence .th-next:hover .th-t{ color:var(--pd-soft); }
+  .turn-hint .th-bar{ margin:0 auto 22px; }
+  .theme-btn{ display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; padding:0; border-radius:50%; border:1px solid #ffffff45;
+    background:#0b0e0bdd; color:#ece5cb; cursor:pointer; transition:background .25s, color .25s, border-color .25s; }
+  .theme-btn:hover{ border-color:#fff; }
+  .theme-btn .i-moon{ display:none; }
+  html.light .theme-btn .i-sun{ display:none; } html.light .theme-btn .i-moon{ display:block; }
+  #drum-nav .theme-btn{ margin-top:10px; }
+  .hero-bar-r{ display:inline-flex; align-items:center; gap:14px; }
+  .hero-bar .theme-btn{ width:36px; height:36px; background:transparent; border-color:var(--line-strong); color:var(--bone); }
+
+  /* ================================================================
+   * MODE CLAIR
+   * ================================================================ */
+  html.light, html.light body{ background:#ece6d8; }
+  html.light .stage{ background:radial-gradient(ellipse at center, #f2eee5, #cfc8b8 75%); }
+  html.light #drum-nav::before{ background:#00000026; }
+  html.light #drum-nav button, html.light .theme-btn{ background:#f6f2e9e6; color:#2a261f; border-color:#00000030; }
+  html.light #drum-nav button:hover, html.light .theme-btn:hover{ border-color:#2a261f; }
+  html.light #toast{ background:#f6f2e9f5; color:#211e19; border-color:#b8591f; box-shadow:0 10px 30px -12px rgba(60,40,20,.35); }
+  html.light .shade{ background:linear-gradient(180deg, rgba(40,32,22,.6), rgba(40,32,22,.2) 50%, rgba(40,32,22,.6)); }
+  html.light #loader{ background:#ece6d8; }
+  html.light .rail{ filter:invert(.82); }
+  html.light .drum-meter{ background:rgba(246,242,233,.9); border-color:#0000001f; }
+  html.light .drum-meter span{ color:#2a261f80; } html.light .drum-meter span.on{ color:#2a261f; }
+  html.light #grain{ opacity:.05; }
+
+  /* --- I. Le Caveau : un après-midi gris --- */
+  html.light .face-caveau, html.light .face-potence, html.light #loader{
+    --bone:#211e19; --bone-dim:#5c5749; --ember:#b8591f; --ember-soft:#a04913;
+    --line:#0000001a; --line-strong:#00000033; --glass:rgba(250,247,240,.82); --sky-top:#c9d6df; --sky-bot:#efeadf; }
+  html.light .face-caveau{ background:radial-gradient(ellipse 120% 80% at 50% -10%, #f3efe6, #c9d6df 75%); color:var(--bone); }
+  html.light .stars{ display:none; }
+  html.light .moon{ background:radial-gradient(circle, #fffdf6, #f6eed5 60%, #efe3bf); box-shadow:0 0 80px 30px rgba(255,248,225,.7); opacity:.75; }
+  html.light .moon::after{ display:none; }
+  html.light .fog{ background:radial-gradient(ellipse at center, rgba(255,255,255,.55), transparent 70%); }
+  html.light .firefly{ display:none; }
+  html.light .hero-title{ mix-blend-mode:normal; color:var(--bone); }
+  html.light .hero-ascii{ text-shadow:none; opacity:.9; }
+  html.light .cue-line{ background:#00000030; }
+  html.light .panel{ box-shadow:0 30px 80px -50px rgba(60,40,20,.45), inset 0 1px 0 #ffffff80; }
+  html.light .panel h2::after{ background:linear-gradient(90deg, #0000001f, transparent); }
+  html.light :is(.face-caveau, .face-potence) :is(input[type=text], input[type=date], input[type=password], select, textarea){ background:rgba(255,255,255,.6); border-color:#00000024; color:var(--bone); color-scheme:light; }
+  html.light :is(.face-caveau, .face-potence) :is(input[type=text], input[type=date], select, textarea):hover{ background:#fff; }
+  html.light :is(.face-caveau, .face-potence) :is(.pill, .charbtn){ background:rgba(255,255,255,.5); border-color:#00000024; color:var(--bone); }
+  html.light :is(.face-caveau, .face-potence) .pill.active{ background:var(--bone); border-color:var(--bone); color:#f6f1e6; box-shadow:0 10px 30px -14px rgba(33,30,25,.6); }
+  html.light :is(.face-caveau, .face-potence) button.btn{ background:rgba(255,255,255,.45); border-color:#00000029; color:var(--bone); }
+  html.light :is(.face-caveau, .face-potence) button.btn:hover{ color:#f6f1e6; }
+  html.light :is(.face-caveau, .face-potence) button.btn.primary{ background:var(--ember); border-color:var(--ember); color:#fffaf2; box-shadow:0 14px 40px -18px var(--ember); }
+  html.light :is(.face-caveau, .face-potence) button.btn.primary:hover{ color:#f6f1e6; }
+  html.light .grave{ background:rgba(255,255,255,.45); }
+  html.light :is(.face-caveau, .face-potence) kbd{ background:#fff; color:var(--bone); border-color:#00000026; }
+
+  /* --- II. Le Pendu : la salle rallumée --- */
+  html.light .face-potence{ --pd-soft:#b2342b; background:radial-gradient(ellipse 90% 70% at 40% 30%, #f3e4dc, #d8c2b6 70%); color:var(--bone); }
+  html.light body.pl-amber .face-potence{ --pd-soft:#a3600f; } html.light body.pl-ice .face-potence{ --pd-soft:#22688f; } html.light body.pl-absinthe .face-potence{ --pd-soft:#4d7a1a; }
+  html.light .ph-panel{ background:rgba(255,250,246,.78); border-color:#0000001a; box-shadow:0 30px 80px -50px rgba(70,30,20,.5); }
+  html.light .ph-panel .slot{ border-bottom-color:#00000055; }
+  html.light .ph-panel .key{ background:rgba(255,255,255,.55); border-color:#00000024; color:var(--bone); }
+  html.light .ph-panel .key:hover:not(:disabled){ background:#fff; border-color:#00000055; }
+  html.light .ph-panel .key.ok{ background:var(--bone); color:#f6f1e6; border-color:var(--bone); }
+  html.light .ph-panel .key.ko{ background:transparent; border-color:transparent; }
+  html.light.lite :is(.face-caveau, .face-potence) .panel{ background:rgba(250,247,240,.94); }
+  html.light.lite .ph-panel{ background:rgba(255,250,246,.93); }
+
+  /* --- III. Igloo, IV. Le Sursis, V. La Crypte : le négatif de la pellicule ---
+     (scènes en lumière sur fond noir : on les inverse en gardant les teintes) */
+  html.light .face-igloo{ background:#f3f6f8; }
+  html.light .face-igloo #gl-igloo, html.light .face-igloo .ig-text, html.light .face-igloo .ig-scroller{ filter:invert(1) hue-rotate(180deg); }
+  html.light .face-sursis{ background:#f4f3ef; }
+  html.light .su{ filter:grayscale(1) contrast(1.06) invert(1); }
+  html.light .face-crypte{ background:#f7f1e6; }
+  html.light .cr{ filter:invert(1) hue-rotate(180deg) sepia(.18); }
+  html.light body.on-igloo #cursor, html.light body.on-crypte #cursor{ mix-blend-mode:difference; }
+  html.light body.on-igloo .c-dot, html.light body.on-crypte .c-dot{ background:#fff; }
+  html.light body.on-igloo .c-ring, html.light body.on-crypte .c-ring{ border-color:#fff; }
 </style>
 </head>
 <body>
 <div id="loader" aria-hidden="true">
   <div class="l-top mono"><span>Le Caveau<sup>®</sup></span><span>Chargement des âmes</span></div>
   <pre id="l-art"></pre>
-  <div class="l-bot"><span class="l-count" id="l-count">000</span><span class="mono">Atelier de pierres tombales ASCII</span></div>
+  <div class="l-bot"><span class="l-count" id="l-count">000</span></div>
   <div class="l-bar" id="l-bar"></div>
 </div>
 <div id="cursor" aria-hidden="true"><div class="c-dot"></div><div class="c-ring"><span class="c-label"></span></div></div>
@@ -972,7 +1059,7 @@
 <div class="stage flat" id="stage">
   <div class="drum" id="drum">
     <!-- ================= FACE 1 : LE CAVEAU ================= -->
-    <section class="face face-caveau active" id="face-0" data-title="Le Caveau — Pierres tombales ASCII sur mesure" aria-label="Le Caveau">
+    <section class="face face-caveau active" id="face-0" data-title="Le Caveau — pierres tombales ASCII" aria-label="Le Caveau">
 <div class="sky" aria-hidden="true">
   <canvas id="gl-caveau"></canvas>
   <div class="stars"></div>
@@ -985,27 +1072,22 @@
 <section class="hero" id="hero" aria-label="Le Caveau">
   <div class="hero-bar mono hero-fade">
     <span>Le Caveau<sup>®</sup></span>
-    <span class="hide-sm">Atelier de pierres tombales ASCII</span>
-    <span>Paris — <span id="clock">--:--</span></span>
+    <span class="hero-bar-r"><span>Paris — <span id="clock">--:--</span></span><button type="button" class="theme-btn" data-theme-toggle aria-label="Mode clair" aria-pressed="false" title="Mode clair / sombre"><svg class="i-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z"/></svg></button></span>
   </div>
   <div class="hero-anchor" id="hero-anchor" data-cursor="Glisser"><pre class="hero-ascii" id="hero-ascii" aria-hidden="true"></pre></div>
   <h1 class="hero-title"><span class="line"><span>Le</span></span><span class="line"><span><em>Caveau</em></span></span></h1>
   <div class="hero-foot hero-fade">
-    <p class="hero-tag">Gravez une épitaphe en ASCII pour rendre hommage <em>(ou pas)</em> à qui vous voulez, avec tout le mauvais goût nécessaire.</p>
-    <span class="badge" title="Les espaces sont remplacés par le caractère Braille vide U+2800 : ils ne disparaissent pas quand on colle le texte dans Discord, WhatsApp, Instagram…">Copiable partout · Braille vide « ⠀ » U+2800</span>
-    <div class="scroll-cue mono"><span class="cue-line"></span>Défiler pour graver</div>
+    <div class="scroll-cue mono"><span class="cue-line"></span>↓</div>
   </div>
 </section>
 <div class="wrap">
   <div class="sec-head reveal">
-    <div><span class="mono idx">(01) — L'atelier</span><h2>Graver <em>l'inoubliable</em>, en ASCII.</h2></div>
-    <p>Tapez, choisissez, randomisez : la pierre se taille en direct. Faites-la tourner du bout du curseur, cliquez pour la cogner.</p>
+    <div><span class="mono idx">(01)</span><h2>L'<em>atelier</em></h2></div>
   </div>
 
   <main class="grid">
     <!-- ============ FORMULAIRE ============ -->
     <section class="panel reveal" aria-label="Personnalisation">
-      <h2>L'atelier <em>du tailleur</em></h2>
 
       <details class="section" open>
         <summary>Le défunt</summary>
@@ -1065,10 +1147,9 @@
       <details class="section" open>
         <summary>Épitaphe</summary>
         <div class="field">
-          <label for="message">Message complémentaire <small>(optionnel, retours à la ligne acceptés)</small> <span class="counter" id="msg-count">0/140</span></label>
+          <label for="message">Message <span class="counter" id="msg-count">0/140</span></label>
           <textarea id="message" maxlength="140" placeholder="Ex. Il nous manquera… un peu."></textarea>
           <div class="charpalette" id="charpalette"></div>
-          <p class="hint">Cliquez un symbole pour l'insérer à l'endroit du curseur.</p>
         </div>
         <div class="field">
           <label for="latin">Formule finale</label>
@@ -1117,13 +1198,13 @@
         <div class="checks">
           <label class="check"><input type="checkbox" id="base" checked> Socle & herbe ASCII</label>
           <label class="check"><input type="checkbox" id="moss" checked> Mousse</label>
-          <label class="check"><input type="checkbox" id="calm"> Ambiance calme (sans animation)</label>
+          <label class="check"><input type="checkbox" id="calm"> Sans animation</label>
         </div>
       </details>
 
       <div class="form-foot actions">
-        <button class="btn primary magnetic" id="btn-random" type="button" title="Raccourci : R">🎲 Tout randomiser</button>
-        <button class="btn" id="btn-reset" type="button">↺ Réinitialiser</button>
+        <button class="btn primary magnetic" id="btn-random" type="button" title="Raccourci : R">Au hasard</button>
+        <button class="btn" id="btn-reset" type="button">Réinitialiser</button>
       </div>
     </section>
 
@@ -1139,52 +1220,46 @@
         <div class="ground"></div>
       </div>
 
-      <p class="plot-hint">Glisser pour tourner · cliquer pour cogner</p>
       <div class="copy-opts">
-        <label for="copymode" style="margin:0">Copier avec :</label>
+        <label for="copymode" style="margin:0">Espaces</label>
         <select id="copymode">
-          <option value="braille">Braille vide « ⠀ » (partout)</option>
-          <option value="md">Bloc de code Markdown (Discord, GitHub)</option>
-          <option value="plain">Espaces classiques</option>
+          <option value="braille">Braille vide « ⠀ »</option>
+          <option value="md">Bloc Markdown</option>
+          <option value="plain">Espaces normaux</option>
         </select>
       </div>
       <div class="actions-preview">
-        <button class="btn primary magnetic" id="btn-copy" type="button" title="Raccourci : Ctrl+Maj+C">📋 Copier</button>
-        <button class="btn" id="btn-png" type="button">🖼️ Image PNG</button>
-        <button class="btn" id="btn-txt" type="button">⬇️ .txt</button>
-        <button class="btn" id="btn-link" type="button">🔗 Lien de partage</button>
-        <button class="btn" id="btn-save" type="button">⚱ Enterrer au cimetière</button>
-        <button class="btn" id="btn-shot" type="button">📸 Photo 3D</button>
-        <button class="btn" id="btn-view" type="button">👁 Vue texte</button>
+        <button class="btn primary magnetic" id="btn-copy" type="button" title="Raccourci : Ctrl+Maj+C">Copier</button>
+        <button class="btn" id="btn-png" type="button">PNG</button>
+        <button class="btn" id="btn-txt" type="button">.txt</button>
+        <button class="btn" id="btn-link" type="button">Lien</button>
+        <button class="btn" id="btn-save" type="button">Enterrer</button>
+        <button class="btn" id="btn-shot" type="button">Photo</button>
+        <button class="btn" id="btn-view" type="button">Vue texte</button>
       </div>
       <p class="stats" id="stats"></p>
-      <p class="signoff">Repose en… relative paix.</p>
     </section>
   </main>
 
   <section class="panel graveyard reveal" aria-label="Mon cimetière">
-    <h2><span class="mono" style="color:var(--ember-soft);margin-right:14px">(02)</span>Mon petit <em>cimetière</em> <small style="font-family:'EB Garamond';font-style:italic;color:var(--bone-dim);letter-spacing:0;font-size:14px" id="grave-count"></small></h2>
+    <h2><span class="mono" style="color:var(--ember-soft);margin-right:14px">(02)</span>Le <em>cimetière</em> <small style="font-family:'EB Garamond';font-style:italic;color:var(--bone-dim);letter-spacing:0;font-size:14px" id="grave-count"></small></h2>
     <div class="graves" id="graves"></div>
-    <p class="empty" id="graves-empty">Personne n'est encore enterré ici. Gravez une pierre puis cliquez sur « ⚱ Enterrer au cimetière ».</p>
+    <p class="empty" id="graves-empty">Aucune tombe.</p>
     <div class="actions" style="justify-content:center;margin-top:14px" id="graves-actions" hidden>
-      <button class="btn small danger" id="btn-clear" type="button">🧹 Raser le cimetière</button>
+      <button class="btn small danger" id="btn-clear" type="button">Tout raser</button>
     </div>
   </section>
 
   <footer class="big-foot reveal">
-    <span class="mono" style="color:var(--ember-soft)">(03) — Fin</span>
     <p class="foot-title">Repose en… <em>relative paix.</em></p>
     <div class="foot-row mono">
-      <span>Aucun cimetière n'a été dérangé pour la réalisation de ce site ✝</span>
-      <span><kbd>R</kbd> randomiser · <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>C</kbd> copier</span>
+      <span><kbd>R</kbd> au hasard · <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>C</kbd> copier</span>
     </div>
   </footer>
 </div>
 <div class="turn-hint">
-  <div class="th-arrow" aria-hidden="true">↓</div>
-  <p>Continuez à descendre : le cylindre va tourner d'un cran…</p>
   <div class="th-bar" aria-hidden="true"><span id="bar-down"></span></div>
-  <button class="btn magnetic" type="button" data-goto="1" data-cursor="Tourner">⟳ Tourner vers « Le Pendu »</button>
+  <button class="th-next" type="button" data-goto="1" data-cursor="Tourner"><span class="th-n mono">II</span><span class="th-t">Le Pendu</span><span class="th-a" aria-hidden="true">↓</span></button>
 </div>
 </div><!-- /scroller -->
 <div class="shade"></div>
@@ -1195,14 +1270,14 @@
       <canvas class="gl-face" id="gl-pendu" aria-hidden="true"></canvas>
       <div class="scroller" id="scroll-1" tabindex="-1">
         <div class="up-hint">
-          <button class="linkbtn" type="button" data-goto="0">↑ Remonter vers le Caveau</button>
+          <button class="linkbtn" type="button" data-goto="0">↑ I · Le Caveau</button>
           <span class="up-bar" aria-hidden="true"><span></span></span>
         </div>
         <section class="ph" aria-label="Partie de pendu">
-          <div class="ph-bar mono"><span>Le Pendu<sup>®</sup></span><span class="hide-sm">Acte II — La potence</span><span id="p-score">Sauvés 0 · Pendus 0</span></div>
+          <div class="ph-bar mono"><span>Le Pendu<sup>®</sup></span><span class="hide-sm">Acte II</span><span id="p-score">Sauvés 0 · Pendus 0</span></div>
           <div class="ph-head">
             <h2 class="ph-title"><span class="line"><span>Le</span></span><span class="line"><span><em>Pendu</em></span></span></h2>
-            <p class="ph-sub">Sauvez <b id="p-condemned">LUC DUVAL</b> de la corde, une lettre à la fois. Le public, lui, est venu voir autre chose.</p>
+            <p class="ph-sub">Sauvez <b id="p-condemned">LUC DUVAL</b>.</p>
           </div>
           <div class="ph-stage" id="p-stage" data-cursor="Le condamné">
             <pre id="gallows" aria-hidden="true"></pre>
@@ -1216,21 +1291,20 @@
             <div class="kbd" id="p-kbd"></div>
             <div class="p-actions">
               <button class="btn primary magnetic" type="button" id="p-new">Nouvelle partie</button>
-              <button class="btn" type="button" id="p-hint">Indice (−1 vie)</button>
-              <button class="btn" type="button" id="p-copy">Copier la potence</button>
-              <button class="btn hot" type="button" id="p-grave" hidden>⚰ Graver sa pierre tombale</button>
+              <button class="btn" type="button" id="p-hint">Indice −1</button>
+              <button class="btn" type="button" id="p-copy">Copier</button>
+              <button class="btn hot" type="button" id="p-grave" hidden>Graver la pierre</button>
             </div>
             <div class="lives-bar" id="p-lives"></div>
           </div>
         </section>
         <div class="wrap">
           <div class="sec-head reveal">
-            <div><span class="mono idx">(02) — Les règles</span><h2>Choisir <em>sa corde</em>.</h2></div>
-            <p>Catégorie, difficulté, lumière du projecteur… ou le mode 2 joueurs : l'un choisit le mot, l'autre tente de sauver le condamné.</p>
+            <div><span class="mono idx">(02)</span><h2><em>Réglages</em></h2></div>
           </div>
           <div class="pd-grid">
             <section class="panel reveal" aria-label="Réglages">
-              <h2>Réglages <em>de la scène</em></h2>
+              <h2>La <em>scène</em></h2>
               <div class="pd-opts">
                 <div class="field"><label for="p-category">Catégorie</label><select id="p-category"></select></div>
                 <div class="field"><label for="p-level">Difficulté</label>
@@ -1253,7 +1327,7 @@
                   </select></div>
               </div>
               <div class="duo">
-                <label for="p-secret">Mode 2 joueurs — le joueur 1 tape un mot secret :</label>
+                <label for="p-secret">À deux : mot secret</label>
                 <div class="duo-row">
                   <input type="password" id="p-secret" maxlength="24" autocomplete="off" spellcheck="false" placeholder="mot secret…">
                   <button class="btn" type="button" id="p-duo">Lancer</button>
@@ -1272,16 +1346,12 @@
             </section>
           </div>
           <footer class="big-foot reveal">
-            <span class="mono">(03) — Entracte</span>
-            <p class="foot-title">La corde est <em>patiente.</em></p>
-            <div class="foot-row mono"><span>Lettres au clavier · Entrée : nouvelle partie · ? : indice</span><span>Glisser la potence pour la faire pivoter</span></div>
+            <div class="foot-row mono"><span>Lettres au clavier · Entrée : nouvelle partie · ? : indice</span></div>
           </footer>
         </div>
         <div class="turn-hint">
-          <div class="th-arrow" aria-hidden="true">↓</div>
-          <p>Continuez à descendre : le cylindre va tourner vers l'Igloo…</p>
           <div class="th-bar" aria-hidden="true"><span></span></div>
-          <button class="btn magnetic" type="button" data-goto="2" data-cursor="Tourner">⟳ Tourner vers « Igloo »</button>
+          <button class="th-next" type="button" data-goto="2" data-cursor="Tourner"><span class="th-n mono">III</span><span class="th-t">Igloo</span><span class="th-a" aria-hidden="true">↓</span></button>
         </div>
       </div>
       <div class="shade"></div>
@@ -1296,7 +1366,7 @@
           <div class="ig-corner tl"></div><div class="ig-corner tr"></div><div class="ig-corner bl"></div><div class="ig-corner br"></div>
           <div class="ig-flash" id="ig-flash"></div>
           <div class="ig-top">
-            <div class="ig-brand"><span class="ig-logo">Igloo.exe</span><span class="ig-dim">Bâtisseur de dômes — v1.0</span></div>
+            <div class="ig-brand"><span class="ig-logo">Igloo.exe</span><span class="ig-dim">v1.0</span></div>
             <button class="ig-up" type="button" data-goto="1">↑ Le Pendu<span class="up-bar" aria-hidden="true"><span></span></span></button>
             <div class="ig-stats">
               <div><span class="ig-dim">Assise</span><b id="ig-level">00/12</b></div>
@@ -1317,9 +1387,8 @@
             </div>
           </div>
           <div class="ig-panel" id="ig-start">
-            <span class="ig-dim">Mission 01</span>
+            <span class="ig-dim">12 assises</span>
             <h3>Bâtir l'igloo</h3>
-            <p>Les blocs de glace glissent d'un bord à l'autre. Posez chacun pile sur le précédent : ce qui dépasse se brise. Douze assises, et le dôme est fermé.</p>
             <div class="ig-actions"><button class="ig-btn primary" type="button" id="ig-go">[ Commencer ]</button></div>
             <span class="ig-dim">Clic, tap ou Espace</span>
           </div>
@@ -1359,7 +1428,7 @@
             <span class="mono" id="su-menu-k">Un film de la Mort</span>
             <h2 class="su-title" id="su-menu-title">Le <em>Sursis</em></h2>
             <div class="su-big" id="su-menu-score" hidden></div>
-            <p id="su-menu-text">Battez la Mort au ping-pong pour gagner un peu de temps. Raquette à la souris, au doigt ou aux flèches ← →.</p>
+            <p id="su-menu-text"></p>
             <div class="su-opts">
               <label>Adversaire
                 <select id="su-level">
@@ -1424,9 +1493,8 @@
             </div>
           </div>
           <div class="cr-panel" id="cr-start">
-            <span class="cr-tag">Un roguelike sous le Caveau</span>
+            <span class="cr-tag">5 niveaux · 1 amulette</span>
             <h2>La <em>Crypte</em></h2>
-            <p>Descendez cinq niveaux sous le cimetière, trouvez l'Amulette au fond… et remontez vivant(e). Ce qui, d'expérience, n'arrive presque jamais.</p>
             <div class="cr-keys">Flèches, ZQSD ou WASD · diagonales : 7 9 1 3 ou Y U B N<br>P : potion · L : parchemin · Espace : attendre<br>Au doigt : touchez une case pour y marcher</div>
             <div class="su-actions" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="btn primary magnetic" type="button" id="cr-go">Descendre dans la crypte</button></div>
             <span class="mono" id="cr-best" style="color:var(--cr-dim)">Meilleur score : 0</span>
@@ -1438,7 +1506,7 @@
             <p id="cr-end-text"></p>
             <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
               <button class="btn primary magnetic" type="button" id="cr-again">Redescendre</button>
-              <button class="btn" type="button" id="cr-grave">⚰ Graver dans le Caveau</button>
+              <button class="btn" type="button" id="cr-grave">Graver la pierre</button>
               <button class="btn" type="button" id="cr-copy">Copier la pierre</button>
             </div>
           </div>
@@ -1472,7 +1540,7 @@
           <div class="da-panel" id="da-start">
             <span class="da-tag">Minuit sonne au cimetière</span>
             <h2>La Danse <em>Macabre</em></h2>
-            <p>Douze coups, un violon accordé par le diable, et les squelettes sortent danser : une valse, un galop ou un menuet. Frappez chaque note en mesure… ou rejoignez la ronde pour l'éternité. Montez le son.</p>
+            <p>Montez le son.</p>
             <div class="da-opts">
               <label class="da-wide">Morceau
                 <select id="da-song"></select></label>
@@ -1497,7 +1565,7 @@
             <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
               <button class="btn primary magnetic" type="button" id="da-again">Danser encore</button>
               <button class="btn" type="button" id="da-copy">Copier le score</button>
-              <button class="btn" type="button" id="da-grave" hidden>⚰ Graver sa pierre tombale</button>
+              <button class="btn" type="button" id="da-grave" hidden>Graver la pierre</button>
               <button class="btn" type="button" id="da-menu">Changer de danse</button>
             </div>
           </div>
@@ -1525,6 +1593,7 @@
   <button type="button" class="magnetic" data-goto="3" title="Le Sursis" aria-label="Page 4 : Le Sursis">IV</button>
   <button type="button" class="magnetic" data-goto="4" title="La Crypte" aria-label="Page 5 : La Crypte">V</button>
   <button type="button" class="magnetic" data-goto="5" title="La Danse Macabre" aria-label="Page 6 : La Danse Macabre">VI</button>
+  <button type="button" class="theme-btn" data-theme-toggle aria-label="Mode clair" aria-pressed="false" title="Mode clair / sombre"><svg class="i-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7"/></svg><svg class="i-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1Z"/></svg></button>
 </nav>
 
 <div id="toast" role="status"></div>
@@ -2588,7 +2657,7 @@ async function copyText(text){
 async function doCopy(){
   const mode = $("copymode").value;
   const ok = await copyText(exportText(currentLines, mode));
-  toast(ok ? (mode === "braille" ? "✅ Copié avec des « ⠀ » : collez où vous voulez !" : "✅ Copié !") : "❌ Impossible de copier");
+  toast(ok ? "Copié" : "Impossible de copier");
 }
 $("btn-copy").addEventListener("click", doCopy);
 // Sélection manuelle dans l'aperçu : on garde le Braille, sans balises parasites
@@ -2612,7 +2681,7 @@ $("btn-txt").addEventListener("click", () => {
   const url = URL.createObjectURL(blob);
   download(url, `pierre-tombale-${slug()}.txt`);
   setTimeout(() => URL.revokeObjectURL(url), 1000);   // révoquer trop tôt annulait le téléchargement
-  toast("⬇️ Fichier .txt téléchargé");
+  toast("Fichier .txt téléchargé");
 });
 
 /* Image PNG dessinée à la main sur canvas : alignement parfait, aucune librairie externe */
@@ -2687,12 +2756,12 @@ async function renderPNG(){
   return c;
 }
 $("btn-png").addEventListener("click", async () => {
-  toast("⏳ Gravure en cours…");
+  toast("Gravure…");
   try {
     const c = await renderPNG();
     download(c.toDataURL("image/png"), `pierre-tombale-${slug()}.png`);
-    toast("✅ Image téléchargée");
-  } catch(err){ console.error(err); toast("❌ Échec de la gravure"); }
+    toast("Image téléchargée");
+  } catch(err){ console.error(err); toast("Échec de la gravure"); }
 });
 
 /* Lien de partage : l'état est encodé dans l'URL (#t=…) */
@@ -2712,7 +2781,7 @@ function decodeState(str){
 $("btn-link").addEventListener("click", async () => {
   const url = location.href.split("#")[0] + "#t=" + encodeState(state);
   history.replaceState(null, "", url);
-  toast(await copyText(url) ? "🔗 Lien copié !" : "Lien dans la barre d'adresse");
+  toast(await copyText(url) ? "Lien copié" : "Lien dans la barre d'adresse");
 });
 
 /* ================================================================
@@ -2753,18 +2822,18 @@ function restore(gr){
   writeForm(gr.s); render();
   Drum.stopSmooth(0);
   $("scroll-0").scrollTo({ top:0, behavior:"smooth" });
-  toast(`🧟 ${gr.s.name || "Anonyme"} est de retour !`);
+  toast(`${gr.s.name || "Anonyme"} est de retour`);
 }
 $("btn-save").addEventListener("click", () => {
   const graves = loadGraves();
   graves.unshift({ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), at: Date.now(), s: { ...state } });
-  if(!store.set(GRAVES_KEY, graves.slice(0, MAX_GRAVES))){ toast("❌ Stockage indisponible"); return; }
+  if(!store.set(GRAVES_KEY, graves.slice(0, MAX_GRAVES))){ toast("Stockage indisponible"); return; }
   renderGraves();
-  toast(`⚱ ${state.name.trim() || "Anonyme"} repose désormais au cimetière`);
+  toast(accord(`${state.name.trim() || "Anonyme"} est enterré(e)`, GENDERS[state.gender] || GENDERS.m));
 });
 $("btn-clear").addEventListener("click", () => {
   if(!loadGraves().length) return;
-  store.set(GRAVES_KEY, []); renderGraves(); toast("🧹 Cimetière rasé");
+  store.set(GRAVES_KEY, []); renderGraves(); toast("Cimetière rasé");
 });
 
 /* ================================================================
@@ -2798,7 +2867,7 @@ document.addEventListener("keydown", e => {
   const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName);
   if((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "c"){
     e.preventDefault();
-    if(Drum.index === 1) Pendu.copy().then(ok => toast(ok ? "> Potence copiée" : "> Impossible de copier"));
+    if(Drum.index === 1) Pendu.copy().then(ok => toast(ok ? "Potence copiée" : "Impossible de copier"));
     else doCopy();
     return;
   }
@@ -2871,6 +2940,28 @@ const Perf = (() => {
       return false;
     }
   };
+})();
+
+/* ================================================================
+ * THÈME : mode sombre (par défaut) ou clair, mémorisé
+ * ================================================================ */
+const Theme = (() => {
+  const root = document.documentElement, handlers = [];
+  let light = store.get("caveau.theme", "dark") === "light";
+  const meta = document.querySelector('meta[name="theme-color"]');
+  function apply(){
+    root.classList.toggle("light", light);
+    if(meta) meta.setAttribute("content", light ? "#ece6d8" : "#07090c");
+    document.querySelectorAll("[data-theme-toggle]").forEach(b => {
+      b.setAttribute("aria-pressed", String(light));
+      b.setAttribute("aria-label", light ? "Mode sombre" : "Mode clair");
+    });
+    handlers.forEach(fn => { try { fn(light); } catch(e){ console.error(e); } });
+  }
+  document.addEventListener("click", e => { if(e.target.closest("[data-theme-toggle]")) toggle(); });
+  function toggle(){ light = !light; store.set("caveau.theme", light ? "light" : "dark"); apply(); }
+  apply();
+  return { get light(){ return light; }, toggle, onChange(fn){ handlers.push(fn); } };
 })();
 
 const Drum = (() => {
@@ -3512,7 +3603,7 @@ const Pendu = (() => {
     });
     render();
     Drum.goTo(0, { land:"top" });
-    setTimeout(() => toast(`⚰ Pierre gravée pour ${condemned()}`), 900);
+    setTimeout(() => toast(`Pierre gravée pour ${condemned()}`), 900);
   }
 
   function applyOpts(){
@@ -3554,7 +3645,7 @@ const Pendu = (() => {
     ui.hint.addEventListener("click", hint);
     ui.grave.addEventListener("click", engrave);
     $("p-copy").addEventListener("click", async () => {
-      toast(await copyText(shareText()) ? "Potence copiée (avec des « ⠀ »)" : "Impossible de copier");
+      toast(await copyText(shareText()) ? "Potence copiée" : "Impossible de copier");
     });
     $("p-reset").addEventListener("click", () => {
       stats = { wins:0, losses:0, streak:0, best:0 }; store.set(STATS_KEY, stats); renderStats(); toast("Registre effacé");
@@ -3864,7 +3955,7 @@ const Caveau3D = (() => {
           gl_PointSize = (1. + aSeed * 2.2) * uPR; vA = .35 + .65 * (.5 + .5 * sin(uTime * (1. + aSeed * 3.) + aSeed * 40.)); }`,
       fragmentShader: `varying float vA; void main(){ float d = length(gl_PointCoord - .5); if(d > .5) discard; gl_FragColor = vec4(vec3(.85, .9, 1.), vA * smoothstep(.5, 0., d)); }`
     });
-    scene.add(new T.Points(sg, starMat));
+    const starPts = new T.Points(sg, starMat); scene.add(starPts);
 
     // lune
     const mc = document.createElement("canvas"); mc.width = mc.height = 256;
@@ -3886,7 +3977,8 @@ const Caveau3D = (() => {
     const gp = ground.attributes.position;
     for(let i = 0; i < gp.count; i++) gp.setY(i, hgt(gp.getX(i), gp.getZ(i)) + (Math.random() - .5) * .08);
     ground.computeVertexNormals();
-    scene.add(new T.Mesh(ground, new T.MeshStandardMaterial({ color: "#18241a", roughness: 1, flatShading: true })));
+    const groundMat = new T.MeshStandardMaterial({ color: "#18241a", roughness: 1, flatShading: true });
+    scene.add(new T.Mesh(ground, groundMat));
 
     // tombes et croix (instanciées)
     const stoneMat = new T.MeshStandardMaterial({ color: "#7d827a", roughness: .95, flatShading: true });
@@ -3970,7 +4062,7 @@ const Caveau3D = (() => {
       fragmentShader: `uniform vec3 uColor; varying float vA;
         void main(){ float d = length(gl_PointCoord - .5); float a = pow(smoothstep(.5, 0., d), 1.8) * vA; gl_FragColor = vec4(uColor * (1. + a), a); }`
     });
-    scene.add(new T.Points(fgGeo, flyMat));
+    const flyPts = new T.Points(fgGeo, flyMat); scene.add(flyPts);
 
     // fantôme
     const ghost = buildGhost();
@@ -3984,10 +4076,10 @@ const Caveau3D = (() => {
     scene.add(lantern, lanternGlow);
 
     // lumières
-    scene.add(new T.HemisphereLight("#3c4c6e", "#0b0d0a", 1.1));
+    const hemiBg = new T.HemisphereLight("#3c4c6e", "#0b0d0a", 1.1); scene.add(hemiBg);
     const moonLight = new T.DirectionalLight("#9fb4ff", 1.4); moonLight.position.copy(moonDir).multiplyScalar(30); scene.add(moonLight);
 
-    bg = { scene, cam, starMat, flyMat, ghost, lantern, lanternGlow, ray: new T.Raycaster(), plane: new T.Plane(new T.Vector3(0, 1, 0), -.15), hit: new T.Vector3(), lanternPos: new T.Vector3(0, 1, -3) };
+    bg = { scene, cam, starMat, flyMat, ghost, sky, moon, moonGlow, starPts, flyPts, hemiBg, moonLight, groundMat, stoneMat, barkMat, mm, lantern, lanternGlow, ray: new T.Raycaster(), plane: new T.Plane(new T.Vector3(0, 1, 0), -.15), hit: new T.Vector3(), lanternPos: new T.Vector3(0, 1, -3) };
   }
 
   function buildGhost(){
@@ -4018,7 +4110,7 @@ const Caveau3D = (() => {
     const pivot = new T.Group(); root.add(pivot);          // rotation (souris)
     const holder = new T.Group(); pivot.add(holder);       // contenu reconstruit
 
-    scene.add(new T.HemisphereLight("#8796bb", "#24180e", 1.1));
+    const hemiFg = new T.HemisphereLight("#8796bb", "#24180e", 1.1); scene.add(hemiFg);
     const key = new T.DirectionalLight("#c7d5ff", 2.4); key.position.set(-5, 8, 7);
     key.castShadow = true; key.shadow.mapSize.setScalar(Perf.lite ? 512 : 1024);
     Object.assign(key.shadow.camera, { left: -6, right: 6, top: 9, bottom: -2, near: .5, far: 30 }); key.shadow.bias = -.0005; key.shadow.normalBias = .02;
@@ -4029,7 +4121,7 @@ const Caveau3D = (() => {
     const flameMap = flameTex(), haloMap = glowTex("255,170,90");
     const bc = document.createElement("canvas"); bc.width = bc.height = 4; bc.getContext("2d").fillRect(0, 0, 4, 4);
     const blackTex = canvasTex(bc);
-    fg = { scene, cam, root, pivot, holder, key, rim, cursorLight, flameMap, haloMap, blackTex, candles: [], grassMat: null, dust: null, dims: null, ray: new T.Raycaster(), plane: new T.Plane(new T.Vector3(0, 0, 1), 0), hit: new T.Vector3() };
+    fg = { scene, cam, root, pivot, holder, key, rim, hemiFg, cursorLight, flameMap, haloMap, blackTex, candles: [], grassMat: null, dust: null, dims: null, ray: new T.Raycaster(), plane: new T.Plane(new T.Vector3(0, 0, 1), 0), hit: new T.Vector3() };
     buildDust();
   }
 
@@ -4538,6 +4630,28 @@ const Caveau3D = (() => {
     D.wasAlive = alive;
   }
 
+  // mode clair : un après-midi gris sur le cimetière (même scène, autre lumière)
+  const LOOKS = {
+    dark: { top:"#03050b", hor:"#1a2533", fog:"#101822", fogD:.03, hemi:["#3c4c6e", "#0b0d0a", 1.1], sun:["#9fb4ff", 1.4], ground:"#18241a", stone:"#7d827a", maus:"#6b6f68", bark:"#14120f",
+      hemiFg:["#8796bb", "#24180e", 1.1], key:["#c7d5ff", 2.4], rim:["#7f9dff", 2.2], night:true, exposure:1.1 },
+    light:{ top:"#8fb0cc", hor:"#e9e5da", fog:"#d8dad3", fogD:.024, hemi:["#e6eef8", "#6d6553", 1.9], sun:["#fff1d8", 2.4], ground:"#4a5e3e", stone:"#a7aaa1", maus:"#9a9d95", bark:"#3a3027",
+      hemiFg:["#eef2f8", "#7a6a55", 1.6], key:["#fff3df", 2.8], rim:["#c6d4ff", 1.3], night:false, exposure:1.02 }
+  };
+  function applyTheme(light){
+    if(!bg || !fg) return;
+    const L = LOOKS[light ? "light" : "dark"];
+    bg.sky.material.uniforms.uTop.value.set(L.top); bg.sky.material.uniforms.uHor.value.set(L.hor);
+    bg.scene.fog.color.set(L.fog); bg.scene.fog.density = L.fogD;
+    bg.hemiBg.color.set(L.hemi[0]); bg.hemiBg.groundColor.set(L.hemi[1]); bg.hemiBg.intensity = L.hemi[2];
+    bg.moonLight.color.set(L.sun[0]); bg.moonLight.intensity = L.sun[1];
+    bg.groundMat.color.set(L.ground); bg.stoneMat.color.set(L.stone); bg.mm.color.set(L.maus); bg.barkMat.color.set(L.bark);
+    bg.starPts.visible = bg.flyPts.visible = bg.moonGlow.visible = L.night;
+    bg.moon.material.opacity = L.night ? 1 : .35; bg.moon.material.transparent = !L.night;
+    fg.hemiFg.color.set(L.hemiFg[0]); fg.hemiFg.groundColor.set(L.hemiFg[1]); fg.hemiFg.intensity = L.hemiFg[2];
+    fg.key.color.set(L.key[0]); fg.key.intensity = L.key[1]; fg.rim.color.set(L.rim[0]); fg.rim.intensity = L.rim[1];
+    renderer.toneMappingExposure = L.exposure;
+  }
+
   function renderFrame(){
     renderer.clear();
     renderer.render(bg.scene, bg.cam);
@@ -4598,6 +4712,7 @@ const Caveau3D = (() => {
     // compile les shaders sans figer la page (KHR_parallel_shader_compile si disponible)
     progress(.9);
     try { await renderer.compileAsync(bg.scene, bg.cam); await renderer.compileAsync(fg.scene, fg.cam); } catch {}
+    applyTheme(Theme.light); Theme.onChange(applyTheme);
     renderFrame();
     ready = true;
     document.body.classList.add("gl-on");
@@ -4648,7 +4763,7 @@ const Pendu3D = (() => {
   const ptr = { x:0, y:0, nx:0, ny:0, over:false, down:false, sx:0, baseR:0, moved:0 };
   const rot = { y:0, v:0, t:0 };
   const rig = { x:0, y:0, s:1, init:false };
-  let lightCol = null, lightTarget = null;
+  let lightCol = null, lightTarget = null, curtainMat = null;
   const rand = (a, b) => a + Math.random() * (b - a);
   const lk = (rate, dt) => 1 - Math.exp(-rate * dt);
 
@@ -4686,7 +4801,8 @@ const Pendu3D = (() => {
     const cp = cg.attributes.position;
     for(let i = 0; i < cp.count; i++){ const x = cp.getX(i); cp.setZ(i, Math.sin(x * 2.3) * .32 + Math.sin(x * .7 + 1) * .25); }
     cg.computeVertexNormals();
-    const curtain = new T.Mesh(cg, new T.MeshStandardMaterial({ color:"#5a0f16", roughness:.75, metalness:.05 }));
+    curtainMat = new T.MeshStandardMaterial({ color:"#5a0f16", roughness:.75, metalness:.05 });
+    const curtain = new T.Mesh(cg, curtainMat);
     curtain.position.set(0, 9, -7); curtain.receiveShadow = true; set.add(curtain);
 
     // estrade
@@ -4770,9 +4886,20 @@ const Pendu3D = (() => {
     scene.add(heads, bodies);
 
     hemi = new T.HemisphereLight("#6b4248", "#0a0405", 1.3); scene.add(hemi);
+    applyTheme(Theme.light); Theme.onChange(applyTheme);
     const foot = new T.PointLight("#ff9a6a", 30, 30, 1.2); foot.position.set(0, .4, 8); set.add(foot);
     const rimL = new T.DirectionalLight("#6f7dff", .55); rimL.position.set(-4, 6, -8); set.add(rimL);
     flashLight = new T.PointLight("#ff3b30", 0, 18, 1.5); flashLight.position.set(0, 5, 3); set.add(flashLight);
+  }
+
+  function applyTheme(light){
+    if(!scene) return;
+    const bgc = light ? "#e4d6cb" : "#070304";
+    scene.background.set(bgc); scene.fog.color.set(bgc);
+    hemi.color.set(light ? "#fff2e8" : "#6b4248"); hemi.groundColor.set(light ? "#8a6f62" : "#0a0405"); hemi.intensity = light ? 2.6 : 1.3;
+    if(glyphMesh) glyphMesh.material.uniforms.uColor.value.set(light ? "#2a1712" : "#f4ead7");
+    if(curtainMat) curtainMat.color.set(light ? "#dcb9b0" : "#5a0f16");
+    if(crowd) [crowd.heads, crowd.bodies].forEach(m => m.material.color.set(light ? "#9a7b73" : "#030102"));
   }
 
   /* --- glyphes --- */
@@ -5195,7 +5322,7 @@ const Igloo = (() => {
       while(lines.length && !lines[0].trim()) lines.shift();
       const title = gs.demo ? "" : ` — ${rankOf(gs.levels.length - 1, gs.won, gs.round)}`;
       const txt = toBraille([...lines, "", `IGLOO.EXE — ${pad4(gs.score)} pts — ${pad2(gs.levels.length - 1)}/${N} assises${title}`, gs.demo ? "" : `${placeOf(gs.round)}, ${gs.weather.toLowerCase()}, ${gs.temp} °C`].join("\n").trim());
-      toast(await copyText(txt) ? "Igloo copié (avec des « ⠀ »)" : "Impossible de copier");
+      toast(await copyText(txt) ? "Igloo copié" : "Impossible de copier");
     });
     ui.sound.addEventListener("click", () => {
       soundOn = !soundOn; store.set("igloo.sound", soundOn);
@@ -5945,7 +6072,7 @@ const Sursis = (() => {
         date:isoDate(now.getFullYear(), now.getMonth() + 1, now.getDate()), message:pick(EPITAPHS), latin:"Game over", icon:"skull" });
       render();
       Drum.goTo(0, { land:"top" });
-      setTimeout(() => toast("⚰ Pierre gravée. Belle partie quand même."), 900);
+      setTimeout(() => toast("Pierre gravée."), 900);
     });
     ui.copy.addEventListener("click", async () => {
       const [d, y] = g.s;
@@ -5956,7 +6083,7 @@ const Sursis = (() => {
       const dw = dd.length * 4 - 1;
       const head = "La Mort".padEnd(dw + 7) + "Vous";
       const txt = toBraille(["LE SURSIS — ping-pong contre la Mort", "", head, ...lines, "", y > d ? "Sursis accordé." : "La Mort l'emporte."].join("\n"));
-      toast(await copyText(txt) ? "Score copié (avec des « ⠀ »)" : "Impossible de copier");
+      toast(await copyText(txt) ? "Score copié" : "Impossible de copier");
     });
     [ui.level, ui.points, ui.mode].forEach(s => s.addEventListener("change", () => {
       opts = { level:ui.level.value, points:+ui.points.value, mode:ui.mode.value }; store.set("sursis.opts", opts);
@@ -6677,7 +6804,7 @@ const Crypte = (() => {
     ui.again.addEventListener("click", newGame);
     ui.copy.addEventListener("click", async () => {
       const lines = phase === "won" ? [`LA CRYPTE — ${state.name.trim() || "Anonyme"} remonte avec l'Amulette !`, `Score : ${score()}`] : [...ripLines(), "", `LA CRYPTE — score ${score()}`];
-      toast(await copyText(toBraille(lines.join("\n"))) ? "Pierre copiée (avec des « ⠀ »)" : "Impossible de copier");
+      toast(await copyText(toBraille(lines.join("\n"))) ? "Pierre copiée" : "Impossible de copier");
     });
     ui.grave.addEventListener("click", () => {
       const now = new Date();
@@ -6686,7 +6813,7 @@ const Crypte = (() => {
         message:`${P.gold} pièces d'or, ${kills} ennemi${kills > 1 ? "s" : ""} vaincu${kills > 1 ? "s" : ""}.`, latin:"Requiescat in pace", icon:"rip" });
       render();
       Drum.goTo(0, { land:"top" });
-      setTimeout(() => toast("⚰ Hommage à Rogue (1980) : la pierre est gravée."), 900);
+      setTimeout(() => toast("Pierre gravée."), 900);
     });
   }
   function init(){
@@ -7360,7 +7487,7 @@ const Danse = (() => {
         `Score ${g.score.toLocaleString("fr-FR")} · précision ${Math.round(accuracy() * 100)} % · combo max ${g.maxCombo}`,
         `Parfaits ${n.perfect} · bien ${n.good} · moyens ${n.ok} · ratés ${n.miss}`
       ];
-      toast(await copyText(toBraille(accord(lines.join("\n"), GENDERS[state.gender] || GENDERS.m))) ? "Score copié (avec des « ⠀ »)" : "Impossible de copier");
+      toast(await copyText(toBraille(accord(lines.join("\n"), GENDERS[state.gender] || GENDERS.m))) ? "Score copié" : "Impossible de copier");
     });
     ui.grave.addEventListener("click", () => {
       const now = new Date();
@@ -7369,7 +7496,7 @@ const Danse = (() => {
         message:"Il/Elle avait le rythme dans la peau. Puis plus de peau.", latin:"Memento Mori", icon:"skull" });
       render();
       Drum.goTo(0, { land:"top" });
-      setTimeout(() => toast("⚰ Pierre gravée. La ronde continue sans vous."), 900);
+      setTimeout(() => toast("Pierre gravée."), 900);
     });
   }
   function init(){
@@ -7474,13 +7601,13 @@ const Danse = (() => {
     });
   $("btn-view").addEventListener("click", () => {
     const text = document.body.classList.toggle("gl-text");
-    $("btn-view").textContent = text ? "◈ Vue 3D" : "👁 Vue texte";
+    $("btn-view").textContent = text ? "Vue 3D" : "Vue texte";
   });
   $("btn-shot").addEventListener("click", () => {
     const url = GL3D && GL3D.snapshot();
-    if(!url){ toast("❌ Photo impossible"); return; }
+    if(!url){ toast("Photo impossible"); return; }
     download(url, `caveau-3d-${slug()}.png`);
-    toast("📸 Photo de la scène téléchargée");
+    toast("Photo téléchargée");
   });
 })();
 function afterLoad(fn){ Loader.done ? fn() : setTimeout(() => afterLoad(fn), 200); }
