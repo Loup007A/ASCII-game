@@ -906,6 +906,9 @@
   .da-tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--rubric); }
   .da-grade{ font-family:var(--serif); font-size:clamp(64px, 12vw, 120px); line-height:.85; color:var(--rubric); }
   .da-opts{ display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; }
+  .da-opts .da-wide{ grid-column:1 / -1; }
+  @media(max-width:420px) and (max-height:720px){ .da-panel .da-keys{ display:none; } .da-panel p{ font-size:14px; line-height:1.38; } }
+  @media(orientation:landscape) and (max-height:520px){ .da-opts{ grid-template-columns:repeat(3, minmax(0, 1fr)); } .da-opts .da-wide{ grid-column:auto; } .da-panel .da-keys{ display:none; } }
   .da-opts label{ font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-dim); text-align:left; display:flex; flex-direction:column; gap:6px; margin:0; }
   .da-opts select, .da-opts input[type=range]{ color:var(--ink); background:rgba(255,250,236,.7); border:1px solid var(--ink); border-radius:0; color-scheme:light; font-size:14px; padding:8px 10px; }
   .da-opts input[type=range]{ padding:0; accent-color:var(--rubric); height:32px; border:none; background:transparent; }
@@ -1469,12 +1472,14 @@
           <div class="da-panel" id="da-start">
             <span class="da-tag">Minuit sonne au cimetière</span>
             <h2>La Danse <em>Macabre</em></h2>
-            <p>Douze coups, un violon accordé par le diable, et les squelettes sortent valser. Frappez chaque note en mesure… ou rejoignez la ronde pour l'éternité. Montez le son.</p>
+            <p>Douze coups, un violon accordé par le diable, et les squelettes sortent danser : une valse, un galop ou un menuet. Frappez chaque note en mesure… ou rejoignez la ronde pour l'éternité. Montez le son.</p>
             <div class="da-opts">
+              <label class="da-wide">Morceau
+                <select id="da-song"></select></label>
               <label>Difficulté
                 <select id="da-level">
                   <option value="facile">Facile — pas de deux</option>
-                  <option value="normal">Normal — valse</option>
+                  <option value="normal">Normal — en mesure</option>
                   <option value="diabolique">Diabolique — sabbat</option>
                 </select></label>
               <label>Décalage audio : <span id="da-off-v">0 ms</span>
@@ -1610,6 +1615,46 @@ const CAUSES = [
   "englouti(e) par la machine à laver",
   "en mettant de l'eau sur de l'huile qui brûlait",
   "pendant la fondue, en cherchant son pain perdu",
+  "en voulant rendre la monnaie exacte au boulanger",
+  "en confondant le frein et l'accélérateur de sa trottinette",
+  "en essayant de comprendre sa facture d'électricité",
+  "d'impatience devant une barre de chargement bloquée à 99 %",
+  "en tentant d'apprivoiser un goéland",
+  "en faisant un créneau sous le regard des passants",
+  "en cherchant la sortie d'un magasin de meubles en kit",
+  "en voulant jouer au Tetris avec le coffre de la voiture",
+  "en chatouillant un ours, « juste pour voir »",
+  "en goûtant la sauce « extra forte » du kebab",
+  "en attendant un conseiller au service client",
+  "d'une indigestion de galette des rois (et de la fève)",
+  "en voulant battre le record de dominos de son salon",
+  "en descendant les escaliers en chaussettes",
+  "en répondant « moi » à « qui veut goûter ? »",
+  "en arrosant ses plantes sous la pluie, par principe",
+  "en mélangeant eau de Javel et vinaigre « pour que ça brille plus »",
+  "en karaoké, sur la note la plus haute d'une ballade des années 90",
+  "en voulant sauter de la balançoire au point le plus haut",
+  "en essayant de garder un secret plus de cinq minutes",
+  "terrassé(e) par l'odeur du maroilles",
+  "en cherchant du réseau au milieu de la forêt",
+  "en voulant vérifier si le fer à repasser était chaud",
+  "perdu(e) à jamais dans un rond-point à six sorties",
+  "en essayant de mettre le chat dans sa cage de transport",
+  "en voulant faire une omelette sans casser d'œufs",
+  "en lançant un boomerang, puis en se retournant",
+  "en criant « c'est moi qui conduis ! »",
+  "en promettant « juste un dernier épisode »",
+  "en confondant le sucre et le sel dans un gâteau d'anniversaire",
+  "en jouant au loup-garou avec de vrais loups",
+  "en grimpant sur un escabeau posé sur une chaise posée sur une table",
+  "en démêlant les guirlandes de Noël",
+  "en voulant passer pour un(e) expert(e) en vin",
+  "en avalant une arête de travers pendant un repas de famille",
+  "en tentant de traverser l'autoroute à cloche-pied",
+  "en relisant ses textos de 2009",
+  "en voulant prouver qu'on peut tout réparer avec du scotch",
+  "en faisant la course avec le TGV",
+  "en léchant un poteau gelé, malgré les avertissements",
   OTHER
 ];
 
@@ -1647,6 +1692,22 @@ const LATIN = [
   "Respawn dans 3… 2… 1…",
   "Enfin en vacances",
   "C'est pas faux",
+  "Mors certa, hora incerta",
+  "Lux aeterna (en option)",
+  "Pulvis es, et bien rangé(e)",
+  "Ad astra, en low-cost",
+  "Requiescat in Wi-Fi",
+  "Semper fidelis (à son canapé)",
+  "Nunc est bibendum",
+  "Panem et circenses, puis plus rien",
+  "Ora pro nobis… et pour le chat",
+  "Partie sauvegardée",
+  "Connexion perdue",
+  "Niveau terminé",
+  "Paix à son âme (et à ses dettes)",
+  "Mission accomplie, à peu près",
+  "À suivre…",
+  "Fermé pour inventaire",
   "",
   OTHER
 ];
@@ -1695,7 +1756,29 @@ const MESSAGES = [
   "Le meilleur pour la fin. Ou pas.",
   "Une pensée pour son chat, enfin libre.",
   "Partagez ce message à 10 personnes ou rejoignez-le/la.",
-  "Il/Elle repose en paix, ses voisins aussi."
+  "Il/Elle repose en paix, ses voisins aussi.",
+  "Il/Elle a enfin fini sa liste de choses à faire.",
+  "Ici repose quelqu'un qui disait « ça ira ».",
+  "Il/Elle laisse derrière soi une pile de vaisselle.",
+  "Prière de liker cette tombe.",
+  "Ses derniers mots : « Je reviens tout de suite. »",
+  "Ses derniers mots : « Tu crois que ça se mange ? »",
+  "Ses derniers mots : « Qu'est-ce qui pourrait mal tourner ? »",
+  "Ses derniers mots : « Tiens mon verre. »",
+  "Enfin un endroit sans publicité.",
+  "Il/Elle a gagné la partie de cache-cache.",
+  "Silence : il/elle fait la sieste.",
+  "Répondeur plein. Merci de rappeler plus tard. Beaucoup plus tard.",
+  "Les impôts l'ont retrouvé(e) quand même.",
+  "Parti(e) avec 3 % de batterie.",
+  "Ici, la vue est imprenable. Surtout vers le haut.",
+  "Aimé(e) de tous, sauf de son GPS.",
+  "Il/Elle a enfin compris la fin du film.",
+  "Ses meilleures blagues reposent ici aussi.",
+  "Retour à l'envoyeur.",
+  "Colis livré. Signature : le fossoyeur.",
+  "Merci d'éteindre la lumière en sortant.",
+  "Il/Elle n'a jamais rendu ce livre à la bibliothèque."
 ];
 
 const MOMENTS = [
@@ -1722,7 +1805,22 @@ const MOMENTS = [
   "Pendant un orage",
   "Devant tout le monde",
   "Sans prévenir personne",
-  "Pile à l'heure, pour une fois"
+  "Pile à l'heure, pour une fois",
+  "Le jour de la rentrée",
+  "En pleine canicule",
+  "Au douzième coup du Nouvel An",
+  "Un jour férié, par principe",
+  "Pendant une coupure de courant",
+  "Juste avant le générique de fin",
+  "Pendant le dessert",
+  "Dans la file d'attente de la poste",
+  "Un mardi, sans raison particulière",
+  "Pendant une éclipse",
+  "Au moment de payer l'addition",
+  "En rentrant de vacances",
+  "Au troisième café",
+  "Pendant la mi-temps",
+  "Quelques secondes avant la sonnerie"
 ];
 
 const SPECIAL_CHARS = ["☠","✝","†","✟","♱","☾","✦","❀","⚰","⚱","☺","∞","♥","🕊","🥀","💀","🖤","🌑","🕸","🦇"];
@@ -1801,10 +1899,78 @@ const ICONS = {
     "/  '._(o.o)_.'  \\",
     "\\/\\/  \\_V_/  \\/\\/"
   ]},
+  hourglass: { label:"⏳ Sablier", art:[
+    "._______.",
+    " \\:::::/ ",
+    "  \\:::/  ",
+    "   ):(   ",
+    "  /.:.\\  ",
+    " /:::::\\ ",
+    "'-------'"
+  ]},
+  urn: { label:"⚱ Urne", art:[
+    "   ___   ",
+    "  (___)  ",
+    "  /   \\  ",
+    " |  +  | ",
+    "  \\___/  ",
+    "   | |   ",
+    "  [___]  "
+  ]},
+  raven: { label:"🐦‍⬛ Corbeau", art:[
+    "    ___    ",
+    "  _/ o \\_  ",
+    " <_     _> ",
+    "   \\   /   ",
+    "   /| |\\   ",
+    "  ^^   ^^  "
+  ]},
+  spider: { label:"🕷 Araignée", art:[
+    "      |      ",
+    "      |      ",
+    "  /\\ .-. /\\  ",
+    " / /( oo )\\ \\",
+    "   /`-^-'\\   ",
+    "  /       \\  "
+  ]},
+  moon: { label:"🌙 Lune", art:[
+    "    _.--.  ",
+    "  .'   .'  ",
+    " /    /    ",
+    "|    |     ",
+    " \\    \\    ",
+    "  '.   '.  ",
+    "    '--'   "
+  ]},
+  pumpkin: { label:"🎃 Citrouille", art:[
+    "       \\       ",
+    "   .-''|''-.   ",
+    "  /  /\\ /\\  \\  ",
+    " |     ^     | ",
+    "  \\  \\___/  /  ",
+    "   '-.___.-'   "
+  ]},
+  heart: { label:"♥ Cœur", art:[
+    " .-. .-. ",
+    "(   V   )",
+    " \\     / ",
+    "  \\   /  ",
+    "   \\ /   ",
+    "    '    "
+  ]},
+  angel: { label:"👼 Ange", art:[
+    "    _____    ",
+    "   (_____)   ",
+    " __  (o)  __ ",
+    " \\ \\_/|\\_/ / ",
+    "  \\__ | __/  ",
+    "     / \\     "
+  ]},
   none: { label:"— Aucun", art:[] }
 };
 
 /* Cadres : chaque ligne fait exactement innerW + 2 colonnes. */
+const repTo = (p, n) => p.repeat(Math.ceil(Math.max(0, n) / p.length)).slice(0, Math.max(0, n));
 const FRAMES = {
   arch: { label:"⌒ Arche",
     top:w => ["  " + "_".repeat(w-2) + "  ", " /" + " ".repeat(w-2) + "\\ ", "/" + " ".repeat(w) + "\\"],
@@ -1834,6 +2000,22 @@ const FRAMES = {
     top:w => ["/" + "~".repeat(w) + "\\"],
     row:c => "{" + c + "}",
     bot:w => ["\\" + "~".repeat(w) + "/"] },
+  chains: { label:"⛓ Chaînes",
+    top:w => ["o" + repTo("-o", w) + "o"],
+    row:c => "8" + c + "8",
+    bot:w => ["o" + repTo("-o", w) + "o"] },
+  bones: { label:"🦴 Os",
+    top:w => ["(o)" + "=".repeat(Math.max(0, w - 4)) + "(o)"],
+    row:c => "|" + c + "|",
+    bot:w => ["(o)" + "=".repeat(Math.max(0, w - 4)) + "(o)"] },
+  lace: { label:"❦ Dentelle",
+    top:w => [repTo("/\\", w + 2)],
+    row:c => ")" + c + "(",
+    bot:w => [repTo("\\/", w + 2)] },
+  candles: { label:"🕯 Chandelles",
+    top:w => [" " + repTo(" i ", w) + " ", "|" + "=".repeat(w) + "|"],
+    row:c => "|" + c + "|",
+    bot:w => ["|" + "=".repeat(w) + "|"] },
   none: { label:"— Sans cadre",
     top:() => [],
     row:c => " " + c + " ",
@@ -1848,7 +2030,11 @@ const MATERIALS = {
   bronze:   { label:"Bronze",        c:["#6a5440","#45331f","#2a1a0a"], ink:"#ecd9b0" },
   jade:     { label:"Mousse",        c:["#7f9a86","#56715f","#2f4a3a"], ink:"#0d1812" },
   obsidian: { label:"Obsidienne",    c:["#2e2e33","#16161a","#1d1c22"], ink:"#cfc6e2", dark:true },
-  night:    { label:"Nuit étoilée",  c:["#1d2440","#0e1226","#171b30"], ink:"#d4dcf4", dark:true }
+  night:    { label:"Nuit étoilée",  c:["#1d2440","#0e1226","#171b30"], ink:"#d4dcf4", dark:true },
+  rose:     { label:"Marbre rose",   c:["#f0d0cb","#d9aaa3","#a87b74"], ink:"#43231f" },
+  slate:    { label:"Ardoise",       c:["#59626e","#414852","#2b3038"], ink:"#e3e8ee", dark:true },
+  rust:     { label:"Fer rouillé",   c:["#9a5a36","#723d22","#46230f"], ink:"#f3dcc0", dark:true },
+  gold:     { label:"Or (kitsch)",   c:["#efd27a","#c39a3e","#8a6420"], ink:"#3a2606" }
 };
 
 const RANDOM_NAMES_M = [
@@ -1881,7 +2067,22 @@ const RANDOM_NAMES_M = [
   "Brandon Maxi-Best",
   "Hippolyte Cornichon",
   "René Laflemme",
-  "Ignace Moutarde"
+  "Ignace Moutarde",
+  "Octave Pétoncle",
+  "Philibert Grosgrain",
+  "Léon Paillasson",
+  "Évariste Chaussette",
+  "Jean-Kévin Turbo",
+  "Cyprien Moufle",
+  "Archibald Navet",
+  "Honoré Croûton",
+  "Ernest Tagada",
+  "Fulbert Gougère",
+  "Sosthène Biscotte",
+  "Victorin Calumet",
+  "Prosper Radis",
+  "Clovis Bretzel",
+  "Maxence Mojito"
 ];
 const RANDOM_NAMES_F = [
   "Berthe Lacroix",
@@ -1913,7 +2114,22 @@ const RANDOM_NAMES_F = [
   "Fernande Courant-d'air",
   "Colette Ronron",
   "Thérèse Tracas",
-  "Clotilde Bazar"
+  "Clotilde Bazar",
+  "Ursule Fondue",
+  "Philomène Gaufrette",
+  "Hortense Pistou",
+  "Eulalie Croquembouche",
+  "Prudence Tartiflette",
+  "Mélusine Cancoillotte",
+  "Sidonie Praline",
+  "Léontine Bigoudène",
+  "Gertrude Quenelle",
+  "Rosalie Patachon",
+  "Cassandra Tupperware",
+  "Apolline Mirabelle",
+  "Edwige Choucroute",
+  "Marguerite Tisane",
+  "Brenda Strass"
 ];
 
 const DEFAULTS = {
@@ -2951,33 +3167,78 @@ const Pendu = (() => {
       "CITROUILLE","CHAUVE-SOURIS","ÉPITAPHE","FOSSOYEUR","SARCOPHAGE","MOMIE","ZOMBIE","CORBEAU","CRYPTE",
       "CATACOMBES","SPECTRE","TOMBEAU","LINCEUL","NÉCROMANCIEN","MAUSOLÉE","OSSUAIRE","GARGOUILLE","ARAIGNÉE",
       "CHANDELIER","MALÉDICTION","ENVOÛTEMENT","POLTERGEIST","EXORCISTE","CORBILLARD","FEU FOLLET","BROUILLARD",
-      "CHAUDRON","GRIMOIRE","SORTILÈGE","PLEINE LUNE","CAUCHEMAR","REVENANT","TOILE D'ARAIGNÉE","HANTISE","SÉANCE DE SPIRITISME"
+      "CHAUDRON","GRIMOIRE","SORTILÈGE","PLEINE LUNE","CAUCHEMAR","REVENANT","TOILE D'ARAIGNÉE","HANTISE","SÉANCE DE SPIRITISME",
+      "OUIJA","EXHUMATION","VAUDOU","ECTOPLASME","LYCANTHROPE","CATAFALQUE","SABBAT","ÉPOUVANTAIL","HURLEMENT","PENTACLE"
     ]},
     animaux: { label:"Animaux", words:[
       "ORNITHORYNQUE","HIPPOPOTAME","CAMÉLÉON","PANGOLIN","ESCARGOT","KANGOUROU","PINGOUIN","CROCODILE","RHINOCÉROS",
       "HÉRISSON","PAPILLON","LIBELLULE","SCARABÉE","MÉDUSE","PIEUVRE","HIPPOCAMPE","GIRAFE","ÉCUREUIL","BLAIREAU",
       "MARMOTTE","CHINCHILLA","TOUCAN","FLAMANT ROSE","WAPITI","ZÈBRE","OKAPI","TATOU","PARESSEUX","SALAMANDRE",
-      "AXOLOTL","CACHALOT","MORSE","LAMA","SURICATE","TAMANOIR","OUISTITI","GUÉPARD","CORMORAN","MANCHOT EMPEREUR","LOUTRE"
+      "AXOLOTL","CACHALOT","MORSE","LAMA","SURICATE","TAMANOIR","OUISTITI","GUÉPARD","CORMORAN","MANCHOT EMPEREUR","LOUTRE",
+      "CASOAR","NARVAL","QUOKKA","TARENTULE","PÉLICAN","HAMSTER","DROMADAIRE","GNOU","FURET","COCCINELLE"
     ]},
     cuisine: { label:"Cuisine", words:[
       "RACLETTE","CASSOULET","TARTIFLETTE","CROISSANT","BOUILLABAISSE","RATATOUILLE","CHOUCROUTE","MACARON",
       "CROQUE-MONSIEUR","PROFITEROLE","MADELEINE","CAMEMBERT","BAGUETTE","CRÈME BRÛLÉE","FONDUE","QUICHE",
       "CLAFOUTIS","BLANQUETTE","PÂTISSERIE","VINAIGRETTE","CORNICHON","BRIOCHE","GALETTE","CRÊPE","POT-AU-FEU",
       "GRATIN DAUPHINOIS","ÉCLAIR","MILLEFEUILLE","SAUCISSON","ROQUEFORT","CHOUQUETTE","MOUSSE AU CHOCOLAT",
-      "CROQUETTE","PISSALADIÈRE","NOUGAT","FLAMMEKUECHE","ANDOUILLETTE","TAPENADE","KOUIGN-AMANN"
+      "CROQUETTE","PISSALADIÈRE","NOUGAT","FLAMMEKUECHE","ANDOUILLETTE","TAPENADE","KOUIGN-AMANN",
+      "CANNELÉ","GARBURE","BRANDADE","FAR BRETON","BAECKEOFFE","ALIGOT","SOCCA","PAN BAGNAT","ÎLE FLOTTANTE","PARIS-BREST"
     ]},
     geek: { label:"Informatique & jeux", words:[
       "ALGORITHME","CLAVIER","PIXEL","PROCESSEUR","JAVASCRIPT","NAVIGATEUR","SAUVEGARDE","MANETTE","CONSOLE",
       "TÉLÉCHARGEMENT","MOT DE PASSE","PARE-FEU","ORDINATEUR","LOGICIEL","BOGUE","SERVEUR","ROUTEUR","CURSEUR",
       "TERMINAL","COMPILATEUR","VARIABLE","FONCTION","BOUCLE INFINIE","POINTEUR","OCTET","ÉCRAN","SOURIS",
       "IMPRIMANTE","ÉMULATEUR","SPEEDRUN","BOSS FINAL","JOYSTICK","ARCADE","ENCODAGE","UNICODE","DISQUETTE",
-      "CARTE GRAPHIQUE","INTELLIGENCE ARTIFICIELLE","CAPTCHA","MISE À JOUR"
+      "CARTE GRAPHIQUE","INTELLIGENCE ARTIFICIELLE","CAPTCHA","MISE À JOUR",
+      "HACKATHON","CHEAT CODE","POINT DE SAUVEGARDE","TOUCHE ÉCHAP","ÉCRAN BLEU","CORBEILLE","RACCOURCI CLAVIER","NOUVELLE PARTIE","CLÉ USB","WEBCAM"
     ]},
     tordus: { label:"Mots tordus", words:[
       "WHISKY","ZYGOMATIQUE","KAYAK","JAZZ","PHARYNX","LABYRINTHE","ANTICONSTITUTIONNELLEMENT","XYLOPHONE",
       "OXYGÈNE","ACQUÉREUR","PSYCHOLOGIE","CHRYSALIDE","ICHTYOLOGIE","BYZANTIN","SPHINX","ZEUGMA","KLAXON",
       "QUIZ","BIVOUAC","YAOURT","EMBRYON","GYMNASE","HYPOTÉNUSE","MNÉMOTECHNIQUE","PNEUMATIQUE","RHUBARBE",
-      "SYZYGIE","CORNEMUSE","ONOMATOPÉE","CAPHARNAÜM","FJORD","JUKEBOX","KIWI","ABRACADABRANTESQUE","WAGON"
+      "SYZYGIE","CORNEMUSE","ONOMATOPÉE","CAPHARNAÜM","FJORD","JUKEBOX","KIWI","ABRACADABRANTESQUE","WAGON",
+      "HIÉROGLYPHE","ECCHYMOSE","PSCHITT","ZIGZAG","KYRIELLE","ASTHME","CHTHONIEN","QUETZALCOATL","MYRTILLE","OYEZ"
+    ]},
+    metiers: { label:"Métiers d'antan", words:[
+      "ALLUMEUR DE RÉVERBÈRES","RÉMOULEUR","CHARRON","MARÉCHAL-FERRANT","LAVANDIÈRE","FORGERON","TONNELIER","SABOTIER",
+      "CRIEUR PUBLIC","GARDE CHAMPÊTRE","COLPORTEUR","RAMONEUR","VANNIER","MEUNIER","CORDONNIER","APOTHICAIRE",
+      "ALCHIMISTE","BOURREAU","CROQUE-MORT","CHIFFONNIER","PORTEUR D'EAU","TAILLEUR DE PIERRE","VERRIER","TROUBADOUR",
+      "MÉNESTREL","SALTIMBANQUE","BATELIER","TISSERAND","COCHER","PALEFRENIER","GEÔLIER","SCRIBE","ENLUMINEUR",
+      "HERBORISTE","TAVERNIER","CIRIER","BÛCHERON","CHARBONNIER","BONIMENTEUR","ÉCHEVIN"
+    ]},
+    geo: { label:"Géographie", words:[
+      "MADAGASCAR","KAMTCHATKA","TOMBOUCTOU","ISLANDE","PATAGONIE","HIMALAYA","SAHARA","AMAZONIE","MONGOLIE",
+      "TASMANIE","GROENLAND","VALPARAISO","OULAN-BATOR","ZANZIBAR","KILIMANDJARO","TRANSYLVANIE","SIBÉRIE","BORNÉO",
+      "MISSISSIPPI","YUCATAN","BAÏKAL","CAPPADOCE","OUZBÉKISTAN","LIECHTENSTEIN","MOZAMBIQUE","KIRGHIZISTAN",
+      "NOUVELLE-ZÉLANDE","TERRE DE FEU","ÎLE DE PÂQUES","SAINT-PÉTERSBOURG","CARCASSONNE","ROCAMADOUR",
+      "MONT-SAINT-MICHEL","GORGES DU VERDON","DUNE DU PILAT","CAMARGUE","AUVERGNE","FINISTÈRE","CORSE","SPITZBERG"
+    ]},
+    mythes: { label:"Mythes & légendes", words:[
+      "MINOTAURE","CENTAURE","CYCLOPE","GORGONE","HYDRE DE LERNE","PÉGASE","PHÉNIX","CHIMÈRE","GRIFFON","LICORNE",
+      "BASILIC","KRAKEN","LÉVIATHAN","GOLEM","DRAGON","FARFADET","LUTIN","KORRIGAN","DAME BLANCHE","BANSHEE","YÉTI",
+      "DAHU","TARASQUE","MÉLUSINE","EXCALIBUR","GRAAL","ATLANTIDE","OLYMPE","ACHILLE","ULYSSE","HERCULE","PANDORE",
+      "PROMÉTHÉE","PERSÉPHONE","ORPHÉE","CHARON","CERBÈRE","STYX","WALKYRIE","SIRÈNE","TROLL"
+    ]},
+    musique: { label:"Musique", words:[
+      "ACCORDÉON","CONTREBASSE","VIOLONCELLE","CLAVECIN","HARMONICA","TROMBONE","SAXOPHONE","MARIMBA","VIELLE À ROUE",
+      "TAMBOURIN","CASTAGNETTES","GLOCKENSPIEL","THÉORBE","BASSON","HAUTBOIS","CLARINETTE","UKULÉLÉ","BANJO","MANDOLINE",
+      "SYNTHÉTISEUR","MÉTRONOME","PARTITION","SOLFÈGE","SYMPHONIE","CONCERTO","REQUIEM","NOCTURNE","SONATE","OPÉRA",
+      "CHEF D'ORCHESTRE","DIAPASON","CRESCENDO","PIZZICATO","ARPÈGE","FANFARE","ORGUE DE BARBARIE","CARILLON","TIMBALES","MENUET"
+    ]},
+    sports: { label:"Sports & jeux", words:[
+      "BADMINTON","PÉTANQUE","CURLING","ESCRIME","PARAPENTE","BILBOQUET","CROQUET","WATER-POLO","TRAMPOLINE",
+      "HALTÉROPHILIE","PATINAGE ARTISTIQUE","SAUT À LA PERCHE","SPÉLÉOLOGIE","TIR À L'ARC","BOWLING","MARATHON",
+      "SKATEBOARD","PLONGEON","ÉCHECS","BILLARD","FLÉCHETTES","DOMINOS","MIKADO","BELOTE","TAROT","OSSELETS",
+      "CERF-VOLANT","TRIATHLON","LUGE","BIATHLON","SUMO","JUDO","RUGBY","HANDBALL","JEU DE PAUME","COLIN-MAILLARD"
+    ]},
+    expressions: { label:"Expressions", words:[
+      "COUP DE FOUDRE","POISSON D'AVRIL","TOMBER DANS LES POMMES","POSER UN LAPIN","AVOIR LE CAFARD","CASSER SA PIPE",
+      "PASSER L'ARME À GAUCHE","SUCRER LES FRAISES","PRENDRE LA TANGENTE","GRASSE MATINÉE","UN CHAT DANS LA GORGE",
+      "RENDRE L'ÂME","DONNER SA LANGUE AU CHAT","PEIGNER LA GIRAFE","BOIRE LA TASSE","FILER À L'ANGLAISE",
+      "LA CHAIR DE POULE","UN SANG D'ENCRE","ÊTRE DANS LA LUNE","RONGER SON FREIN","AVOIR LE BOURDON",
+      "LES CAROTTES SONT CUITES","BAYER AUX CORNEILLES","CASSER LES PIEDS","CHERCHER LA PETITE BÊTE","FAIRE LA TÊTE",
+      "UN POIL DANS LA MAIN","METTRE SON GRAIN DE SEL","TOURNER AUTOUR DU POT","AVOIR UN COUP DE BARRE"
     ]}
   };
   const LEVELS = {
@@ -2989,12 +3250,20 @@ const Pendu = (() => {
   const OK_LINES = [
     "Bien vu.", "Le condamné respire un peu mieux.", "Le bourreau fronce les sourcils.", "Joli coup !",
     "Le public retient son souffle.", "Ça sent la grâce présidentielle…", "Continuez comme ça.", "Pas mal du tout.",
-    "Un murmure déçu traverse la foule.", "Le projecteur hésite."
+    "Un murmure déçu traverse la foule.", "Le projecteur hésite.",
+    "Le bourreau consulte son règlement, perplexe.", "Une veuve au premier rang esquisse un sourire.", "Le corbeau hoche la tête, impressionné.",
+    "Bonne pioche !", "La corde se détend d'un cran.", "Quelqu'un au fond crie « bravo ! ».", "Le condamné ose un clin d'œil.",
+    "Les nuages s'écartent un instant.", "Le crieur public prend des notes.", "Même la Mort applaudit, du bout des phalanges.",
+    "Une lettre de plus pour la liberté.", "Le bourreau regarde sa montre, nerveux."
   ];
   const KO_LINES = [
     "Aïe. La corde se resserre.", "Le bourreau se frotte les mains.", "Mauvaise pioche.",
     "Le public applaudit (pas pour vous).", "Raté. Quelqu'un a apporté du pop-corn.", "Le condamné transpire.",
-    "Même le corbeau a soupiré.", "Ouille.", "La foule scande votre nom. Ce n'est pas bon signe."
+    "Même le corbeau a soupiré.", "Ouille.", "La foule scande votre nom. Ce n'est pas bon signe.",
+    "Le bourreau ajuste le nœud, ravi.", "Un « oh » consterné parcourt la foule.", "La corde grince. Mauvais présage.",
+    "Le corbeau note votre erreur dans un petit carnet.", "Un enfant demande s'il peut voir la fin.", "Le condamné regarde ailleurs, vexé.",
+    "Le vent tourne. Pas dans le bon sens.", "Vous avez entendu ce craquement ?", "Le vendeur de pommes d'amour se frotte les mains.",
+    "Même le prêtre soupire.", "La trappe frémit d'impatience.", "Ça sent le sapin."
   ];
   const W = 22, H = 9;
   // Pièces de la potence, dans l'ordre d'apparition : [ligne, colonne, texte]
@@ -3791,7 +4060,7 @@ const Caveau3D = (() => {
         x.fillRect(r() * w, r() * h, s, s);
       }
     };
-    if(key === "marble"){
+    if(key === "marble" || key === "rose"){
       dots(area / 260, .3, .08, 1.5);
       x.lineCap = "round";
       for(let i = 0; i < 16; i++){
@@ -3812,6 +4081,15 @@ const Caveau3D = (() => {
     } else if(key === "bronze"){
       for(let i = 0; i < 26; i++){ const g = x.createRadialGradient(0, 0, 0, 0, 0, 1); g.addColorStop(0, `rgba(70,130,105,${.18 + r() * .2})`); g.addColorStop(1, "rgba(70,130,105,0)"); x.save(); x.translate(r() * w, r() * h); x.scale((30 + r() * 120) * scale, (30 + r() * 120) * scale); x.fillStyle = g; x.beginPath(); x.arc(0, 0, 1, 0, Math.PI * 2); x.fill(); x.restore(); }
       dots(area / 300, .2, .2, 1.5);
+    } else if(key === "rust"){
+      for(let i = 0; i < 34; i++){ const g = x.createRadialGradient(0, 0, 0, 0, 0, 1); const c = r() < .5 ? "190,90,30" : "60,25,10"; g.addColorStop(0, `rgba(${c},${.18 + r() * .25})`); g.addColorStop(1, `rgba(${c},0)`); x.save(); x.translate(r() * w, r() * h); x.scale((20 + r() * 90) * scale, (14 + r() * 60) * scale); x.fillStyle = g; x.beginPath(); x.arc(0, 0, 1, 0, Math.PI * 2); x.fill(); x.restore(); }
+      dots(area / 120, .12, .35, 1.8);
+    } else if(key === "slate"){
+      for(let y = 0; y < h; y += (3 + r() * 9) * scale){ x.fillStyle = `rgba(${r() < .5 ? "255,255,255" : "0,0,0"},${.03 + r() * .06})`; x.fillRect(0, y, w, (1 + r() * 2) * scale); }
+      dots(area / 400, .1, .15, 1);
+    } else if(key === "gold"){
+      for(let i = 0; i < 18; i++){ const g = x.createRadialGradient(0, 0, 0, 0, 0, 1); g.addColorStop(0, `rgba(255,248,210,${.15 + r() * .2})`); g.addColorStop(1, "rgba(255,248,210,0)"); x.save(); x.translate(r() * w, r() * h); x.scale((30 + r() * 100) * scale, (20 + r() * 60) * scale); x.fillStyle = g; x.beginPath(); x.arc(0, 0, 1, 0, Math.PI * 2); x.fill(); x.restore(); }
+      dots(area / 500, .3, .1, 1.2);
     } else if(key === "night"){
       dots(area / 500, .15, .1, 1);
       for(let i = 0; i < area / 2400; i++){ x.fillStyle = `rgba(230,236,255,${.3 + r() * .7})`; const s = (r() < .1 ? 2.2 : 1) * scale; x.fillRect(r() * w, r() * h, s, s); }
@@ -3951,7 +4229,8 @@ const Caveau3D = (() => {
     const m = MATERIALS[s.material] || MATERIALS.granite;
     const look = {
       granite: { r: .82, m: 0 }, sandstone: { r: .95, m: 0 }, marble: { r: .28, m: 0 }, wood: { r: .78, m: 0 },
-      bronze: { r: .42, m: .75 }, jade: { r: .55, m: 0 }, obsidian: { r: .14, m: .15 }, night: { r: .32, m: .1 }
+      bronze: { r: .42, m: .75 }, jade: { r: .55, m: 0 }, obsidian: { r: .14, m: .15 }, night: { r: .32, m: .1 },
+      rose: { r: .3, m: 0 }, slate: { r: .62, m: 0 }, rust: { r: .88, m: .35 }, gold: { r: .26, m: 1 }
     }[s.material] || { r: .8, m: 0 };
 
     disposeHolder();
@@ -4702,6 +4981,18 @@ const Igloo = (() => {
   const emit = (type, data) => listeners.forEach(fn => fn(type, data));
   const pad4 = n => String(Math.max(0, Math.floor(n))).padStart(4, "0");
   const pad2 = n => String(Math.max(0, n)).padStart(2, "0");
+  /* --- matière : expéditions, météo, titres --- */
+  const PLACES = ["Baie d'Hudson", "Svalbard", "Terre Adélie", "Nunavut", "Groenland", "Mer de Weddell", "Détroit de Béring", "Pôle Nord"];
+  const WEATHER = ["Ciel clair", "Neige fine", "Blizzard", "Aurore boréale", "Brouillard givrant", "Grand froid", "Nuit polaire", "Jour sans fin", "Poudrerie", "Givre sec"];
+  const CUT_MSGS = ["Bloc fendu", "Coupe nette", "Éclat de glace", "Ça glisse"];
+  const COMBO_SUBS = { 3:"Le bloc s'élargit", 5:"Les phoques applaudissent", 7:"Main de maître", 9:"Les ours polaires prennent des notes", 12:"Architecte légendaire" };
+  const MILESTONES = { 4:["Fondations solides", "Le vent n'a qu'à bien se tenir"], 6:["Mi-hauteur", "Le dôme prend forme"], 9:["Ça se resserre", "Visez juste"], 11:["Dernière assise", "Tout le Grand Nord vous regarde"] };
+  const FALL_KICKS = ["Effondrement", "Tout s'écroule", "Le dôme cède", "Avalanche", "Fonte prématurée"];
+  const WIN_KICKS = ["Dôme fermé", "Igloo habitable", "Toit hermétique", "Chantier livré"];
+  const rankOf = (n, won, round) => won ? (round >= 2 ? "Légende du Grand Nord" : round === 1 ? "Maître des glaces" : "Bâtisseur d'igloo")
+    : n <= 2 ? "Touriste frigorifié" : n <= 5 ? "Apprenti inuk" : n <= 8 ? "Tailleur de neige" : "Architecte polaire";
+  const placeOf = r => r < PLACES.length ? PLACES[r] : `${PLACES[PLACES.length - 1]} +${r - PLACES.length + 1}`;
+  const pickI = a => a[Math.floor(Math.random() * a.length)];
 
   /* --- texte qui se « décode » (façon HUD) --- */
   const GL = "!<>-_\\/[]{}=+*^?#0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -4736,11 +5027,12 @@ const Igloo = (() => {
   function reset(keepScore){
     const round = keepScore && gs ? gs.round + 1 : 0;
     const score = keepScore && gs ? gs.score : 0;
-    gs = { levels:[{ x:0, w:BASE, d:BASE * .85, perfect:true, born:0 }], cur:null, falling:[], score, combo:0, over:false, won:false, demo:false, round, t:0 };
+    gs = { levels:[{ x:0, w:BASE, d:BASE * .85, perfect:true, born:0 }], cur:null, falling:[], score, combo:0, over:false, won:false, demo:false, round, t:0,
+      weather:pickI(WEATHER), temp:-(14 + round * 7 + Math.floor(Math.random() * 9)) };
     ui.start.hidden = true; ui.over.hidden = true;
     spawn();
     updateHud();
-    flashMsg(round ? `Manche ${pad2(round + 1)}` : "Assise 01", round ? "Plus vite, plus froid" : "Posez le premier bloc", 1200);
+    flashMsg(round ? `Manche ${pad2(round + 1)} — ${placeOf(round)}` : `${placeOf(0)}`, round ? `${gs.weather} · plus vite, plus froid` : `${gs.weather} · posez le premier bloc`, 1400);
     emit("reset");
   }
   function spawn(){
@@ -4785,16 +5077,18 @@ const Igloo = (() => {
       gs.falling.push({ x:cutX, w:cutW, d:c.d, y, vy:2.5, vx:Math.sign(delta) * 2, rot:0, vr:Math.sign(delta) * (2 + Math.random() * 3) });
       gs.combo = 0;
       tone(160, .16, "sawtooth", .035);
-      if(cutW / c.w > .35) flashMsg("Bloc fendu", `−${Math.round(cutW / c.w * 100)} %`, 900);
+      if(cutW / c.w > .35) flashMsg(Math.random() < .35 ? (delta > 0 ? "Trop à droite" : "Trop à gauche") : pickI(CUT_MSGS), `−${Math.round(cutW / c.w * 100)} %`, 900);
     } else {
       gs.combo++;
       tone(523 * Math.pow(2, Math.min(gs.combo, 12) / 12), .2, "triangle", .06);
       tone(1568 * Math.pow(2, Math.min(gs.combo, 12) / 12), .12, "sine", .025, .04);
-      if(gs.combo >= 2) flashMsg(`Parfait ×${gs.combo}`, gs.combo >= 3 ? "Le bloc s'élargit" : "", 900);
+      if(gs.combo >= 2){ const k = Object.keys(COMBO_SUBS).map(Number).filter(n => gs.combo >= n).pop(); flashMsg(`Parfait ×${gs.combo}`, k ? COMBO_SUBS[k] : "", 900); }
       ui.flash.classList.add("on"); requestAnimationFrame(() => requestAnimationFrame(() => ui.flash.classList.remove("on")));
     }
     gs.levels.push({ x:(L + R) / 2, w:ov, d:c.d, perfect, born:gs.t });
     gs.score += perfect ? 2 + Math.min(gs.combo, 6) : 1;
+    const ms = MILESTONES[gs.levels.length - 1];
+    if(ms && !(perfect && gs.combo >= 2)) flashMsg(ms[0], ms[1], 1000);
     emit("place", { perfect, level:gs.levels.length - 1 });
     if(gs.levels.length - 1 >= N) return victory();
     spawn();
@@ -4808,9 +5102,9 @@ const Igloo = (() => {
     updateHud();
     emit("over");
     setTimeout(() => {
-      ui.overK.textContent = "Effondrement";
+      ui.overK.textContent = pickI(FALL_KICKS);
       decode(ui.overScore, pad4(gs.score), 700);
-      ui.overSub.textContent = `Assises : ${pad2(gs.levels.length - 1)}/${N} · Record : ${pad4(best)}`;
+      ui.overSub.textContent = `Assises : ${pad2(gs.levels.length - 1)}/${N} · Record : ${pad4(best)} · Titre : ${rankOf(gs.levels.length - 1, false, gs.round)}`;
       ui.again.textContent = "[ Rejouer ]";
       ui.over.hidden = false;
     }, 700);
@@ -4824,9 +5118,9 @@ const Igloo = (() => {
     emit("win");
     flashMsg("Igloo terminé", `+${25 * (gs.round + 1)} points de chaleur`, 1800);
     setTimeout(() => {
-      ui.overK.textContent = "Dôme fermé";
+      ui.overK.textContent = pickI(WIN_KICKS);
       decode(ui.overScore, pad4(gs.score), 700);
-      ui.overSub.textContent = `Manche ${pad2(gs.round + 1)} réussie · Record : ${pad4(best)}`;
+      ui.overSub.textContent = `${placeOf(gs.round)} · manche ${pad2(gs.round + 1)} réussie · Record : ${pad4(best)} · Titre : ${rankOf(N, true, gs.round)}`;
       ui.again.textContent = "[ Igloo suivant ]";
       ui.over.hidden = false;
     }, 1600);
@@ -4836,7 +5130,8 @@ const Igloo = (() => {
     decode(ui.level, `${pad2(gs.demo ? N : gs.levels.length - 1)}/${N}`, 260);
     decode(ui.score, pad4(gs.score), 260);
     ui.best.textContent = pad4(best);
-    ui.side.textContent = `Vent ${30 + gs.round * 9} km/h · Manche ${pad2(gs.round + 1)}`;
+    ui.side.textContent = gs.demo ? `Vent ${30 + gs.round * 9} km/h · Manche ${pad2(gs.round + 1)}`
+      : `${placeOf(gs.round)} · ${gs.weather} · ${gs.temp} °C · vent ${30 + gs.round * 9} km/h`;
   }
 
   /* --- rendu texte (repli sans WebGL, et copie) --- */
@@ -4898,7 +5193,8 @@ const Igloo = (() => {
     ui.copy.addEventListener("click", async () => {
       const lines = textFrame(48, Math.min(22, gs.levels.length + 6), false);
       while(lines.length && !lines[0].trim()) lines.shift();
-      const txt = toBraille([...lines, "", `IGLOO.EXE — ${pad4(gs.score)} pts — ${pad2(gs.levels.length - 1)}/${N} assises`].join("\n"));
+      const title = gs.demo ? "" : ` — ${rankOf(gs.levels.length - 1, gs.won, gs.round)}`;
+      const txt = toBraille([...lines, "", `IGLOO.EXE — ${pad4(gs.score)} pts — ${pad2(gs.levels.length - 1)}/${N} assises${title}`, gs.demo ? "" : `${placeOf(gs.round)}, ${gs.weather.toLowerCase()}, ${gs.temp} °C`].join("\n").trim());
       toast(await copyText(txt) ? "Igloo copié (avec des « ⠀ »)" : "Impossible de copier");
     });
     ui.sound.addEventListener("click", () => {
@@ -4937,7 +5233,10 @@ const Igloo3D = (() => {
     ["classique", " .:-=+*#%@"],
     ["blocs", " .·░▒▓█"],
     ["flocons", " .·:*+✦❄"],
-    ["binaire", " .:01"]
+    ["binaire", " .:01"],
+    ["braille", " ⠁⠃⠇⠏⠟⠿⣿"],
+    ["hachures", " .-/|\\X#"],
+    ["points", " .·•●"]
   ];
   let T = null, renderer, scene, cam, rt, post, postScene, postCam, ready = false;
   let W = innerWidth, H = innerHeight, dpr = 1, time = 0;
@@ -5263,6 +5562,34 @@ const Sursis = (() => {
     death:["La Mort marque. Elle ricane.", "Un point de plus vers l'éternité.", "La faux n'était même pas nécessaire.", "La Mort fait semblant d'être surprise.", "Le sablier s'impatiente.", "« Je ne rate jamais », dit la Mort."],
     duoYou:["Le joueur du bas marque !", "Point pour les vivants du bas."], duoDeath:["Le joueur du haut marque !", "La Mort (jouée par un vivant) marque."]
   };
+  /* --- matière : répliques supplémentaires, entrées en scène, fins --- */
+  LINES.you.push("La Mort vérifie si la balle était vraiment dedans. Elle l'était.", "Un fantôme dans les tribunes agite un petit drapeau.",
+    "La Mort réclame la vidéo. Il n'y a pas de vidéo.", "Les cloches sonnent. Pour vous, cette fois.", "La Mort essuie sa raquette avec sa cape, vexée.",
+    "Le sablier se retourne tout seul, d'émotion.", "Point gagnant ! Quelque part, un corbeau applaudit.", "La Mort marmonne quelque chose sur les vivants et leur chance.",
+    "Smash ! La faux en tremble encore.", "Même le filet est impressionné.");
+  LINES.death.push("La Mort fait tourner la balle sur une phalange.", "« Next », dit la Mort, en anglais pour faire chic.",
+    "La Mort coche une case dans son carnet.", "Un frisson parcourt la table.", "La Mort vous fait un clin d'orbite.",
+    "Le public d'outre-tombe ricane poliment.", "La balle avait un effet… surnaturel.", "La Mort souffle sur sa raquette. Un nuage de poussière s'en échappe.",
+    "« On ne m'échappe pas », rappelle la Mort.", "Les bougies vacillent. Mauvais signe.");
+  LINES.duoYou.push("Le vivant du bas exulte.", "Point en bas. La Mort note le score, impartiale.");
+  LINES.duoDeath.push("Le vivant du haut savoure.", "Point en haut. La Mort acquiesce.");
+  const RALLY = ["Échange de {n} coups ! Le public d'outre-tombe se lève.", "{n} coups ! La Mort transpire (ce qui est surprenant).",
+    "Un échange de {n} coups. Les spectres en redemandent.", "{n} allers-retours ! On entend des os craquer dans les gradins."];
+  const INTROS = {
+    novice:["Où l'on défie la Mort au ping-pong.", "La Mort a sorti sa raquette du dimanche.", "Un match amical. Enfin, amical…", "La Mort s'échauffe en faisant craquer ses vertèbres."],
+    coriace:["La Mort a révisé ses classiques.", "Elle a mis des chaussures de sport. Ça sent mauvais.", "La Mort a fait affûter sa raquette.", "Ce soir, la Mort joue sérieusement."],
+    implacable:["La Mort ne plaisante plus.", "La faux est posée contre le filet. Juste au cas où.", "La Mort a annulé tous ses rendez-vous pour vous.", "Ni pitié, ni balle let."]
+  };
+  const ENDS = {
+    win:["Sursis accordé. La Mort reviendra. Elle revient toujours.", "Victoire ! La Mort casse sa raquette sur son genou. Ça fait un bruit d'os.",
+      "Vous gagnez. La Mort demande une revanche « au meilleur des sept vies ».", "La Mort serre votre main. Vous la sentez encore, ce froid."],
+    lose:["Fin. La Mort range sa raquette… et vous avec.", "La Mort l'emporte et vous tend la main. C'est froid.",
+      "Défaite. La Mort note votre nom dans son carnet. Au crayon, heureusement.", "Balle de match perdue. La Mort fait un petit pas de danse."],
+    fannyYou:"Fanny pour la Mort ! Elle s'enfuit en cachant son crâne.", fannyDeath:"Fanny ! La Mort exige un bisou… on va dire que non."
+  };
+  const TITLES = { win:["Encore <em>un peu</em>", "Pas <em>aujourd'hui</em>", "Sursis <em>signé</em>"], lose:["Rideau.", "<em>Échec</em> et mort.", "Le <em>grand</em> saut"] };
+  const EPITAPHS = ["Il/Elle avait pourtant un bon revers.", "Il/Elle jurait que la balle était dehors.", "Smashé(e) par la Mort en personne.",
+    "Mort au filet.", "Il/Elle a perdu la balle de match. Et le reste."];
   const DIGITS = {
     0:["###","# #","# #","# #","###"], 1:[" # ","## "," # "," # ","###"], 2:["###","  #","###","#  ","###"], 3:["###","  #","###","  #","###"],
     4:["# #","# #","###","  #","  #"], 5:["###","#  ","###","  #","###"], 6:["###","#  ","###","# #","###"], 7:["###","  #","  #","  #","  #"],
@@ -5379,7 +5706,7 @@ const Sursis = (() => {
     ui.menu.hidden = true;
     setFace("idle");
     document.body.classList.add("su-playing");
-    card("Acte I", g.duo ? "Deux vivants se disputent une balle. La Mort compte les points." : "Où l'on défie la Mort au ping-pong.", 1900, () => { serve(); phase = "play"; });
+    card("Acte I", g.duo ? "Deux vivants se disputent une balle. La Mort compte les points." : pick(INTROS[opts.level] || INTROS.novice), 1900, () => { serve(); phase = "play"; });
   }
   function point(winner){                          // 0 = la Mort, 1 = vous
     g.s[winner]++;
@@ -5390,6 +5717,7 @@ const Sursis = (() => {
     const [d, y] = g.s;
     if(d >= g.to || y >= g.to) return end(y > d);
     let kick = `${d} — ${y}`, text = pick(g.duo ? (winner ? LINES.duoYou : LINES.duoDeath) : (winner ? LINES.you : LINES.death));
+    if(g.rally >= 12) text = pick(RALLY).replace("{n}", g.rally);
     if(Math.max(d, y) === g.to - 1 && d !== y) text = "Balle de match. L'au-delà retient son souffle.";
     if(d === y && d >= 3) text = "Égalité. La Mort réajuste sa capuche.";
     card(kick, text, 1500, () => { serve(); phase = "play"; });
@@ -5401,7 +5729,7 @@ const Sursis = (() => {
     setFace(youWon ? "angry" : "win");
     const [d, y] = g.s;
     const text = g.duo ? (youWon ? "Le joueur du bas l'emporte." : "Le joueur du haut l'emporte.")
-      : youWon ? "Sursis accordé. La Mort reviendra. Elle revient toujours." : "Fin. La Mort range sa raquette… et vous avec.";
+      : youWon ? (d === 0 ? ENDS.fannyYou : pick(ENDS.win)) : (y === 0 ? ENDS.fannyDeath : pick(ENDS.lose));
     card(`${d} — ${y}`, text, 2400, () => showMenu(youWon));
     youWon ? [523, 659, 784, 1047].forEach((f, i) => tone(f, .2, "triangle", .05, i * .12)) : laugh(1.6);
   }
@@ -5409,7 +5737,7 @@ const Sursis = (() => {
     phase = "menu";
     const [d, y] = g.s;
     ui.menuK.textContent = g.duo ? "Fin du duel" : youWon ? "Sursis accordé" : "La Mort l'emporte";
-    ui.menuTitle.innerHTML = g.duo ? "Le <em>Duel</em>" : youWon ? "Encore <em>un peu</em>" : "Rideau.";
+    ui.menuTitle.innerHTML = g.duo ? "Le <em>Duel</em>" : pick(youWon ? TITLES.win : TITLES.lose);
     ui.menuScore.hidden = false; ui.menuScore.textContent = `${d} — ${y}`;
     ui.menuText.textContent = g.duo ? `Meilleur échange : ${g.best} coups.` : youWon ? `Vous gagnez un sursis. Meilleur échange : ${g.best} coups.` : `La Mort gagne ${d} à ${y}. Meilleur échange : ${g.best} coups. On grave ?`;
     ui.play.textContent = youWon ? "Redéfier la Mort" : "Revanche";
@@ -5614,7 +5942,7 @@ const Sursis = (() => {
       const [d, y] = g.s;
       const now = new Date();
       writeForm({ ...state, cause:OTHER, causeCustom:`après avoir perdu ${d} à ${y} au ping-pong contre la Mort`,
-        date:isoDate(now.getFullYear(), now.getMonth() + 1, now.getDate()), message:"Il/Elle avait pourtant un bon revers.", latin:"Game over", icon:"skull" });
+        date:isoDate(now.getFullYear(), now.getMonth() + 1, now.getDate()), message:pick(EPITAPHS), latin:"Game over", icon:"skull" });
       render();
       Drum.goTo(0, { land:"top" });
       setTimeout(() => toast("⚰ Pierre gravée. Belle partie quand même."), 900);
@@ -5674,9 +6002,11 @@ const Crypte = (() => {
   const WALL = 0, FLOOR = 1, STAIRS = 2;
   const MONSTERS = {
     rat:     { ch:"r", def:"le rat", ind:"un rat", hp:4, atk:2, arm:0, xp:2, col:[176,138,98], speed:1, from:1 },
+    chauve:  { ch:"b", def:"la chauve-souris", ind:"une chauve-souris", hp:3, atk:1, arm:0, xp:2, col:[170,140,196], speed:2, from:1 },
     goule:   { ch:"g", def:"la goule", ind:"une goule", hp:8, atk:3, arm:1, xp:5, col:[143,191,106], speed:1, from:1 },
     squel:   { ch:"s", def:"le squelette", ind:"un squelette", hp:10, atk:4, arm:1, xp:7, col:[232,226,207], speed:1, from:2 },
     zombie:  { ch:"z", def:"le zombie", ind:"un zombie", hp:14, atk:4, arm:1, xp:9, col:[160,166,96], speed:.5, from:2 },
+    araignee:{ ch:"a", def:"l'araignée", ind:"une araignée", hp:9, atk:4, arm:0, xp:8, col:[196,160,120], speed:1, from:3 },
     spectre: { ch:"W", def:"le spectre", ind:"un spectre", hp:11, atk:4, arm:2, xp:12, col:[169,214,255], speed:2, from:3 },
     vampire: { ch:"V", def:"le vampire", ind:"un vampire", hp:26, atk:6, arm:2, xp:25, col:[255,90,90], speed:1, from:4, drain:true }
   };
@@ -5684,9 +6014,46 @@ const Crypte = (() => {
     potion:{ ch:"!", col:[255,107,139] }, gold:{ ch:"$", col:[255,215,94] }, weapon:{ ch:")", col:[217,210,192] },
     armor:{ ch:"[", col:[185,196,204] }, scroll:{ ch:"?", col:[242,230,201] }, amulet:{ ch:"&", col:[255,226,122] }
   };
-  const WEAPONS = ["un tibia aiguisé", "une pelle de fossoyeur", "une faux rouillée", "un crucifix très lourd", "un chandelier en bronze"];
-  const ARMORS = ["un linceul renforcé", "une cotte de mailles moisie", "un couvercle de cercueil", "un casque de chevalier mort"];
-  const MOSS = [[110,224,138], [120,170,255], [200,120,255]];
+  const WEAPONS = ["un tibia aiguisé", "une pelle de fossoyeur", "une faux rouillée", "un crucifix très lourd", "un chandelier en bronze",
+    "une lanterne très contondante", "un goupillon béni", "une épée de chevalier (un peu tordue)", "un os de mammouth",
+    "une crosse d'évêque", "un pied-de-biche de pilleur de tombes", "une dague en argent"];
+  const ARMORS = ["un linceul renforcé", "une cotte de mailles moisie", "un couvercle de cercueil", "un casque de chevalier mort",
+    "un plastron de croisé", "une cape de vampire (taille unique)", "un bouclier en couvercle de marmite", "des bandelettes de momie",
+    "un heaume cabossé", "une soutane en cuir"];
+  const MOSS = [[110,224,138], [120,170,255], [200,120,255], [255,190,90], [90,230,220]];
+  /* --- matière : étages, ambiances, répliques des monstres, trésors, inscriptions --- */
+  const LEVEL_NAMES = ["L'Ossuaire", "Les Catacombes", "La Nécropole engloutie", "Le Caveau des Rois", "Le Sanctuaire du Vampire"];
+  const ARRIVALS = ["L'air sent le vieux sous-sol.", "Quelque part, de l'eau goutte. Ploc. Ploc.", "Une torche s'éteint toute seule derrière vous.",
+    "Des murmures, puis plus rien.", "Les murs sont couverts de noms gravés.", "Il fait plus froid à chaque marche.",
+    "Une odeur de cire et de poussière.", "Vous marchez sur quelque chose qui craque. Mieux vaut ne pas regarder.",
+    "L'escalier grince comme une porte de grenier.", "Un courant d'air glacé vous souffle la nuque."];
+  const MON_FLAVOR = {
+    rat:     { see:["Un rat vous fixe de ses petits yeux rouges.", "Ça couine dans l'ombre."], hit:["vous mord le mollet", "vous grignote un orteil"], die:["Le rat couine une dernière fois.", "Le rat rejoint ses ancêtres (nombreux)."] },
+    chauve:  { see:["Un battement d'ailes au-dessus de votre tête…", "Une chauve-souris tournoie, affolée."], hit:["vous griffe le visage", "se prend dans vos cheveux"], die:["La chauve-souris tombe comme une feuille morte."] },
+    goule:   { see:["Une goule renifle votre odeur. Elle a faim.", "Quelque chose mâchonne bruyamment."], hit:["vous lacère", "essaie de vous goûter"], die:["La goule s'effondre, rassasiée de coups."] },
+    squel:   { see:["Des os s'entrechoquent dans le noir.", "Un squelette se relève de sa niche."], hit:["vous frappe de son fémur", "vous assène un coup sec"], die:["Le squelette s'éparpille en tas d'os.", "Un crâne roule à vos pieds."] },
+    zombie:  { see:["Un zombie titube vers vous en grognant.", "Ça sent la chair avariée."], hit:["vous agrippe", "vous mord le bras"], die:["Le zombie s'affale, définitivement cette fois."] },
+    araignee:{ see:["Une araignée de la taille d'un chien descend du plafond.", "Des toiles épaisses barrent le passage."], hit:["vous pique", "vous enroule dans sa soie"], die:["L'araignée se recroqueville."] },
+    spectre: { see:["Un spectre glisse à travers le mur.", "L'air devient glacial."], hit:["vous traverse, glacial", "vous murmure votre date de mort"], die:["Le spectre se dissipe en volute de brume."] },
+    vampire: { see:["Une silhouette en cape vous sourit. Les canines brillent.", "« Bonsoir », fait une voix beaucoup trop polie."], hit:["vous mord au cou", "aspire un peu de votre vie"], die:["Le vampire part en fumée en maudissant votre famille."] }
+  };
+  const TREASURES = ["une bourse moisie", "une dent en or", "un médaillon terni", "des pièces romaines", "une bague (encore au doigt)",
+    "un calice ébréché", "une tabatière en argent", "des écus vert-de-grisés", "une montre à gousset arrêtée à minuit", "une couronne de travers"];
+  const POTION_FINDS = ["Une potion rouge. Ça sent la fraise et le formol.", "Une fiole tiède. Mieux vaut ne pas savoir pourquoi.",
+    "Une potion qui fait des bulles toute seule.", "Un flacon étiqueté « Ne pas boire ». Parfait.", "Une potion couleur grenadine (on espère)."];
+  const DRINKS = ["Délicieusement douteux.", "Goût : sirop pour la toux et regrets.", "Vous vous sentez revivre. Littéralement.",
+    "Ça pique, ça brûle, ça soigne.", "Un arrière-goût de cimetière, mais efficace."];
+  const SCROLL_FINDS = ["Un parchemin couvert de plans griffonnés.", "Un parchemin signé « un aventurier qui n'est jamais remonté ».",
+    "Une carte tachée de cire, presque lisible.", "Un vieux plan, annoté « ICI : NON »."];
+  const READS = ["Le parchemin révèle le plan de l'étage.", "Les lignes s'illuminent : tout l'étage apparaît.",
+    "Vous déchiffrez le plan. Il manque juste la sortie… ah non, la voilà."];
+  const GRAFFITI = ["« Ne mangez pas le champignon. »", "« Le vampire déteste qu'on l'appelle Gérard. »", "« J'aurais dû prendre la potion. »",
+    "« Ici est passé Rogue, 1980. »", "« Demi-tour. Sérieusement. »", "« La sortie est en bas. Toujours en bas. »", "« Pas de réseau, même ici. »",
+    "« Bertrand, si tu lis ça, rends-moi ma pelle. »", "« Attention : la goule mord. »", "« 3 rats, 1 squelette, 0 regret. »",
+    "« Les spectres traversent les murs. Pas vous. »", "« Gardez une potion pour le fond. »", "« Si vous trouvez l'Amulette, remontez vite. »",
+    "« Ci-gît mon courage. »", "« Les chauves-souris attaquent deux fois. Méfiance. »", "« Les araignées ne portent pas d'armure. Visez bien. »"];
+  const pickC = a => a[Math.floor(Math.random() * a.length)];
+  let notes = [];
 
   let map = new Uint8Array(MW * MH), seen = new Uint8Array(MW * MH), vis = new Float32Array(MW * MH);
   let mons = [], items = [], lights = [], P = null, depth = 1, turn = 0, phase = "menu", killer = null, kills = 0, logLines = [];
@@ -5715,7 +6082,7 @@ const Crypte = (() => {
   /* --- génération --- */
   function carve(x, y){ if(x > 0 && y > 0 && x < MW - 1 && y < MH - 1) map[idx(x, y)] = FLOOR; }
   function genLevel(){
-    map.fill(WALL); seen.fill(0); mons = []; items = []; lights = [];
+    map.fill(WALL); seen.fill(0); mons = []; items = []; lights = []; notes = [];
     const rooms = [];
     for(let t = 0; t < 400 && rooms.length < 11; t++){
       const w = rr(5, 13), h = rr(4, 8), x = rr(1, MW - w - 2), y = rr(1, MH - h - 2);
@@ -5754,6 +6121,9 @@ const Crypte = (() => {
     const put = (kind, n) => { for(let i = 0; i < n; i++){ const r = rooms[rnd(rooms.length)], pos = free(r); if(pos) items.push({ x:pos[0], y:pos[1], kind, amount:kind === "gold" ? rr(4, 12) * depth : 0 }); } };
     put("gold", rr(4, 7)); put("potion", rr(1, 2)); if(Math.random() < .6) put("scroll", 1);
     put(depth % 2 ? "weapon" : "armor", 1);
+    // inscriptions au sol (pure ambiance)
+    const usedG = new Set();
+    for(let i = 0; i < rr(1, 3); i++){ const r = rooms[rnd(rooms.length)], pos = free(r); if(!pos) continue; let t; do t = pickC(GRAFFITI); while(usedG.has(t) && usedG.size < GRAFFITI.length); usedG.add(t); notes.push({ x:pos[0], y:pos[1], text:t, read:false }); }
     // mousses luminescentes
     for(let i = 0; i < rr(4, 7); i++){ const r = rooms[rnd(rooms.length)], pos = free(r); if(pos) lights.push({ x:pos[0], y:pos[1], col:MOSS[rnd(MOSS.length)], r:rr(3, 5), ph:Math.random() * 6 }); }
     memDirty = litDirty = true;
@@ -5808,6 +6178,8 @@ const Crypte = (() => {
     if(!walkable(nx, ny)) return false;
     P.x = nx; P.y = ny;
     tone(140 + Math.random() * 30, .025, "triangle", .02);
+    const note = notes.find(n => n.x === P.x && n.y === P.y && !n.read);
+    if(note){ note.read = true; log(`Une inscription griffonnée au sol : ${note.text}`); }
     pickup();
     if(phase !== "play") return true;                 // l'Amulette vient d'être ramassée
     if(map[idx(P.x, P.y)] === STAIRS){ descend(); return true; }
@@ -5824,7 +6196,8 @@ const Crypte = (() => {
     tone(crit ? 880 : 520, .05, "square", .04);
     if(m.hp <= 0){
       kills++;
-      log(`Vous terrassez ${M.def}${crit ? " d'un coup magistral" : ""}.`);
+      const F = MON_FLAVOR[m.type];
+      log(!crit && F && Math.random() < .5 ? pickC(F.die) : `Vous terrassez ${M.def}${crit ? " d'un coup magistral" : ""}.`);
       gainXp(M.xp);
       if(m.boss) log("Le vampire tombe en poussière. Il en reste un peu sur vos chaussures.");
       burst(m.x, m.y, M.col, 18, "%*,");
@@ -5843,9 +6216,9 @@ const Crypte = (() => {
     const i = items.findIndex(it => it.x === P.x && it.y === P.y);
     if(i < 0) return;
     const it = items[i]; items.splice(i, 1);
-    if(it.kind === "gold"){ P.gold += it.amount; log(`Vous ramassez ${it.amount} pièces d'or.`); tone(1320, .05, "triangle", .04); tone(1760, .06, "triangle", .03, .05); }
-    else if(it.kind === "potion"){ P.potions++; log("Une potion rouge. Ça sent la fraise et le formol."); tone(700, .08, "sine", .04); }
-    else if(it.kind === "scroll"){ P.scrolls++; log("Un parchemin couvert de plans griffonnés."); tone(600, .08, "sine", .04); }
+    if(it.kind === "gold"){ P.gold += it.amount; log(Math.random() < .55 ? `Vous ramassez ${pickC(TREASURES)} : ${it.amount} pièces d'or.` : `Vous ramassez ${it.amount} pièces d'or.`); tone(1320, .05, "triangle", .04); tone(1760, .06, "triangle", .03, .05); }
+    else if(it.kind === "potion"){ P.potions++; log(pickC(POTION_FINDS)); tone(700, .08, "sine", .04); }
+    else if(it.kind === "scroll"){ P.scrolls++; log(pickC(SCROLL_FINDS)); tone(600, .08, "sine", .04); }
     else if(it.kind === "weapon"){ P.weapon++; log(`Vous trouvez ${WEAPONS[rnd(WEAPONS.length)]}. Attaque +1.`); tone(440, .1, "square", .04); }
     else if(it.kind === "armor"){ P.armor++; log(`Vous enfilez ${ARMORS[rnd(ARMORS.length)]}. Défense +1.`); tone(330, .1, "square", .04); }
     else if(it.kind === "amulet"){ victory(); }
@@ -5854,7 +6227,7 @@ const Crypte = (() => {
   function drink(){
     if(phase !== "play" || !P.potions) return;
     P.potions--; const h = 12 + P.lvl * 3; P.hp = Math.min(P.maxhp, P.hp + h);
-    log(`Vous buvez une potion (+${h} PV). Délicieusement douteux.`);
+    log(`Vous buvez une potion (+${h} PV). ${pickC(DRINKS)}`);
     float(P.x, P.y, "+" + h, "#9be36b"); tone(500, .1, "sine", .05); tone(750, .12, "sine", .04, .08);
     endTurn();
   }
@@ -5863,13 +6236,13 @@ const Crypte = (() => {
     P.scrolls--;
     for(let i = 0; i < map.length; i++) if(map[i] !== WALL){ seen[i] = 1; const x = i % MW, y = (i / MW) | 0; for(let k = 0; k < 8; k++){ const xx = x + [-1,0,1,-1,1,-1,0,1][k], yy = y + [-1,-1,-1,0,0,1,1,1][k]; if(inb(xx, yy)) seen[idx(xx, yy)] = 1; } }
     memDirty = litDirty = true;
-    log("Le parchemin révèle le plan de l'étage.");
+    log(pickC(READS));
     tone(880, .2, "sine", .04);
     endTurn();
   }
   function descend(){
     depth++;
-    log(`Vous descendez au niveau ${depth}. L'air sent le vieux sous-sol.`);
+    log(`Niveau ${depth} : ${LEVEL_NAMES[depth - 1] || "les profondeurs"}. ${pickC(ARRIVALS)}`);
     tone(220, .2, "triangle", .05); tone(165, .3, "triangle", .05, .15);
     genLevel(); hud();
   }
@@ -5896,10 +6269,15 @@ const Crypte = (() => {
         if(dist[ni] < 0){ dist[ni] = dc + 1; q.push(ni); }
       }
     }
+    let spotted = false;
     for(const m of mons){
       if(m.hp <= 0) continue;
       const M = MONSTERS[m.type];
-      if(vis[idx(m.x, m.y)] > 0) m.awake = true;
+      if(vis[idx(m.x, m.y)] > 0 && !m.awake){
+        m.awake = true;
+        const F = MON_FLAVOR[m.type];
+        if(F && !spotted && Math.random() < .7){ log(pickC(F.see)); spotted = true; }
+      }
       m.energy += M.speed;
       while(m.energy >= 1){
         m.energy -= 1;
@@ -5926,7 +6304,8 @@ const Crypte = (() => {
     const { d, crit } = damage(M.atk + Math.floor((depth - 1) / 2), stats().arm);
     P.hp -= d;
     if(M.drain){ m.hp = Math.min(m.maxhp, m.hp + Math.ceil(d / 2)); }
-    log(`${cap(M.def)} ${["vous griffe", "vous mord", "vous frappe", "vous cogne"][rnd(4)]}${crit ? " violemment" : ""} (${d}).`);
+    const verbs = ["vous frappe", "vous cogne", ...((MON_FLAVOR[m.type] || {}).hit || ["vous griffe", "vous mord"])];
+    log(`${cap(M.def)} ${pickC(verbs)}${crit ? " violemment" : ""} (${d}).`);
     float(P.x, P.y, "-" + d, "#ff6b5b");
     burst(P.x, P.y, [220, 60, 50], crit ? 10 : 5, ",.'");
     shake = crit ? .6 : .35;
@@ -5994,7 +6373,7 @@ const Crypte = (() => {
   /* --- interface --- */
   function hud(){
     const st = stats();
-    ui.depth.textContent = `Profondeur ${depth} / ${MAXD}`;
+    ui.depth.textContent = `Profondeur ${depth} / ${MAXD} · ${LEVEL_NAMES[depth - 1] || ""}`;
     ui.hpT.textContent = `${Math.max(0, P.hp)} / ${P.maxhp}`;
     ui.hp.firstElementChild.style.width = Math.max(0, P.hp / P.maxhp * 100) + "%";
     ui.hp.classList.toggle("low", P.hp > 0 && P.hp <= P.maxhp * .3);
@@ -6014,7 +6393,7 @@ const Crypte = (() => {
     phase = "play";
     ui.start.hidden = true; ui.end.hidden = true;
     genLevel(); hud();
-    log(`${state.name.trim() || "Anonyme"} descend dans la crypte. La porte se referme. Évidemment.`);
+    log(`${state.name.trim() || "Anonyme"} descend dans ${LEVEL_NAMES[0].replace(/^L'/, "l'")}. La porte se referme. Évidemment.`);
   }
 
   /* --- rendu --- */
@@ -6153,6 +6532,12 @@ const Crypte = (() => {
     const key = cx0 + "," + cy0;
     if(litDirty || litAge > 1 / 12 || key !== litKey){ drawLit(cx0, cy0, x0, x1, y0, y1); litDirty = false; litAge = 0; litKey = key; }
     { const d = resize.dpr || 1; ctx.drawImage(litCanvas, sx + cx0 * cw, sy + cy0 * ch, litCanvas.width / d, litCanvas.height / d); }
+    // inscriptions
+    for(const n of notes){
+      if(vis[idx(n.x, n.y)] <= 0) continue;
+      ctx.fillStyle = n.read ? "rgba(150,138,112,.55)" : "rgb(206,190,150)";
+      ctx.fillText("~", sx + (n.x + .5) * cw, sy + (n.y + .5) * ch);
+    }
     // objets visibles
     for(const it of items){
       const i = idx(it.x, it.y);
@@ -6316,7 +6701,7 @@ const Crypte = (() => {
     requestAnimationFrame(loop);
   }
   return { init, onShow(){ resize(); }, get phase(){ return phase; }, get player(){ return P; }, get depth(){ return depth; },
-    _test:{ act, drink, readScroll, get mons(){ return mons; }, get items(){ return items; }, get map(){ return map; }, get seen(){ return seen; }, MW, MH, newGame } };
+    _test:{ act, drink, readScroll, get mons(){ return mons; }, get items(){ return items; }, get map(){ return map; }, get seen(){ return seen; }, get notes(){ return notes; }, MW, MH, newGame } };
 })();
 
 /* ================================================================
@@ -6328,9 +6713,9 @@ const Danse = (() => {
     meta:$("da-meta"), soul:$("da-soul"), score:$("da-score"), combo:$("da-combo"), acc:$("da-acc"),
     start:$("da-start"), level:$("da-level"), offset:$("da-offset"), offV:$("da-off-v"), go:$("da-go"), best:$("da-best"),
     end:$("da-end"), endK:$("da-end-k"), grade:$("da-grade"), endTitle:$("da-end-title"), endText:$("da-end-text"),
-    again:$("da-again"), menu:$("da-menu"), copy:$("da-copy"), grave:$("da-grave"), pause:$("da-pause"), resume:$("da-resume"), quit:$("da-quit")
+    song:$("da-song"), again:$("da-again"), menu:$("da-menu"), copy:$("da-copy"), grave:$("da-grave"), pause:$("da-pause"), resume:$("da-resume"), quit:$("da-quit")
   };
-  const BPM = 150, BEAT = 60 / BPM, BAR = BEAT * 3;
+  let BEAT = .4, BAR = 1.2;          // fixés par le morceau choisi
   const KEYS = { d:0, f:1, j:2, k:3, ArrowLeft:0, ArrowDown:1, ArrowUp:2, ArrowRight:3 };
   const GLYPH = ["<", "v", "^", ">"];
   const WIN = { perfect:.05, good:.095, ok:.145 };
@@ -6339,8 +6724,49 @@ const Danse = (() => {
   };
   const JUDGE = { perfect:["Parfait", 300, 2], good:["Bien", 150, 1], ok:["Moyen", 50, 0], miss:["Raté", 0, 0] };
 
-  /* --- la partition (composition originale, sol mineur, 3/4) --- */
-  const CH = { G:{ root:43, tri:[55, 58, 62] }, C:{ root:48, tri:[55, 60, 63] }, D:{ root:50, tri:[54, 57, 62] }, Eb:{ root:51, tri:[55, 58, 63] } };
+  /* --- outillage commun aux partitions --- */
+  function maker(level, bpm, meter, thr){
+    const B = 60 / bpm, BR = B * meter, audio = [], notes = [];
+    const add = (t, kind, a) => audio.push({ t, kind, ...a });
+    const note = (t, lanes) => lanes.forEach(l => notes.push({ t, lane:l, done:false }));
+    const strong = meter === 4 ? 2 : 3;
+    // une mélodie : [mesure, temps, note MIDI, durée en temps] ; la hauteur choisit le couloir
+    const theme = (mel, bar0, voice) => {
+      let prevM = null, prevL = 1;
+      for(const [bar, beat, m, dur] of mel){
+        const t = (bar0 + bar) * BR + beat * B;
+        if(voice === "xylo") add(t, "xylo", { m });
+        else if(voice === "fiddle") add(t, "fiddle", { m, d:Math.max(.18, dur * B * .92) });
+        else { add(t, "fiddle", { m, d:Math.max(.18, dur * B * .92) }); add(t, "xylo", { m, v:.16 }); }
+        let lane = thr ? (m <= thr[0] ? 0 : m <= thr[1] ? 1 : m <= thr[2] ? 2 : 3) : Math.max(0, Math.min(3, Math.floor((m - 66) / 4.25)));
+        if(m === prevM) lane = prevL === 1 ? 2 : prevL === 2 ? 1 : prevL === 0 ? 1 : 2;
+        prevM = m; prevL = lane;
+        const keep = level === "diabolique" || (level === "normal" ? Number.isInteger(beat) : (Number.isInteger(beat) && beat % strong === 0) || dur >= 2);
+        if(!keep) continue;
+        // sabbat : accords sur les temps forts du dernier thème, et les accompagnements à frapper sous les notes tenues
+        const far = lane <= 1 ? 3 : 0;
+        note(t, level === "diabolique" && voice === "both" && beat === 0 ? [lane, far] : [lane]);
+        if(level === "diabolique" && dur >= 2) for(let k = 1; k < dur; k++) if(Number.isInteger(beat + k) && beat + k < meter) note(t + k * B, [k % 2 ? far : (far ? 1 : 2)]);
+      }
+    };
+    // accompagnement : oum-pa-pa (3 temps) ou oum-pa-oum-pa (4 temps)
+    const accomp = (prog, CHS, bar0, soft) => prog.forEach((name, i) => {
+      const ch = CHS[name], t0 = (bar0 + i) * BR;
+      if(meter === 3){
+        add(t0, "bass", { m:ch.root, d:B * 2, v:soft ? .15 : .24 }); if(!soft) add(t0, "kick", {});
+        for(const k of [1, 2]){ add(t0 + k * B, "pizz", { ms:ch.tri, v:soft ? .035 : .06 }); if(!soft) add(t0 + k * B, "bones", { v:k === 1 ? .22 : .16 }); }
+      } else {
+        add(t0, "bass", { m:ch.root, d:B * .9 }); add(t0, "kick", {});
+        add(t0 + 2 * B, "bass", { m:ch.root + 7, d:B * .9 }); add(t0 + 2 * B, "kick", { v:.38 });
+        for(const k of [1, 3]){ add(t0 + k * B, "pizz", { ms:ch.tri }); add(t0 + k * B, "bones", { v:k === 1 ? .2 : .15 }); }
+      }
+    });
+    const done = endBars => { audio.sort((x, y) => x.t - y.t); notes.sort((x, y) => x.t - y.t); return { audio, notes, duration:endBars * BR, beat:B, bar:BR }; };
+    return { B, BR, add, note, theme, accomp, done, level };
+  }
+
+  /* --- I. Valse en sol mineur (composition originale, 3/4) --- */
+  const CH_V = { G:{ root:43, tri:[55, 58, 62] }, C:{ root:48, tri:[55, 60, 63] }, D:{ root:50, tri:[54, 57, 62] }, Eb:{ root:51, tri:[55, 58, 63] } };
   const PROG_A = "G G C D C G D G G G Eb D C G D G".split(" ");
   const PROG_B = "G C G G D C G D G C D G D C D D".split(" ");
   const MEL_A = [
@@ -6357,65 +6783,145 @@ const Danse = (() => {
     [10,0,74,.5],[10,.5,75,.5],[10,1,78,.5],[10,1.5,79,.5],[10,2,81,1], [11,0,82,3],
     [12,0,81,1],[12,1,79,1],[12,2,78,1], [13,0,79,1],[13,1,75,1],[13,2,72,1], [14,0,70,1],[14,1,69,1],[14,2,66,1], [15,0,74,3]
   ];
-  const SEC = { a1:6, b:22, a2:38, coda:54, rooster:56, end:57.6 };
-
-  function buildSong(level){
-    const audio = [], notes = [];
-    const add = (t, kind, a) => audio.push({ t, kind, ...a });
-    const note = (t, lanes) => lanes.forEach(l => notes.push({ t, lane:l, done:false }));
+  function buildValse(level){
+    const S = maker(level, 150, 3), { B, BR, add, note } = S;
     // minuit : douze coups
     for(let b = 0; b < 12; b++){
-      const t = b * BEAT;
+      const t = b * B;
       add(t, "bell", { m:62 });
       if(level === "facile"){ if(b % 3 === 0) note(t, [b % 6 ? 2 : 1]); }
       else note(t, [b % 2 ? 2 : 1]);
     }
     // le violon du diable, accordé sur le triton (la — mi bémol)
     for(let i = 0; i < 6; i++){
-      const t = (12 + i) * BEAT;
+      const t = (12 + i) * B;
       add(t, "fiddle", { m:69, d:.3, v:.09 }); add(t, "fiddle", { m:75, d:.3, v:.09 });
       if(level === "facile"){ if(i % 3 === 0) note(t, [1]); }
       else if(level === "normal") note(t, i % 3 === 0 ? [0, 3] : [i % 2 ? 1 : 2]);
       else note(t, [0, 3]);
     }
-    // thèmes
-    const theme = (mel, bar0, voice) => {
-      let prevM = null, prevL = 1;
-      for(const [bar, beat, m, dur] of mel){
-        const t = (bar0 + bar) * BAR + beat * BEAT;
-        if(voice === "xylo") add(t, "xylo", { m });
-        else if(voice === "fiddle") add(t, "fiddle", { m, d:Math.max(.18, dur * BEAT * .92) });
-        else { add(t, "fiddle", { m, d:Math.max(.18, dur * BEAT * .92) }); add(t, "xylo", { m, v:.16 }); }
-        let lane = Math.max(0, Math.min(3, Math.floor((m - 66) / 4.25)));
-        if(m === prevM) lane = prevL === 1 ? 2 : prevL === 2 ? 1 : prevL === 0 ? 1 : 2;
-        prevM = m; prevL = lane;
-        const keep = level === "diabolique" || (level === "normal" ? Number.isInteger(beat) : beat === 0 || dur >= 2);
-        if(!keep) continue;
-        // sabbat : accords sur les temps forts du dernier thème, et les pizzicati à frapper sous les notes tenues
-        const far = lane <= 1 ? 3 : 0;
-        note(t, level === "diabolique" && voice === "both" && beat === 0 ? [lane, far] : [lane]);
-        if(level === "diabolique" && dur >= 2) for(let k = 1; k < dur; k++) if(Number.isInteger(beat + k) && beat + k < 3) note(t + k * BEAT, [k % 2 ? far : (far ? 1 : 2)]);
-      }
-    };
-    theme(MEL_A, SEC.a1, "xylo"); theme(MEL_B, SEC.b, "fiddle"); theme(MEL_A, SEC.a2, "both");
-    // accompagnement : la valse (oum-pa-pa)
-    for(let i = 0; i < 48; i++){
-      const prog = i < 16 ? PROG_A : i < 32 ? PROG_B : PROG_A, c = CH[prog[i % 16]], t0 = (SEC.a1 + i) * BAR;
-      add(t0, "bass", { m:c.root, d:BEAT * 2 }); add(t0, "kick", {});
-      add(t0 + BEAT, "pizz", { ms:c.tri }); add(t0 + 2 * BEAT, "pizz", { ms:c.tri });
-      add(t0 + BEAT, "bones", { v:.22 }); add(t0 + 2 * BEAT, "bones", { v:.16 });
-    }
-    // coda
-    const tc = SEC.coda * BAR;
-    add(tc, "bass", { m:43, d:BAR }); add(tc, "pizz", { ms:[55, 58, 62, 67] }); add(tc, "fiddle", { m:79, d:BEAT * 1.5 }); add(tc, "kick", {});
+    S.theme(MEL_A, 6, "xylo"); S.theme(MEL_B, 22, "fiddle"); S.theme(MEL_A, 38, "both");
+    S.accomp([...PROG_A, ...PROG_B, ...PROG_A], CH_V, 6);
+    const tc = 54 * BR;
+    add(tc, "bass", { m:43, d:BR }); add(tc, "pizz", { ms:[55, 58, 62, 67] }); add(tc, "fiddle", { m:79, d:B * 1.5 }); add(tc, "kick", {});
     note(tc, level === "facile" ? [1] : [0, 3]);
-    const tf = (SEC.coda + 1) * BAR;
-    add(tf, "bass", { m:31, d:BAR * 1.6 }); add(tf, "pizz", { ms:[55, 58, 62, 67, 70] }); add(tf, "xylo", { m:79 }); add(tf, "fiddle", { m:67, d:BAR }); add(tf, "kick", { v:.7 }); add(tf, "bell", { m:55 });
+    const tf = 55 * BR;
+    add(tf, "bass", { m:31, d:BR * 1.6 }); add(tf, "pizz", { ms:[55, 58, 62, 67, 70] }); add(tf, "xylo", { m:79 }); add(tf, "fiddle", { m:67, d:BR }); add(tf, "kick", { v:.7 }); add(tf, "bell", { m:55 });
     note(tf, level === "facile" ? [1, 2] : [0, 1, 2, 3]);
-    add(SEC.rooster * BAR, "rooster", {});
-    audio.sort((a, b) => a.t - b.t); notes.sort((a, b) => a.t - b.t);
-    return { audio, notes, duration:SEC.end * BAR };
+    add(56 * BR, "rooster", {});
+    return S.done(57.6);
   }
+
+  /* --- II. Galop des pendus (la mineur, 4/4, endiablé) --- */
+  const CH_G = { Am:{ root:45, tri:[57, 60, 64] }, E:{ root:40, tri:[56, 59, 64] }, Dm:{ root:38, tri:[57, 62, 65] },
+    F:{ root:41, tri:[57, 60, 65] }, G:{ root:43, tri:[55, 59, 62] }, C:{ root:48, tri:[55, 60, 64] } };
+  const GA_PROG_A = "Am E Am E Dm Am E Am".split(" "), GA_PROG_B = "C G F E C G E Am".split(" ");
+  const GA_A = [
+    [0,0,69,.5],[0,.5,72,.5],[0,1,76,1],[0,2,76,.5],[0,2.5,74,.5],[0,3,72,1],
+    [1,0,71,.5],[1,.5,72,.5],[1,1,74,1],[1,2,71,1],[1,3,68,1],
+    [2,0,69,.5],[2,.5,72,.5],[2,1,76,1],[2,2,81,1],[2,3,79,.5],[2,3.5,77,.5],
+    [3,0,76,1.5],[3,1.5,74,.5],[3,2,72,1],[3,3,71,1],
+    [4,0,74,.5],[4,.5,77,.5],[4,1,81,1],[4,2,81,.5],[4,2.5,79,.5],[4,3,77,1],
+    [5,0,76,.5],[5,.5,77,.5],[5,1,76,1],[5,2,72,1],[5,3,69,1],
+    [6,0,71,.5],[6,.5,72,.5],[6,1,74,.5],[6,1.5,76,.5],[6,2,74,1],[6,3,68,1],
+    [7,0,69,2],[7,2,64,1],[7,3,69,1]
+  ];
+  const GA_B = [
+    [0,0,79,1],[0,1,76,.5],[0,1.5,77,.5],[0,2,79,1],[0,3,72,1],
+    [1,0,74,1],[1,1,79,.5],[1,1.5,77,.5],[1,2,76,1],[1,3,74,1],
+    [2,0,77,1],[2,1,81,.5],[2,1.5,79,.5],[2,2,77,1],[2,3,76,.5],[2,3.5,74,.5],
+    [3,0,76,2],[3,2,68,1],[3,3,71,1],
+    [4,0,72,.5],[4,.5,76,.5],[4,1,79,1],[4,2,79,.5],[4,2.5,81,.5],[4,3,79,1],
+    [5,0,79,.5],[5,.5,77,.5],[5,1,76,.5],[5,1.5,74,.5],[5,2,74,1],[5,3,71,1],
+    [6,0,74,.5],[6,.5,72,.5],[6,1,71,.5],[6,1.5,72,.5],[6,2,74,1],[6,3,68,1],
+    [7,0,69,3]
+  ];
+  function buildGalop(level){
+    const S = maker(level, 168, 4, [69, 73, 77]), { B, BR, add, note } = S;
+    // le crieur frappe la mesure : roulement d'os, puis coups de grosse caisse
+    for(let k = 0; k < 8; k++){
+      const t = k * B;
+      add(t, "bones", { v:.3 }); if(k % 2 === 0) add(t, "kick", { v:.5 });
+      if(k === 4) add(t, "fiddle", { m:64, d:B * 3.6, v:.08 });
+      if(level === "facile"){ if(k % 4 === 0) note(t, [k ? 2 : 1]); }
+      else if(level === "normal"){ if(k % 2 === 0) note(t, [k % 4 ? 2 : 1]); }
+      else note(t, [k % 2 ? 2 : 1]);
+    }
+    S.theme(GA_A, 2, "xylo"); S.theme(GA_A, 10, "fiddle"); S.theme(GA_B, 18, "fiddle"); S.theme(GA_A, 26, "both");
+    S.accomp([...GA_PROG_A, ...GA_PROG_A, ...GA_PROG_B, ...GA_PROG_A], CH_G, 2);
+    // coda : trois coups secs, puis l'accord final
+    const tc = 34 * BR;
+    [0, 1, 2].forEach(k => { add(tc + k * B, "pizz", { ms:[57, 60, 64, 69] }); add(tc + k * B, "kick", { v:.6 }); add(tc + k * B, "xylo", { m:[76, 72, 69][k] }); });
+    if(level === "facile") note(tc, [1]); else [0, 1, 2].forEach(k => note(tc + k * B, level === "normal" ? [k === 1 ? 2 : 1] : [k === 1 ? 3 : 0]));
+    const tf = 35 * BR;
+    add(tf, "bass", { m:33, d:BR * 1.4 }); add(tf, "pizz", { ms:[57, 60, 64, 69, 72] }); add(tf, "fiddle", { m:69, d:BR }); add(tf, "fiddle", { m:76, d:BR }); add(tf, "kick", { v:.8 }); add(tf, "bell", { m:57 });
+    note(tf, level === "facile" ? [1, 2] : [0, 1, 2, 3]);
+    return S.done(37.2);
+  }
+
+  /* --- III. Menuet des ombres (ré mineur, 3/4, lent et précis) --- */
+  const CH_M = { Dm:{ root:38, tri:[57, 62, 65] }, Gm:{ root:43, tri:[55, 58, 62] }, A:{ root:45, tri:[57, 61, 64] },
+    F:{ root:41, tri:[57, 60, 65] }, C:{ root:48, tri:[55, 60, 64] }, Bb:{ root:46, tri:[53, 58, 62] } };
+  const ME_PROG = "Dm Gm Dm A Dm Gm A Dm F C Bb A Dm Gm A Dm".split(" ");
+  const ME_T = [
+    [0,0,74,1],[0,1,69,.5],[0,1.5,70,.5],[0,2,72,.5],[0,2.5,74,.5],
+    [1,0,70,1],[1,1,67,1],[1,2,67,1],
+    [2,0,77,1],[2,1,74,.5],[2,1.5,76,.5],[2,2,77,.5],[2,2.5,79,.5],
+    [3,0,76,2],[3,2,73,1],
+    [4,0,74,1],[4,1,72,.5],[4,1.5,70,.5],[4,2,69,1],
+    [5,0,70,1],[5,1,74,1],[5,2,79,1],
+    [6,0,77,.5],[6,.5,76,.5],[6,1,74,.5],[6,1.5,73,.5],[6,2,76,1],
+    [7,0,74,3],
+    [8,0,77,1],[8,1,72,1],[8,2,69,1],
+    [9,0,76,1],[9,1,72,.5],[9,1.5,74,.5],[9,2,76,1],
+    [10,0,74,1],[10,1,70,.5],[10,1.5,72,.5],[10,2,74,1],
+    [11,0,73,2],[11,2,69,1],
+    [12,0,74,.5],[12,.5,76,.5],[12,1,77,1],[12,2,74,1],
+    [13,0,79,.5],[13,.5,77,.5],[13,1,76,1],[13,2,74,1],
+    [14,0,73,1],[14,1,76,1],[14,2,69,1],
+    [15,0,74,3]
+  ];
+  function buildMenuet(level){
+    const S = maker(level, 112, 3, [70, 73, 76]), { B, BR, add, note } = S;
+    // deux mesures de glas, sur une quinte de violon (ré — la)
+    for(let k = 0; k < 6; k++){
+      const t = k * B;
+      if(k % 3 === 0){ add(t, "bell", { m:50 }); add(t, "fiddle", { m:62, d:BR * .95, v:.06 }); add(t, "fiddle", { m:69, d:BR * .95, v:.06 }); }
+      if(level === "facile"){ if(k % 3 === 0) note(t, [k ? 2 : 1]); }
+      else if(level === "normal"){ if(k % 3 === 0) note(t, [k ? 2 : 1]); else if(k === 4) note(t, [0]); }
+      else note(t, [k % 3 === 0 ? (k ? 3 : 0) : k % 2 ? 1 : 2]);
+    }
+    S.theme(ME_T, 2, "xylo"); S.theme(ME_T, 18, "both");
+    S.accomp([...ME_PROG, ...ME_PROG], CH_M, 2, true);
+    const tf = 34 * BR;
+    add(tf, "bass", { m:26, d:BR * 2 }); add(tf, "pizz", { ms:[57, 62, 65, 69], v:.05 }); add(tf, "fiddle", { m:62, d:BR * 1.6, v:.08 }); add(tf, "fiddle", { m:74, d:BR * 1.6, v:.07 }); add(tf, "xylo", { m:74 });
+    note(tf, level === "facile" ? [1, 2] : [0, 1, 2, 3]);
+    [0, 1, 2].forEach(k => add(tf + BR + k * B * 1.5, "bell", { m:50 - k * 5 }));
+    return S.done(37);
+  }
+
+  const SONGS = {
+    valse: { title:"Valse en sol mineur", menu:"Valse en sol mineur (modéré)", end:"Le coq chante, les morts se recouchent",
+      grave:"dans la danse macabre", moment:"Au premier coup de minuit", build:buildValse },
+    galop: { title:"Galop des pendus", menu:"Galop des pendus (rapide)", end:"Les pendus reprennent leur souffle",
+      grave:"dans le galop des pendus", moment:"À 3 heures du matin", build:buildGalop },
+    menuet:{ title:"Menuet des ombres", menu:"Menuet des ombres (lent)", end:"Les ombres saluent et s'effacent",
+      grave:"dans le menuet des ombres", moment:"Au crépuscule", build:buildMenuet }
+  };
+  const buildSong = (level, id = "valse") => (SONGS[id] || SONGS.valse).build(level);
+  /* --- matière : titres, bannières de combo, fins --- */
+  const GRADE_TITLES = {
+    S:["Virtuose de l'au-delà", "Coryphée des catacombes", "Le diable vous cède son violon"],
+    A:["Étoile du cimetière", "Pied léger, os solides", "Les squelettes vous jalousent"],
+    B:["Bon pied, bon os", "Bonne cadence", "Honorable, pour un vivant"],
+    C:["Pied gauche", "Un peu rouillé(e)", "Rythme approximatif"],
+    D:["Deux pieds gauches (et un tibia)", "Le rythme vous a quitté(e)", "Même les morts ont mieux dansé"]
+  };
+  const BANNERS = { 25:"Les morts applaudissent !", 50:"Le cimetière entier danse !", 75:"Le diable accorde son violon…", 100:"Même la Mort tape du pied !", 150:"Légende de la nuit !" };
+  const DEATH_KICKS = ["La ronde vous emporte", "Les squelettes vous prennent la main", "Faux pas fatal"];
+  const DEATH_TITLES = ["Vous rejoignez <em>la danse</em>", "La ronde vous <em>garde</em>", "<em>Un pas</em> de trop"];
+  const pickD = a => a[Math.floor(Math.random() * a.length)];
+  let banner = null;
 
   /* --- synthétiseur --- */
   let ac = null, master = null, verb = null, noiseBuf = null;
@@ -6450,10 +6956,10 @@ const Danse = (() => {
       [-5, 5].forEach(det => { const o = osc("sawtooth", f, t, t + d + .2); o.detune.value = det; vg.connect(o.frequency); o.connect(lp); });
       lp.connect(g); out(g, .55);
     },
-    pizz(t, e){ e.ms.forEach(m => { const g = decay(t, .06, .004, .22); osc("triangle", hz(m), t, t + .3).connect(g); out(g, .3); }); },
+    pizz(t, e){ e.ms.forEach(m => { const g = decay(t, e.v || .06, .004, .22); osc("triangle", hz(m), t, t + .3).connect(g); out(g, .3); }); },
     bass(t, e){
       const lp = ac.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 650;
-      const g = decay(t, .24, .01, e.d || .6);
+      const g = decay(t, e.v || .24, .01, e.d || .6);
       osc("triangle", hz(e.m), t, t + (e.d || .6) + .1).connect(lp); osc("sine", hz(e.m - 12), t, t + (e.d || .6) + .1).connect(lp);
       lp.connect(g); out(g, .12);
     },
@@ -6480,7 +6986,9 @@ const Danse = (() => {
   let song = null, songStart = 0, schedIdx = 0, schedTimer = 0, g = null, phase = "menu", level = "normal", offsetMs = 0;
   let pressT = [0, 0, 0, 0], fx = [], judgeTxt = null, missT = 0, lastBeat = -1, time = 0, lastT = 0;
   let bests = { ...store.get("danse.best", {}) };
-  const opts = { level:"normal", offset:0, ...store.get("danse.opts", {}) };
+  const opts = { level:"normal", offset:0, song:"valse", ...store.get("danse.opts", {}) };
+  let songId = SONGS[opts.song] ? opts.song : "valse";
+  const bestKey = (id, lv) => id === "valse" ? lv : `${id}:${lv}`;
   function lock(on){   // pendant la partie, le cylindre ignore molette / glisser / flèches
     if(on) face.dataset.lock = "1"; else delete face.dataset.lock;
     document.body.classList.toggle("da-playing", on);
@@ -6501,16 +7009,17 @@ const Danse = (() => {
   function start(){
     if(!initAudio()){ toast("Le son n'est pas disponible sur ce navigateur"); return; }
     ac.resume();
-    level = ui.level.value; offsetMs = +ui.offset.value;
-    store.set("danse.opts", { level, offset:offsetMs });
-    song = buildSong(level);
+    level = ui.level.value; offsetMs = +ui.offset.value; songId = SONGS[ui.song.value] ? ui.song.value : "valse";
+    store.set("danse.opts", { level, offset:offsetMs, song:songId });
+    song = buildSong(level, songId);
+    BEAT = song.beat; BAR = song.bar;
     g = { score:0, combo:0, maxCombo:0, soul:70, first:0, n:{ perfect:0, good:0, ok:0, miss:0 } };
     songStart = ac.currentTime + LEVELS[level].lead + .5;
-    schedIdx = 0; fx = []; judgeTxt = null; missT = 0;
+    schedIdx = 0; fx = []; judgeTxt = null; missT = 0; banner = null;
     phase = "play";
     lock(true);
     ui.start.hidden = true; ui.end.hidden = true; ui.pause.hidden = true;
-    ui.meta.textContent = `Valse en sol mineur · ${LEVELS[level].label}`;
+    ui.meta.textContent = `${SONGS[songId].title} · ${LEVELS[level].label}`;
     clearInterval(schedTimer); schedTimer = setInterval(schedule, 40);
     hud();
   }
@@ -6536,6 +7045,7 @@ const Danse = (() => {
       g.combo = 0; g.soul -= LEVELS[level].miss; missT = .6;
     } else {
       g.combo++; g.maxCombo = Math.max(g.maxCombo, g.combo);
+      if(BANNERS[g.combo]) banner = { text:BANNERS[g.combo], life:1.6 };
       g.score += Math.round(pts * (1 + Math.min(1, Math.floor(g.combo / 10) * .1)));
       g.soul = Math.min(100, g.soul + soulGain);
       for(let i = 0; i < (kind === "perfect" ? 10 : 5); i++) fx.push({ lane:n.lane, x:(Math.random() - .5) * 2, y:0, vx:(Math.random() - .5) * 3, vy:-Math.random() * 4 - 1, life:.5, ch:"*+'.~"[Math.floor(Math.random() * 5)], red:kind === "perfect" });
@@ -6569,9 +7079,9 @@ const Danse = (() => {
     const bar = Math.max(1, Math.floor(songTime() / BAR) + 1);
     g.deathBar = bar;
     setTimeout(() => {
-      ui.endK.textContent = "La ronde vous emporte";
+      ui.endK.textContent = pickD(DEATH_KICKS);
       ui.grade.textContent = "✝";
-      ui.endTitle.innerHTML = "Vous rejoignez <em>la danse</em>";
+      ui.endTitle.innerHTML = pickD(DEATH_TITLES);
       ui.endText.textContent = accord(`Entraîné(e) par les squelettes à la mesure ${bar}. Score : ${g.score.toLocaleString("fr-FR")} · combo max ${g.maxCombo}.`, GENDERS[state.gender] || GENDERS.m);
       ui.grave.hidden = false;
       ui.end.hidden = false;
@@ -6581,11 +7091,12 @@ const Danse = (() => {
     phase = "done"; lock(false);
     clearInterval(schedTimer);
     const a = accuracy(), noMiss = g.n.miss === 0;
-    const [grade, title] = a >= .95 && noMiss ? ["S", "Virtuose de l'au-delà"] : a >= .9 ? ["A", "Étoile du cimetière"] : a >= .78 ? ["B", "Bon pied, bon os"] : a >= .62 ? ["C", "Pied gauche"] : ["D", "Deux pieds gauches (et un tibia)"];
-    const prev = bests[level] || 0;
-    if(g.score > prev){ bests[level] = g.score; store.set("danse.best", bests); }
+    const grade = a >= .95 && noMiss ? "S" : a >= .9 ? "A" : a >= .78 ? "B" : a >= .62 ? "C" : "D";
+    const title = accord(pickD(GRADE_TITLES[grade]), GENDERS[state.gender] || GENDERS.m);
+    const key = bestKey(songId, level), prev = bests[key] || 0;
+    if(g.score > prev){ bests[key] = g.score; store.set("danse.best", bests); }
     renderBest();
-    ui.endK.textContent = "Le coq chante, les morts se recouchent";
+    ui.endK.textContent = SONGS[songId].end;
     ui.grade.textContent = grade;
     ui.endTitle.textContent = title;
     ui.endText.textContent = `Score ${g.score.toLocaleString("fr-FR")}${g.score > prev ? " (record !)" : ""} · précision ${Math.round(a * 100)} % · combo max ${g.maxCombo} · ${g.n.perfect} parfaits, ${g.n.good} bien, ${g.n.ok} moyens, ${g.n.miss} ratés`;
@@ -6603,7 +7114,10 @@ const Danse = (() => {
     if(ac && ac.state === "suspended") ac.resume();
     ui.pause.hidden = true; ui.end.hidden = true; ui.start.hidden = false;
   }
-  function renderBest(){ ui.best.textContent = `Meilleurs scores — facile ${(bests.facile || 0).toLocaleString("fr-FR")} · normal ${(bests.normal || 0).toLocaleString("fr-FR")} · diabolique ${(bests.diabolique || 0).toLocaleString("fr-FR")}`; }
+  function renderBest(){
+    const id = SONGS[ui.song.value] ? ui.song.value : songId, b = lv => (bests[bestKey(id, lv)] || 0).toLocaleString("fr-FR");
+    ui.best.textContent = `Meilleurs scores — facile ${b("facile")} · normal ${b("normal")} · diabolique ${b("diabolique")}`;
+  }
 
   /* --- squelettes ASCII --- */
   const pad = (a, w = 9) => a.map(l => l.padEnd(w));
@@ -6611,7 +7125,9 @@ const Danse = (() => {
     pad(["   .-.   ", "  (o.o)  ", "   |=|   ", "  /|#|\\  ", "   |#|   ", "   / \\   ", "  /   \\  "]),
     pad([" \\ .-.   ", "  (o.o)  ", "   |=|\\  ", "   |#| \\ ", "   |#|   ", "   / \\__ ", "  /      "]),
     pad([" \\ .-. / ", "  (^.^)  ", "   |=|   ", "   |#|   ", "   |#|   ", "  _/ \\_  ", "         "]),
-    pad(["   .-. / ", "  (o.o)  ", "  /|=|   ", " / |#|   ", "   |#|   ", " __/ \\   ", "      \\  "])
+    pad(["   .-. / ", "  (o.o)  ", "  /|=|   ", " / |#|   ", "   |#|   ", " __/ \\   ", "      \\  "]),
+    pad(["   .-.   ", "  (-.-)  ", " _/|=|\\_ ", "   |#|   ", "   |#|   ", "   | \\   ", "   |  \\  "]),
+    pad(["  \\.-./  ", "  (O.O)  ", "   |=|   ", "  /|#|\\  ", "   |#|   ", "  /   \\  ", " /     \\ "])
   ];
   const FALLEN = pad(["         ", "         ", "         ", "   .-.   ", "  (x.x)  ", " _/|=|\\_ ", " ==#=#== "]);
   const MIRROR = { "/":"\\", "\\":"/", "(":")", ")":"(", "<":">", ">":"<" };
@@ -6744,6 +7260,15 @@ const Danse = (() => {
       c2.globalAlpha = 1;
       if(judgeTxt.life <= 0) judgeTxt = null;
     }
+    if(banner){
+      banner.life -= dt;
+      const a = Math.max(0, Math.min(1, banner.life * 2, (1.6 - banner.life) * 6));
+      c2.font = `italic ${Math.round(Math.min(laneW * .5, W * .06))}px "Instrument Serif", Georgia, serif`;
+      c2.fillStyle = rub; c2.globalAlpha = a;
+      c2.fillText(banner.text, W / 2, topY + (hitY - topY) * .18 - (1.6 - banner.life) * 6);
+      c2.globalAlpha = 1;
+      if(banner.life <= 0) banner = null;
+    }
     if(g && g.combo >= 5 && phase === "play"){
       c2.font = `${Math.round(Math.min(laneW * 1.5, (hitY - topY) * .4))}px "Instrument Serif", Georgia, serif`;
       c2.fillStyle = ink; c2.globalAlpha = .12;
@@ -6755,14 +7280,14 @@ const Danse = (() => {
     missT = Math.max(0, missT - dt);
     const size = Math.min(22, x0 / 10, (base - topBar - 12) / 7.8);
     if(size >= 9 && x0 > size * 7){
-      const pose = missT > 0 ? FALLEN : POSES[(g && g.combo && g.combo % 25 === 0 && phase === "play") ? 2 : ((beat % 4) + 4) % 4];
+      const pose = missT > 0 ? FALLEN : POSES[(g && g.combo && g.combo % 25 === 0 && phase === "play") ? 2 : ((beat % POSES.length) + POSES.length) % POSES.length];
       const bounce = phase === "menu" || phase === "play" ? Math.abs(Math.sin((t / BEAT) * Math.PI)) * size * .25 : 0;
       c2.fillStyle = ink;
       c2.textAlign = "left";
       const yb = base - size * 7.4 - bounce;
       drawSkeleton(pose, x0 / 2 - size * 2.7, yb, size, .85);
       drawSkeleton(mirror(pose), x0 + laneW * 4 + x0 / 2 - size * 2.7, yb, size, .85);
-      if(x0 > size * 13){ drawSkeleton(POSES[((beat + 2) % 4 + 4) % 4], x0 / 2 - size * 2.7 - size * 5.6, yb + size * 2.2, size * .7, .4); drawSkeleton(mirror(POSES[((beat + 2) % 4 + 4) % 4]), x0 + laneW * 4 + x0 / 2 + size * 3, yb + size * 2.2, size * .7, .4); }
+      if(x0 > size * 13){ drawSkeleton(POSES[((beat + 3) % POSES.length + POSES.length) % POSES.length], x0 / 2 - size * 2.7 - size * 5.6, yb + size * 2.2, size * .7, .4); drawSkeleton(mirror(POSES[((beat + 3) % POSES.length + POSES.length) % POSES.length]), x0 + laneW * 4 + x0 / 2 + size * 3, yb + size * 2.2, size * .7, .4); }
       c2.textAlign = "center";
     }
     // progression (ligne d'encre en haut des couloirs)
@@ -6830,7 +7355,7 @@ const Danse = (() => {
       const lines = [
         ...POSES[2].map(l => "  " + l),
         "",
-        `LA DANSE MACABRE — valse en sol mineur (${LEVELS[level].label})`,
+        `LA DANSE MACABRE — ${SONGS[songId].title.toLowerCase()} (${LEVELS[level].label})`,
         dead ? `Emporté(e) par la ronde à la mesure ${g.deathBar}.` : `Note : ${g.grade} — ${g.title}`,
         `Score ${g.score.toLocaleString("fr-FR")} · précision ${Math.round(accuracy() * 100)} % · combo max ${g.maxCombo}`,
         `Parfaits ${n.perfect} · bien ${n.good} · moyens ${n.ok} · ratés ${n.miss}`
@@ -6839,8 +7364,8 @@ const Danse = (() => {
     });
     ui.grave.addEventListener("click", () => {
       const now = new Date();
-      writeForm({ ...state, cause:OTHER, causeCustom:`entraîné(e) dans la danse macabre à la mesure ${g.deathBar}`,
-        date:isoDate(now.getFullYear(), now.getMonth() + 1, now.getDate()), moment:"Au premier coup de minuit",
+      writeForm({ ...state, cause:OTHER, causeCustom:`entraîné(e) ${SONGS[songId].grave} à la mesure ${g.deathBar}`,
+        date:isoDate(now.getFullYear(), now.getMonth() + 1, now.getDate()), moment:SONGS[songId].moment,
         message:"Il/Elle avait le rythme dans la peau. Puis plus de peau.", latin:"Memento Mori", icon:"skull" });
       render();
       Drum.goTo(0, { land:"top" });
@@ -6849,7 +7374,13 @@ const Danse = (() => {
   }
   function init(){
     if(matchMedia("(pointer: coarse)").matches) document.body.classList.add("coarse");
+    ui.song.innerHTML = Object.entries(SONGS).map(([k, v]) => `<option value="${k}">${v.menu}</option>`).join("");
+    ui.song.value = songId;
+    const meta = () => { ui.meta.textContent = `${SONGS[ui.song.value].title} · ${LEVELS[ui.level.value].label}`; };
+    ui.song.addEventListener("change", () => { renderBest(); meta(); });
+    ui.level.addEventListener("change", meta);
     ui.level.value = LEVELS[opts.level] ? opts.level : "normal";
+    meta();
     ui.offset.value = String(Math.max(-150, Math.min(150, +opts.offset || 0)));
     ui.offV.textContent = `${ui.offset.value} ms`;
     renderBest();
@@ -6860,7 +7391,7 @@ const Danse = (() => {
   return {
     init, onShow(){ resize(); }, onHide(){ pause(true); },
     get phase(){ return phase; }, get game(){ return g; }, get song(){ return song; },
-    _test:{ press, songTime, buildSong, get ac(){ return ac; } }
+    _test:{ press, songTime, buildSong, SONGS, get ac(){ return ac; } }
   };
 })();
 
